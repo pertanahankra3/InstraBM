@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SKRD Retribusi Utilitas Rumija — Bina Marga Karanganyar</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+#no-internet-banner{display:none;position:fixed;top:0;left:0;right:0;background:#92520d;color:#fff;font-size:13px;padding:10px 16px;z-index:9999;text-align:center;line-height:1.5}
+#no-internet-banner a{color:#fde68a;font-weight:600}
+</style>
+<div id="no-internet-banner">
+  ⚠️ Grafik membutuhkan koneksi internet. Buka file ini saat terhubung ke internet, atau gunakan browser Chrome/Edge dengan klik kanan → <strong>Open with Chrome</strong>.
+  <button onclick="this.parentElement.style.display='none'" style="margin-left:12px;background:rgba(255,255,255,.2);border:none;color:#fff;padding:3px 10px;border-radius:4px;cursor:pointer">Tutup</button>
+</div>
+<style>
+:root{
+  --bg:#f4f3ee;--surf:#fff;--surf2:#f0efe9;--bdr:#e2e0d6;--bdr2:#c8c4b8;
+  --txt:#1a1917;--txt2:#6b6860;--txt3:#9e9b94;
+  --grn:#1a5c38;--grn-l:#e4f0ea;--grn-m:#2e8b57;
+  --blu:#1e4d8c;--blu-l:#e6eef8;
+  --amb:#92520d;--amb-l:#fdf0e0;
+  --red:#8b1e1e;--red-l:#fde8e8;
+  --tel:#0d6b6b;--tel-l:#e0f2f2;
+  --r:8px;--rl:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;font-size:14px;line-height:1.5}
+
+/* ── Header ── */
+header{background:var(--grn);color:#fff;padding:0 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:54px;position:sticky;top:0;z-index:200;box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.hdr-left{display:flex;align-items:center;gap:10px}
+.hdr-icon{width:32px;height:32px;background:rgba(255,255,255,.18);border-radius:7px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.hdr-title{font-size:13px;font-weight:600;line-height:1.3}
+.hdr-title small{display:block;font-size:10px;font-weight:400;opacity:.7}
+.ytabs{display:flex;gap:3px}
+.ytab{padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1.5px solid rgba(255,255,255,.3);background:transparent;color:rgba(255,255,255,.75);transition:all .15s}
+.ytab:hover{background:rgba(255,255,255,.15);color:#fff}
+.ytab.on{background:#fff;color:var(--grn);border-color:#fff}
+
+/* ── Main ── */
+main{max-width:1200px;margin:0 auto;padding:18px 18px 40px}
+
+/* ── Target Progress Section ── */
+.target-section{margin-bottom:18px}
+.section-label{font-size:11px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.target-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:12px}
+.tc{background:var(--surf);border-radius:var(--rl);padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04)}
+.tc-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.tc-yr{font-size:18px;font-weight:700;color:var(--txt)}
+.tc-badges{display:flex;gap:5px;flex-wrap:wrap}
+.tb{font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px}
+.tb-grn{background:var(--grn-l);color:var(--grn)}
+.tb-amb{background:var(--amb-l);color:var(--amb)}
+.tb-red{background:var(--red-l);color:var(--red)}
+.tc-nums{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.tc-num label{font-size:10px;color:var(--txt3);text-transform:uppercase;letter-spacing:.04em;display:block;margin-bottom:2px}
+.tc-num .val{font-size:15px;font-weight:700}
+.tc-num .val.grn{color:var(--grn)}
+.tc-num .val.amb{color:var(--amb)}
+.tc-num .val.red{color:var(--red)}
+.progress-wrap{margin-top:4px}
+.progress-bar{height:8px;background:var(--surf2);border-radius:4px;overflow:hidden;position:relative}
+.progress-fill{height:100%;border-radius:4px;transition:width .6s ease;position:relative}
+.progress-fill.grn{background:var(--grn-m)}
+.progress-fill.blu{background:var(--blu)}
+.progress-fill.amb{background:#d97706}
+.progress-fill.over{background:var(--grn-m)}
+.progress-fill::after{content:'';position:absolute;right:0;top:0;bottom:0;width:3px;background:rgba(255,255,255,.4);border-radius:0 4px 4px 0}
+.progress-pct{font-size:11px;font-weight:700;margin-top:4px;display:flex;justify-content:space-between}
+.pct-sisa{font-size:10px;color:var(--txt3)}
+
+/* ── KPI Grid ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px;margin-bottom:18px}
+.kpi{background:var(--surf);border-radius:var(--rl);padding:13px 15px;box-shadow:0 1px 3px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04);border-left:3px solid transparent}
+.kpi.g{border-color:var(--grn-m)}.kpi.b{border-color:var(--blu)}.kpi.a{border-color:var(--amb)}.kpi.r{border-color:var(--red)}.kpi.t{border-color:var(--tel)}
+.kpi label{font-size:10px;color:var(--txt3);font-weight:500;text-transform:uppercase;letter-spacing:.05em;display:block;margin-bottom:4px}
+.kpi .v{font-size:20px;font-weight:700;letter-spacing:-.02em;line-height:1.1}
+.kpi .s{font-size:10px;color:var(--txt3);margin-top:2px}
+.kpi.g .v{color:var(--grn)}.kpi.b .v{color:var(--blu)}.kpi.a .v{color:var(--amb)}.kpi.r .v{color:var(--red)}.kpi.t .v{color:var(--tel)}
+
+/* ── Charts ── */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:18px}
+.cc{background:var(--surf);border-radius:var(--rl);padding:14px 16px 12px;box-shadow:0 1px 3px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04)}
+.cc-title{font-size:11px;font-weight:600;color:var(--txt2);text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px}
+.cw{position:relative}
+
+/* ── Piutang Banner ── */
+.banner{background:var(--amb-l);border:1px solid #e8c07a;border-radius:var(--r);padding:9px 14px;display:flex;align-items:center;gap:9px;margin-bottom:18px;font-size:13px;color:var(--amb)}
+.banner.hidden{display:none}
+
+/* ── Upload area ── */
+.upload-row{display:flex;gap:10px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+.upload-btn{padding:7px 14px;border:1.5px dashed var(--bdr2);border-radius:var(--r);font-size:12px;font-weight:500;background:var(--surf);color:var(--txt2);cursor:pointer;display:flex;align-items:center;gap:6px;transition:all .15s}
+.upload-btn:hover{border-color:var(--grn);color:var(--grn);background:var(--grn-l)}
+.upload-info{font-size:11px;color:var(--txt3)}
+#file-input{display:none}
+
+/* ── Table section ── */
+.table-sec{background:var(--surf);border-radius:var(--rl);box-shadow:0 1px 3px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04);overflow:hidden}
+.toolbar{padding:12px 14px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;border-bottom:1px solid var(--bdr)}
+.sw{position:relative}
+.sw svg{position:absolute;left:8px;top:50%;transform:translateY(-50%);color:var(--txt3);pointer-events:none}
+.toolbar input[type=search]{padding:6px 8px 6px 28px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--surf2);color:var(--txt);width:200px;outline:none}
+.toolbar input[type=search]:focus{border-color:var(--grn);background:#fff}
+select.fs{padding:6px 8px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;background:var(--surf2);color:var(--txt);cursor:pointer;outline:none}
+select.fs:focus{border-color:var(--grn)}
+.tr{margin-left:auto;display:flex;gap:6px;align-items:center}
+.cnt{font-size:11px;color:var(--txt3)}
+.btn{padding:6px 11px;border:1px solid var(--bdr2);border-radius:var(--r);font-size:12px;font-weight:500;background:var(--surf);color:var(--txt2);cursor:pointer;display:flex;align-items:center;gap:4px;transition:all .15s;white-space:nowrap}
+.btn:hover{background:var(--surf2)}
+.btn.p{background:var(--grn);color:#fff;border-color:var(--grn)}.btn.p:hover{background:var(--grn-m)}
+.btn.b2{background:var(--blu);color:#fff;border-color:var(--blu)}.btn.b2:hover{opacity:.9}
+
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:800px}
+thead th{padding:8px 11px;font-size:10px;font-weight:600;color:var(--txt3);text-transform:uppercase;letter-spacing:.05em;background:var(--surf2);border-bottom:1px solid var(--bdr);text-align:left;white-space:nowrap;cursor:pointer;user-select:none}
+thead th:hover{color:var(--txt2)}
+.si{opacity:.35;margin-left:3px}
+th.sa .si::after{content:'▲'}th.sd .si::after{content:'▼'}th:not(.sa):not(.sd) .si::after{content:'⇅'}
+tbody tr{border-bottom:1px solid var(--bdr);transition:background .1s}
+tbody tr:last-child{border-bottom:none}
+tbody tr:hover{background:var(--surf2)}
+td{padding:8px 11px;font-size:13px;vertical-align:middle}
+.nodata{text-align:center;color:var(--txt3);padding:28px;font-size:13px}
+.mono{font-family:'Courier New',monospace;font-size:10px;color:var(--txt2);background:var(--surf2);padding:2px 5px;border-radius:3px;white-space:nowrap}
+.pname{font-weight:500;max-width:210px}
+.pket{font-size:10px;color:var(--txt3);margin-top:1px}
+.badge{display:inline-flex;align-items:center;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap}
+.bl{background:var(--grn-l);color:var(--grn)}.bb{background:var(--red-l);color:var(--red)}.bp{background:var(--amb-l);color:var(--amb)}
+.brb{background:var(--blu-l);color:var(--blu)}.bpp{background:var(--tel-l);color:var(--tel)}.blhp{background:#f3e8ff;color:#6b21a8}
+.bkt{background:var(--surf2);color:var(--txt2)}.bpa{background:var(--tel-l);color:var(--tel)}.brk{background:#fce7f3;color:#9d174d}
+.jml{text-align:right;font-variant-numeric:tabular-nums;font-weight:500}
+.jml.big{color:var(--grn)}.tgl{font-size:11px;color:var(--txt3);white-space:nowrap}
+
+/* ── Footer summary ── */
+.tf td{padding:8px 11px;font-size:12px;font-weight:700;background:var(--surf2);border-top:2px solid var(--bdr2);color:var(--txt)}
+.tf .jml{color:var(--grn);font-size:13px}
+
+/* ── Pagination ── */
+.pg{display:flex;align-items:center;justify-content:space-between;padding:9px 14px;border-top:1px solid var(--bdr);font-size:12px;color:var(--txt2);flex-wrap:wrap;gap:8px}
+.pbs{display:flex;gap:3px}
+.pb{width:28px;height:28px;border:1px solid var(--bdr2);border-radius:var(--r);background:var(--surf);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--txt2);transition:all .12s}
+.pb:hover{background:var(--surf2)}.pb.on{background:var(--grn);color:#fff;border-color:var(--grn);font-weight:600}.pb:disabled{opacity:.35;cursor:default}
+
+/* ── Notif toast ── */
+.toast{position:fixed;bottom:20px;right:20px;background:#1a1917;color:#fff;padding:10px 16px;border-radius:var(--r);font-size:13px;z-index:999;opacity:0;transform:translateY(10px);transition:all .25s;pointer-events:none}
+.toast.show{opacity:1;transform:translateY(0)}
+
+@media(max-width:720px){main{padding:12px 12px 32px}.charts-row{grid-template-columns:1fr}.ytab{padding:4px 9px;font-size:11px}.hdr-title small{display:none}}
+@media print{header{background:var(--grn)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}.ytabs,.toolbar,.pg,.upload-row,.banner{display:none!important}.tc,.kpi,.cc{box-shadow:none;border:1px solid var(--bdr)}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr-left">
+    <div class="hdr-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-8 4 5 3-4 5 7"/><path d="M3 21h18"/></svg>
+    </div>
+    <div class="hdr-title">Retribusi Pemakaian Ruang Milik Jalan
+      <small>Bidang Bina Marga — DPUPR Kabupaten Karanganyar</small>
+    </div>
+  </div>
+  <div class="ytabs">
+    <button class="ytab on" onclick="setY('all')">Semua</button>
+    <button class="ytab" onclick="setY(2024)">2024</button>
+    <button class="ytab" onclick="setY(2025)">2025</button>
+    <button class="ytab" onclick="setY(2026)">2026</button>
+  </div>
+</header>
+
+<main>
+
+<!-- Target Progress -->
+<div class="target-section">
+  <div class="section-label">Realisasi vs Target Retribusi RMJ</div>
+  <div class="target-cards" id="target-cards"></div>
+</div>
+
+<!-- KPI -->
+<div class="kpi-grid" id="kpi-grid"></div>
+
+<!-- Piutang Banner -->
+<div class="banner hidden" id="banner">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+  <span id="banner-txt"></span>
+</div>
+
+<!-- Charts -->
+<div class="charts-row">
+  <div class="cc">
+    <div class="cc-title" id="c1-title">Penerimaan per bulan</div>
+    <div class="cw" style="height:175px"><canvas id="c1" role="img" aria-label="Chart penerimaan"></canvas></div>
+  </div>
+  <div class="cc">
+    <div class="cc-title" id="c2-title">Top 8 pemohon</div>
+    <div class="cw" id="c2w" style="height:175px"><canvas id="c2" role="img" aria-label="Chart top pemohon"></canvas></div>
+  </div>
+</div>
+
+<!-- Upload -->
+<div class="upload-row">
+  <button class="upload-btn" onclick="document.getElementById('file-input').click()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+    Unggah Excel (.xlsb/.xlsx)
+  </button>
+  <span class="upload-info" id="upload-info">Unggah file buku SKRD untuk memperbarui data otomatis</span>
+  <input type="file" id="file-input" accept=".xlsx,.xlsb,.xls,.csv" onchange="handleUpload(this)">
+</div>
+
+<!-- Table -->
+<div class="table-sec">
+  <div class="toolbar">
+    <div class="sw">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="search" id="q" placeholder="Cari nama / nomor surat…" oninput="filter()">
+    </div>
+    <select class="fs" id="fst" onchange="filter()">
+      <option value="">Semua status</option>
+      <option value="Lunas">Lunas</option>
+      <option value="Belum Lunas">Belum Lunas</option>
+    </select>
+    <select class="fs" id="fkt" onchange="filter()">
+      <option value="">Semua kategori</option>
+      <option value="Rekom Baru">Rekom Baru</option>
+      <option value="Perpanjangan">Perpanjangan</option>
+      <option value="LHP BPK">LHP BPK</option>
+    </select>
+    <select class="fs" id="fjn" onchange="filter()">
+      <option value="">Semua jenis</option>
+      <option value="Kabel/Tiang">Kabel/Tiang</option>
+      <option value="Pipa/Air">Pipa/Air</option>
+      <option value="Reklame">Reklame</option>
+    </select>
+    <div class="tr">
+      <span class="cnt" id="cnt"></span>
+      <button class="btn p" onclick="dlXLS()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Unduh Excel
+      </button>
+      <button class="btn b2" onclick="dlCSV()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        CSV
+      </button>
+      <button class="btn" onclick="window.print()">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+        Cetak
+      </button>
+    </div>
+  </div>
+  <div class="tw">
+    <table>
+      <thead id="thead"></thead>
+      <tbody id="tbody"></tbody>
+      <tfoot id="tfoot" class="tf"></tfoot>
+    </table>
+  </div>
+  <div class="pg" id="pg"></div>
+</div>
+
+</main>
+<div class="toast" id="toast"></div>
+
+<script>
+// ── Tarif resmi Perda No.12/2025 ──
+const TARIF = {tiang:75000, kabel:500, pipa_kecil:3000, pipa_besar:4500, melintas:40000, reklame:90000};
+
+// ── Data target & realisasi historis ──
+const TARGET_DATA = {
+  2024: {target:50000000,  realisasi:248299500, label:'Realisasi 2024 (laporan resmi)'},
+  2025: {target:57500000,  realisasi:544945500, label:'Realisasi 2025 (laporan resmi)'},
+  2026: {target:500000000, realisasi:null,      label:'Realisasi 2026 (berjalan dari SKRD)'},
+};
+
+// ── Dataset SKRD (terverifikasi dari recalc LibreOffice) ──
+let DATA = [{"no":"1","surat":"001/I/RMJ/DPUPR/2025","tgl":"7 Februari 2025","bulan":2,"pemohon":"PT. YASMIN AMANAH MEDIA","ket":"","jumlah":16800000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"2","surat":"002/I/RMJ/DPUPR/2025","tgl":"20 Februari 2025","bulan":2,"pemohon":"PT. RASI BINTANG PERKASA","ket":"","jumlah":15975000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"3","surat":"003/I/RMJ/DPUPR/2025","tgl":"6 Februari 2025","bulan":2,"pemohon":"CV.DERAS CIPTA MEDIA ADV","ket":"","jumlah":4500000,"kategori":"Rekom Baru","jenis":"Reklame","status":"Lunas","tahun":2025},{"no":"4","surat":"004/II/RMJ/DPUPR/2025","tgl":"20 Februari 2025","bulan":2,"pemohon":"HOTEL INDAH PALACE","ket":"","jumlah":720000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"5","surat":"005/II/RMJ/DPUPR/2025","tgl":"27 Februari 2025","bulan":2,"pemohon":"PT. MY REPUBLIC","ket":"","jumlah":8100000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"6","surat":"006/II/RMJ/DPUPR/2025","tgl":"26 Februari 2025","bulan":2,"pemohon":"PUDAM TIRTA LAWU","ket":"","jumlah":6165000,"kategori":"Rekom Baru","jenis":"Pipa/Air","status":"Lunas","tahun":2025},{"no":"7","surat":"007/II/RMJ/DPUPR/2025","tgl":"13 Maret 2025","bulan":3,"pemohon":"GMDP","ket":"","jumlah":750000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"8","surat":"008/III/RMJ/DPUPR/2025","tgl":"25 Maret 2025","bulan":3,"pemohon":"dr. DINA RISMAWATI","ket":"","jumlah":120000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"9","surat":"009/III/RMJ/DPUPR/2025","tgl":"17 Maret 2025","bulan":3,"pemohon":"UNIFIBER ASIANET","ket":"","jumlah":5250000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"10","surat":"010/III/RMJ/DPUPR/2025","tgl":"14 Mei 2025","bulan":5,"pemohon":"MY REPUBLIK","ket":"","jumlah":18525000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"11","surat":"011/IV/RMJ/DPUPR/2025","tgl":"14 Mei 2025","bulan":5,"pemohon":"Iforte","ket":"pembayaran th ke 2","jumlah":525000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"12","surat":"012/IV/RMJ/DPUPR/2025","tgl":"13 Juni 2025","bulan":6,"pemohon":"Telkom","ket":"1740 m pipa","jumlah":5220000,"kategori":"Rekom Baru","jenis":"Pipa/Air","status":"Lunas","tahun":2025},{"no":"13","surat":"013/V/RMJ/DPUPR/2025","tgl":"15 Mei 2025","bulan":5,"pemohon":"PT. ASIANET MEDIA TEKNOLOGI","ket":"pembayaran th ke 2","jumlah":15525000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"14","surat":"014/V/RMJ/DPUPR/2025","tgl":"6 Mei 2025","bulan":5,"pemohon":"CV. ARKAN MULTI KREASINDO","ket":"pembayaran th ke 2","jumlah":2160000,"kategori":"Perpanjangan","jenis":"Reklame","status":"Lunas","tahun":2025},{"no":"15","surat":"015/V/RMJ/DPUPR/2025","tgl":"14 Mei 2025","bulan":5,"pemohon":"PT. Media Sembilan Sembilan Indonesia","ket":"","jumlah":3750000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"16","surat":"016/V/RMJ/DPUPR/2025","tgl":"5 Juni 2025","bulan":6,"pemohon":"PT. Lintas Data Prima","ket":"","jumlah":1950000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"17","surat":"017/V/RMJ/DPUPR/2025","tgl":"19 Juni 2025","bulan":6,"pemohon":"PT. Iforte Solusi Infotek","ket":"pembayaran th ke 2","jumlah":1875000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"18","surat":"018/V/RMJ/DPUPR/2025","tgl":"19 Juni 2025","bulan":6,"pemohon":"PT. Iforte Solusi Infotek","ket":"pembayaran th ke 2","jumlah":450000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"19","surat":"019/V/RMJ/DPUPR/2025","tgl":"10 Juni 2025","bulan":6,"pemohon":"PT. ASIANET MEDIA TEKNOLOGI","ket":"pembayaran th ke 2","jumlah":14925000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"20","surat":"020/V/RMJ/DPUPR/2025","tgl":"20 Juni 2025","bulan":6,"pemohon":"PT. Trans Indonesia Superkoridor","ket":"pembayaran th ke 2","jumlah":4500000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"21","surat":"021/V/RMJ/DPUPR/2025","tgl":"19 Juni 2025","bulan":6,"pemohon":"PT. Amanna Media Link","ket":"pembayaran th ke 2","jumlah":7425000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"22","surat":"022/V/RMJ/DPUPR/2025","tgl":"5 Juni 2025","bulan":6,"pemohon":"PT. Tirta Utama (PERSERODA)","ket":"pembayaran th ke 2","jumlah":16996500,"kategori":"Perpanjangan","jenis":"Pipa/Air","status":"Lunas","tahun":2025},{"no":"23","surat":"023/V/RMJ/DPUPR/2025","tgl":"10 Juni 2025","bulan":6,"pemohon":"PDAM Toya Wening Surakarta","ket":"","jumlah":1125000,"kategori":"Rekom Baru","jenis":"Pipa/Air","status":"Lunas","tahun":2025},{"no":"24","surat":"024/V/RMJ/DPUPR/2025","tgl":"25 Juni 2025","bulan":6,"pemohon":"PT. ASIANET MEDIA TEKNOLOGI","ket":"pembayaran th ke 2","jumlah":10425000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"25","surat":"025/VI/RMJ/DPUPR/2025","tgl":"30 Juni 2025","bulan":6,"pemohon":"PT. Routelink Mediatech","ket":"pembayaran th ke 2","jumlah":9900000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"26","surat":"026/VI/RMJ/DPUPR/2025","tgl":"12 Juni 2025","bulan":6,"pemohon":"PT. Akses Data Internusa","ket":"","jumlah":1500000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"27","surat":"027/VI/RMJ/DPUPR/2025","tgl":"18 Juni 2025","bulan":6,"pemohon":"PT. Akses Data Internusa","ket":"","jumlah":2325000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"28","surat":"028/VI/RMJ/DPUPR/2025","tgl":"16 Juli 2025","bulan":7,"pemohon":"PT. Lintas Data Prima","ket":"pembayaran th ke 2","jumlah":9300000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"29","surat":"029/VI/RMJ/DPUPR/2025","tgl":"30 Juni 2025","bulan":6,"pemohon":"PT. Iforte Solusi Infotek","ket":"","jumlah":450000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"30","surat":"030/VI/RMJ/DPUPR/2025","tgl":"15 Juli 2025","bulan":7,"pemohon":"PT. Iforte Solusi Infotek (GONDANGREJO)","ket":"","jumlah":5775000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"31","surat":"031/VI/RMJ/DPUPR/2025","tgl":"3 Juli 2025","bulan":7,"pemohon":"Sevrina Fitieningtyas","ket":"","jumlah":1440000,"kategori":"Rekom Baru","jenis":"Reklame","status":"Lunas","tahun":2025},{"no":"32","surat":"032/VI/RMJ/DPUPR/2025","tgl":"1 Juli 2025","bulan":7,"pemohon":"PT POWERTEl","ket":"pembayaran th ke 2","jumlah":1200000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"33","surat":"033/VI/RMJ/DPUPR/2025","tgl":"2 Juli 2025","bulan":7,"pemohon":"PT. Sukma Sejati","ket":"pembayaran th ke 2","jumlah":2100000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"34","surat":"034/VI/RMJ/DPUPR/2025","tgl":"1 Juli 2025","bulan":7,"pemohon":"CV. Sinar Biru Bhimasari","ket":"pembayaran th ke 2","jumlah":2160000,"kategori":"Perpanjangan","jenis":"Reklame","status":"Lunas","tahun":2025},{"no":"35","surat":"035/VI/RMJ/DPUPR/2025","tgl":"21 Juli 2025","bulan":7,"pemohon":"PUDAM TIRTA LAWU","ket":"pembayaran th ke 2","jumlah":2100000,"kategori":"Perpanjangan","jenis":"Pipa/Air","status":"Lunas","tahun":2025},{"no":"36","surat":"036/VII/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"CV. TARGET UTAMA","ket":"pembayaran th ke 2","jumlah":2160000,"kategori":"Perpanjangan","jenis":"Reklame","status":"Lunas","tahun":2025},{"no":"37","surat":"037/VII/RMJ/DPUPR/2025","tgl":"29 Juli 2025","bulan":7,"pemohon":"PT. MASTER STAR NETWORK (MSN)","ket":"","jumlah":8850000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"38","surat":"038/VII/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. Lintas Data Prima","ket":"pembayaran th ke 2","jumlah":6600000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"39","surat":"039/VII/RMJ/DPUPR/2025","tgl":"29 Juli 2025","bulan":7,"pemohon":"PT. IFORTE SOLUSI INFOTEK","ket":"","jumlah":12900000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"40","surat":"040/VIII/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. SUKMA SEJATI MEDIA","ket":"","jumlah":2850000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"41","surat":"041/VIII/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. CANTIKA DATA PRIMA","ket":"","jumlah":5475000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"42","surat":"042/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. EKA MAS REPUBLIK","ket":"","jumlah":3000000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"43","surat":"043/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. Akses Data Internusa","ket":"","jumlah":1425000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"44","surat":"044/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. LINTAS DATA PRIMA","ket":"pembayaran th ke 2","jumlah":4200000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"45","surat":"045/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"JALAK LAWU ADV","ket":"pembayaran th ke 2","jumlah":3600000,"kategori":"Perpanjangan","jenis":"Reklame","status":"Lunas","tahun":2025},{"no":"46","surat":"046/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. PARSAROAN GLOBAL DATA TRANS","ket":"pembayaran th ke 2","jumlah":5250000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"47","surat":"047/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PDAM KARANGANYAR","ket":"","jumlah":8895000,"kategori":"Rekom Baru","jenis":"Pipa/Air","status":"Lunas","tahun":2025},{"no":"48","surat":"048/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"CANTIKA DATA PRIMA","ket":"","jumlah":2100000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"49","surat":"049/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. PUDAM TIRTA LAWU","ket":"pembayaran th ke 2","jumlah":6030000,"kategori":"Perpanjangan","jenis":"Pipa/Air","status":"Lunas","tahun":2025},{"no":"50","surat":"050/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT.PUDAm TIRTA LAWU","ket":"pembayaran th ke 2","jumlah":2400000,"kategori":"Perpanjangan","jenis":"Pipa/Air","status":"Lunas","tahun":2025},{"no":"51","surat":"051/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. PDAM TIRTA LAWU","ket":"pembayaran th ke 2","jumlah":2790000,"kategori":"Perpanjangan","jenis":"Pipa/Air","status":"Lunas","tahun":2025},{"no":"52","surat":"052/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. Akses Data Internusa","ket":"pembayaran th ke 2","jumlah":16125000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"53","surat":"053/IX/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"cv. SINAR BIRU BHIMASARI","ket":"pembayaran th ke 2","jumlah":2880000,"kategori":"Perpanjangan","jenis":"Reklame","status":"Lunas","tahun":2025},{"no":"54","surat":"054/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. Karya Satria","ket":"pembayaran th ke 2","jumlah":2160000,"kategori":"Perpanjangan","jenis":"Reklame","status":"Lunas","tahun":2025},{"no":"55","surat":"055/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. YASMIN AMANAH MEDIA","ket":"pembayaran th ke 2","jumlah":4050000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"56","surat":"056/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT.PUDAm TIRTA LAWU","ket":"","jumlah":549000,"kategori":"Rekom Baru","jenis":"Pipa/Air","status":"Lunas","tahun":2025},{"no":"57","surat":"057/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. Telkom Indonesia","ket":"","jumlah":2700000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"58","surat":"058/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"fiberstar","ket":"","jumlah":9600000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"59","surat":"059/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. Routelink Mediatech","ket":"pembayaran th ke 2","jumlah":150000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"60","surat":"060/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. DAYAMITRA TELEKOMUNIKASI","ket":"pembayaran th ke 2","jumlah":6900000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"61","surat":"061/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. Aplikanusa Lintasarta","ket":"pembayaran th ke 2","jumlah":1425000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"62","surat":"062/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. GMDP","ket":"pembayaran th ke 2","jumlah":8850000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"63","surat":"063/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. SUKMA SEJATI MEDIA","ket":"pembayaran th ke 2","jumlah":12150000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"64","surat":"064/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. Power Telecom","ket":"pembayaran th ke 2","jumlah":6150000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"65","surat":"065/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PUDAM TIRTA LAWU","ket":"pembayaran th ke 2","jumlah":600000,"kategori":"Perpanjangan","jenis":"Pipa/Air","status":"Lunas","tahun":2025},{"no":"66","surat":"066/X/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. AKSES DATA INTERNUSA","ket":"","jumlah":4575000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"67","surat":"067/XI/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT.EKA MAS REPUBLIK","ket":"pembayaran th ke 2","jumlah":21375000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"68","surat":"068/XI/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. Telkom Indonesia","ket":"","jumlah":3000000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"69","surat":"069/XI/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. TBG","ket":"","jumlah":5325000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"70","surat":"070/XI/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. AKSES DATA INTERNUSA","ket":"","jumlah":1950000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"71","surat":"071/XI/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. Iforte Solusi Infotek","ket":"pembayaran th ke 2","jumlah":1725000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"72","surat":"072/XI/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. XL. Axiata","ket":"pembayaran th ke 2","jumlah":1650000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"73","surat":"073/XI/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. EKA MAS REPUBLIK","ket":"pembayaran th ke 2","jumlah":18225000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"74","surat":"074/XI/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. EKA MAS REPUBLIK","ket":"","jumlah":103050000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"76","surat":"076/XI/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. IFORTE SOLUSI INFOTEK","ket":"pembayaran th ke 2","jumlah":8550000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"77","surat":"077/XI/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. IFORTE SOLUSI INFOTEK","ket":"","jumlah":2100000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"78","surat":"078/XI/RMJ/DPUPR/2025","tgl":"","bulan":0,"pemohon":"PT. EKA MAS REPUBLIK","ket":"","jumlah":18600000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2025},{"no":"1","surat":"01/I/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PUDAM TIRTA LAWU","ket":"rekom baru","jumlah":270000,"kategori":"Rekom Baru","jenis":"Pipa/Air","status":"Lunas","tahun":2026},{"no":"2","surat":"02/I/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"CV.DERAS CIPTA MEDIA ADV","ket":"pembayaran Thn ke 2","jumlah":4500000,"kategori":"Perpanjangan","jenis":"Reklame","status":"Lunas","tahun":2026},{"no":"3","surat":"03/I/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Iforte Solusi Infotek","ket":"rekom baru","jumlah":2479500,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"4","surat":"04/I/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Cantika Data Prima","ket":"rekom baru","jumlah":7318000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"5","surat":"05/II/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PUDAM TIRTA LAWU","ket":"rekom baru","jumlah":320000,"kategori":"Rekom Baru","jenis":"Pipa/Air","status":"Lunas","tahun":2026},{"no":"6","surat":"06/II/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"Hotel Indah Palace Tawangmangu","ket":"pembayaran Thn ke 2","jumlah":720000,"kategori":"Perpanjangan","jenis":"Reklame","status":"Lunas","tahun":2026},{"no":"7","surat":"07/II/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Yasmin Amanah Media","ket":"pembayaran Thn ke 2","jumlah":34724500,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"8","surat":"08/II/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Rasi Bintang Perkasa","ket":"pembayaran Thn ke 2","jumlah":21346500,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"9","surat":"09/II/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Eka Mas Republik","ket":"pembayaran Thn ke 2","jumlah":10790000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"10","surat":"10/II/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PUDAM TIRTA LAWU","ket":"pembayaran Thn ke 2","jumlah":6165000,"kategori":"Perpanjangan","jenis":"Pipa/Air","status":"Lunas","tahun":2026},{"no":"11","surat":"11/II/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Eka Mas Republik","ket":"rekom baru","jumlah":106703000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"12","surat":"12/III/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"GMDP","ket":"pembayaran Thn ke 2","jumlah":1000000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"13","surat":"13/III/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"Tower Bersama Group","ket":"rekom baru","jumlah":128842500,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"14","surat":"14/III/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"Asianet (unifiber)","ket":"pembayaran Thn ke 2","jumlah":6955000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"15","surat":"15/IV/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"Iforte","ket":"pembayaran thn ke 3","jumlah":685000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"16","surat":"16/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"Asianet media teknologi","ket":"pembayaran thn ke 3","jumlah":20688500,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"17","surat":"17/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"CV Arkan Multi Kreasindo","ket":"pembayaran thn ke 3","jumlah":2160000,"kategori":"Perpanjangan","jenis":"Reklame","status":"Lunas","tahun":2026},{"no":"18","surat":"18/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"Tower Bersama Group","ket":"rekom baru","jumlah":9892500,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"19","surat":"19/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Eka Mas Republik","ket":"pembayaran thn ke 2","jumlah":23527500,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"20","surat":"20/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Media Sembilan Sembilan Indonesia","ket":"pembayaran thn ke 2","jumlah":5750000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"21","surat":"21/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT tirta Utama perseroda","ket":"pembayaran thn ke 3","jumlah":16996500,"kategori":"Perpanjangan","jenis":"Pipa/Air","status":"Lunas","tahun":2026},{"no":"22","surat":"22/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Amanna Media Link","ket":"pembayaran thn ke 3","jumlah":10690000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"23","surat":"23/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Iforte Solusi Infotek","ket":"pembayaran thn ke 3","jumlah":2466500,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"24","surat":"24/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT.Iforte Solusi Infotek","ket":"pembayaran thn ke 3","jumlah":657500,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"25","surat":"25/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PUDAM TIRTA LAWU","ket":"rekom baru","jumlah":900000,"kategori":"Rekom Baru","jenis":"Pipa/Air","status":"Lunas","tahun":2026},{"no":"26","surat":"26/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"pt asianet media teknologi","ket":"pembayaran tahun 3","jumlah":12790000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"27","surat":"27/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"pt. Asianet Media Teknologi","ket":"pembayaran thn ke 3","jumlah":19090000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Lunas","tahun":2026},{"no":"28","surat":"28/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"Routelink","ket":"pembayaran thn ke 3","jumlah":500000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Belum Lunas","tahun":2026},{"no":"29","surat":"29/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Trans Indonesia Superkoridor","ket":"pembayaran thn ke 3","jumlah":5800000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Belum Lunas","tahun":2026},{"no":"30","surat":"30/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Lintas Data Prima","ket":"pembayaran thn ke 2","jumlah":2868500,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Belum Lunas","tahun":2026},{"no":"31","surat":"31/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Akses Data Internusa","ket":"pembayaran thn ke 2","jumlah":2400000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Belum Lunas","tahun":2026},{"no":"32","surat":"32/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Routelink Mediatech","ket":"pembayaran thn ke 3","jumlah":13224500,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Belum Lunas","tahun":2026},{"no":"33","surat":"33/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Lintas Data Prima","ket":"pembayaran thn ke 3","jumlah":12477000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Belum Lunas","tahun":2026},{"no":"34","surat":"34/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Telkom Indonesia","ket":"pembayaran thn ke 2","jumlah":5220000,"kategori":"Perpanjangan","jenis":"Pipa/Air","status":"Belum Lunas","tahun":2026},{"no":"35","surat":"35/V/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PUDAM Toya Wening","ket":"pembayaran thn ke 2","jumlah":1125000,"kategori":"Perpanjangan","jenis":"Pipa/Air","status":"Belum Lunas","tahun":2026},{"no":"36","surat":"36/VI/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Cantika Data Prima","ket":"rekom baru","jumlah":3437000,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Belum Lunas","tahun":2026},{"no":"37","surat":"37/VI/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Akses Data Internusa","ket":"pembayaran thn ke 2","jumlah":3925000,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Belum Lunas","tahun":2026},{"no":"38","surat":"38/VI/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Iforte Solusi Infotek","ket":"rekom baru","jumlah":2501500,"kategori":"Rekom Baru","jenis":"Kabel/Tiang","status":"Belum Lunas","tahun":2026},{"no":"39","surat":"39/VI/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"CV. Sinar Biru Bhimasari","ket":"pembayaran thn ke 3","jumlah":2160000,"kategori":"Perpanjangan","jenis":"Reklame","status":"Belum Lunas","tahun":2026},{"no":"40","surat":"40/VI/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Power Telecom","ket":"pembayaran thn ke 3","jumlah":2815500,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Belum Lunas","tahun":2026},{"no":"41","surat":"41/VI/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PT. Sukma Sejati Media","ket":"pembayaran thn ke 3","jumlah":4527500,"kategori":"Perpanjangan","jenis":"Kabel/Tiang","status":"Belum Lunas","tahun":2026},{"no":"42","surat":"42/VI/RMJ/DPUPR/2026","tgl":"","bulan":0,"pemohon":"PDAM","ket":"pembayaran thn ke 3","jumlah":2100000,"kategori":"Perpanjangan","jenis":"Pipa/Air","status":"Belum Lunas","tahun":2026}];
+
+// ── State ──
+let AY='all', fd=[...DATA], sc=null, sd=1, pg=1;
+const PS=25;
+
+const rp=v=>'Rp '+Math.round(v).toLocaleString('id-ID');
+const rpJ=v=>{const j=v/1e6;return(j>=100?Math.round(j):j.toFixed(1))+' jt'};
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const pct=v=>Math.round(v*10)/10;
+
+function base(){return AY==='all'?DATA:DATA.filter(d=>d.tahun===AY)}
+
+// ── Year tabs ──
+function setY(y){
+  AY=y; pg=1;
+  document.querySelectorAll('.ytab').forEach(b=>{
+    const t=b.textContent.trim();
+    b.classList.toggle('on',(y==='all'&&t==='Semua')||(y===2024&&t==='2024')||(y===2025&&t==='2025')||(y===2026&&t==='2026'));
+  });
+  renderTarget(); renderKPI(); renderCharts(); doFilter();
+}
+
+// ── Target Progress ──
+function renderTarget(){
+  const years = AY==='all'?[2024,2025,2026]:[AY];
+  // For 2026, realisasi = sum SKRD lunas
+  const real2026 = DATA.filter(d=>d.tahun===2026&&d.status==='Lunas').reduce((s,d)=>s+d.jumlah,0);
+  TARGET_DATA[2026].realisasi = real2026;
+
+  const el=document.getElementById('target-cards');
+  el.innerHTML=years.filter(y=>TARGET_DATA[y]).map(y=>{
+    const t=TARGET_DATA[y];
+    const r=t.realisasi||0;
+    const tgt=t.target;
+    const p=tgt>0?Math.min((r/tgt)*100,999):0;
+    const over=p>=100;
+    const pctDisp=pct(p);
+    const sisa=over?r-tgt:tgt-r;
+    const clr=over?'grn':p>=70?'blu':p>=40?'amb':'red';
+    const badge=over?`<span class="tb tb-grn">✓ Tercapai ${pctDisp}%</span>`
+                    :`<span class="tb tb-amb">${pctDisp}% dari target</span>`;
+    const sisaLbl=over?`Melebihi target: +${rpJ(sisa)}`:`Sisa target: ${rpJ(sisa)}`;
+    const barW=Math.min(p,100).toFixed(1);
+    const note=y===2026?' (Jan–Jun berjalan)':'';
+    return `<div class="tc">
+      <div class="tc-head">
+        <div class="tc-yr">Tahun ${y}${note}</div>
+        <div class="tc-badges">${badge}</div>
+      </div>
+      <div class="tc-nums">
+        <div class="tc-num"><label>Target</label><div class="val amb">${rpJ(tgt)}</div></div>
+        <div class="tc-num"><label>Realisasi</label><div class="val ${clr}">${rpJ(r)}</div></div>
+      </div>
+      <div class="progress-wrap">
+        <div class="progress-bar">
+          <div class="progress-fill ${clr}${over?' over':''}" style="width:${barW}%"></div>
+        </div>
+        <div class="progress-pct">
+          <span style="color:var(--${clr})">${pctDisp}%</span>
+          <span class="pct-sisa">${sisaLbl}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── KPI ──
+function renderKPI(){
+  const b=base();
+  const tot=b.reduce((s,d)=>s+d.jumlah,0);
+  const lunas=b.filter(d=>d.status==='Lunas');
+  const belum=b.filter(d=>d.status==='Belum Lunas');
+  const rekom=b.filter(d=>d.kategori==='Rekom Baru');
+  const perpanj=b.filter(d=>d.kategori==='Perpanjangan');
+  const bnr=document.getElementById('banner');
+  if((AY===2026||AY==='all')&&belum.length){
+    const bj=belum.reduce((s,d)=>s+d.jumlah,0);
+    document.getElementById('banner-txt').innerHTML=`<strong>${belum.length} SKRD belum lunas</strong> senilai <strong>${rp(bj)}</strong> — perlu segera ditagihkan.`;
+    bnr.classList.remove('hidden');
+  } else bnr.classList.add('hidden');
+
+  let cards;
+  if(AY==='all'){
+    const t25=DATA.filter(d=>d.tahun===2025).reduce((s,d)=>s+d.jumlah,0);
+    const t26=DATA.filter(d=>d.tahun===2026).reduce((s,d)=>s+d.jumlah,0);
+    cards=[
+      {l:'Total semua tahun',v:rp(tot),s:DATA.length+' SKRD',c:'g'},
+      {l:'Realisasi 2024',v:'Rp 248,3 jt',s:'laporan resmi',c:'t'},
+      {l:'Realisasi 2025',v:rpJ(t25),s:'77 SKRD (lunas semua)',c:'b'},
+      {l:'Realisasi 2026',v:rpJ(t26),s:DATA.filter(d=>d.tahun===2026).length+' SKRD berjalan',c:'a'},
+      {l:'Belum lunas 2026',v:belum.length>0?rp(belum.reduce((s,d)=>s+d.jumlah,0)):'—',s:belum.length+' SKRD',c:'r'},
+    ];
+  } else {
+    cards=[
+      {l:'Total retribusi',v:rp(tot),s:b.length+' SKRD terbit',c:'g'},
+      {l:'Sudah lunas',v:rp(lunas.reduce((s,d)=>s+d.jumlah,0)),s:lunas.length+' SKRD',c:'b'},
+      {l:'Belum lunas',v:belum.length?rp(belum.reduce((s,d)=>s+d.jumlah,0)):'—',s:belum.length+' SKRD',c:'r'},
+      {l:'Rekom baru',v:rekom.length+' SKRD',s:rpJ(rekom.reduce((s,d)=>s+d.jumlah,0)),c:'t'},
+      {l:'Perpanjangan',v:perpanj.length+' SKRD',s:rpJ(perpanj.reduce((s,d)=>s+d.jumlah,0)),c:'a'},
+    ];
+  }
+  document.getElementById('kpi-grid').innerHTML=cards.map(c=>`
+    <div class="kpi ${c.c}"><label>${c.l}</label><div class="v">${c.v}</div><div class="s">${c.s}</div></div>`).join('');
+}
+
+// ── Charts ──
+let ch1,ch2;
+function renderCharts(){
+  const b=base();
+  const gc='rgba(0,0,0,.06)';const tc='#6b6860';
+  if(ch1)ch1.destroy();
+  const c1=document.getElementById('c1');
+  if(AY===2025||(AY==='all')){
+    document.getElementById('c1-title').textContent=AY===2025?'Penerimaan per bulan — 2025':'Perbandingan realisasi per tahun';
+    if(AY===2025){
+      const mo=Array(12).fill(0);
+      b.forEach(d=>{if(d.bulan>0)mo[d.bulan-1]+=d.jumlah});
+      ch1=new Chart(c1,{type:'bar',data:{labels:['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Ags','Sep','Okt','Nov','Des'],datasets:[{data:mo,backgroundColor:'#1a5c38',borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>rp(c.raw)}}},scales:{x:{grid:{display:false},ticks:{color:tc,font:{size:10}}},y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>rpJ(v)}}}}});
+    } else {
+      ch1=new Chart(c1,{type:'bar',data:{labels:['2024','2025','2026 (berjalan)'],datasets:[{label:'Target',data:[50000000,57500000,500000000],backgroundColor:'rgba(30,77,140,.2)',borderColor:'#1e4d8c',borderWidth:1.5,borderRadius:4},{label:'Realisasi',data:[248299500,544945500,b.filter(d=>d.tahun===2026).reduce((s,d)=>s+d.jumlah,0)],backgroundColor:['#1a5c38','#1a5c38','#0d6b6b'],borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,labels:{font:{size:10},color:'#1a1917',boxWidth:10,padding:8}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${rp(c.raw)}`}}},scales:{x:{grid:{display:false},ticks:{color:tc,font:{size:10}}},y:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>rpJ(v)}}}}});
+    }
+  } else {
+    document.getElementById('c1-title').textContent='Komposisi kategori SKRD';
+    const cats={};b.forEach(d=>{cats[d.kategori]=(cats[d.kategori]||0)+d.jumlah});
+    ch1=new Chart(c1,{type:'doughnut',data:{labels:Object.keys(cats),datasets:[{data:Object.values(cats),backgroundColor:['#1e4d8c','#0d6b6b','#6b21a8'],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,cutout:'55%',plugins:{legend:{display:true,position:'right',labels:{font:{size:10},color:'#1a1917',boxWidth:10,padding:6}},tooltip:{callbacks:{label:c=>`${c.label}: ${rp(c.raw)}`}}}}});
+  }
+
+  if(ch2)ch2.destroy();
+  const prov={};
+  b.forEach(d=>{const k=d.pemohon.toUpperCase().replace(/\s+/g,' ').trim().slice(0,28);prov[k]=(prov[k]||0)+d.jumlah});
+  const top=Object.entries(prov).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const h=Math.max(175,top.length*38+40);
+  document.getElementById('c2w').style.height=h+'px';
+  document.getElementById('c2-title').textContent='Top 8 pemohon';
+  ch2=new Chart(document.getElementById('c2'),{type:'bar',data:{labels:top.map(([k])=>k.length>22?k.slice(0,22)+'…':k),datasets:[{data:top.map(e=>e[1]),backgroundColor:AY===2026?'#0d6b6b':'#1a5c38',borderRadius:4}]},options:{indexAxis:'y',responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>rp(c.raw)}}},scales:{x:{grid:{color:gc},ticks:{color:tc,font:{size:10},callback:v=>rpJ(v)}},y:{grid:{display:false},ticks:{color:'#1a1917',font:{size:10}}}}}});
+}
+
+// ── Filter & Table ──
+function doFilter(){
+  const q=document.getElementById('q').value.toLowerCase();
+  const st=document.getElementById('fst').value;
+  const kt=document.getElementById('fkt').value;
+  const jn=document.getElementById('fjn').value;
+  fd=base().filter(d=>
+    (!q||d.pemohon.toLowerCase().includes(q)||d.surat.toLowerCase().includes(q))&&
+    (!st||d.status===st)&&(!kt||d.kategori===kt)&&(!jn||d.jenis===jn)
+  );
+  if(sc)fd.sort((a,b)=>{let av=a[sc],bv=b[sc];if(typeof av==='string'){av=av.toLowerCase();bv=bv.toLowerCase();}return(av<bv?-1:av>bv?1:0)*sd});
+  pg=1; renderTable();
+}
+function filter(){doFilter()}
+
+function sortBy(col){
+  if(sc===col)sd=-sd;else{sc=col;sd=1;}
+  doFilter();
+  document.querySelectorAll('thead th').forEach(t=>{t.classList.remove('sa','sd');if(t.dataset.col===col)t.classList.add(sd===1?'sa':'sd')});
+}
+
+function renderTable(){
+  const showY=AY==='all';
+  const cols=[
+    {k:'no',l:'No.',w:'45px'},{k:'surat',l:'Nomor Surat'},
+    ...(showY?[{k:'tahun',l:'Thn',w:'50px'}]:[]),
+    {k:'tgl',l:'Tanggal'},{k:'pemohon',l:'Pemohon / Keterangan'},
+    {k:'kategori',l:'Kategori'},{k:'jenis',l:'Jenis'},{k:'status',l:'Status'},
+    {k:'jumlah',l:'Retribusi',w:'130px'},
+  ];
+  document.getElementById('thead').innerHTML='<tr>'+cols.map(c=>`<th data-col="${c.k}" style="${c.w?'width:'+c.w:''}" onclick="sortBy('${c.k}')">${c.l} <span class="si"></span></th>`).join('')+'</tr>';
+  if(sc){const th=document.querySelector(`[data-col="${sc}"]`);if(th)th.classList.add(sd===1?'sa':'sd')}
+
+  const tot=fd.length, pages=Math.ceil(tot/PS), s=(pg-1)*PS;
+  const page=fd.slice(s,s+PS);
+  document.getElementById('cnt').textContent=tot.toLocaleString('id-ID')+' data';
+
+  const kbadge={Lunas:'bl','Belum Lunas':'bb','Rekom Baru':'brb','Perpanjangan':'bpp','LHP BPK':'blhp','Kabel/Tiang':'bkt','Pipa/Air':'bpa','Reklame':'brk'};
+  const tbody=document.getElementById('tbody');
+  tbody.innerHTML=page.length===0?`<tr><td colspan="${cols.length}" class="nodata">Tidak ada data sesuai filter.</td></tr>`:
+    page.map(d=>`<tr>
+      <td style="text-align:center;color:var(--txt3);font-size:11px">${d.no}</td>
+      <td><span class="mono">${d.surat}</span></td>
+      ${showY?`<td style="text-align:center;font-size:12px;font-weight:700;color:${d.tahun===2025?'var(--blu)':'var(--grn)'}">${d.tahun}</td>`:''}
+      <td class="tgl">${d.tgl||'—'}</td>
+      <td><div class="pname">${cap(d.pemohon.toLowerCase())}</div>${d.ket?`<div class="pket">${cap(d.ket)}</div>`:''}</td>
+      <td><span class="badge ${kbadge[d.kategori]||'bkt'}">${d.kategori}</span></td>
+      <td><span class="badge ${kbadge[d.jenis]||'bkt'}">${d.jenis}</span></td>
+      <td><span class="badge ${kbadge[d.status]||'bp'}">${d.status}</span></td>
+      <td class="jml${d.jumlah>=50000000?' big':''}">${rp(d.jumlah)}</td>
+    </tr>`).join('');
+
+  const sumP=page.reduce((s,d)=>s+d.jumlah,0), sumA=fd.reduce((s,d)=>s+d.jumlah,0);
+  document.getElementById('tfoot').innerHTML=`<tr>
+    <td colspan="${cols.length-1}" style="text-align:right;padding-right:8px">
+      ${page.length<tot?`Hal ini: ${rp(sumP)} &nbsp;|&nbsp;`:''}
+      <strong>Total (${tot} SKRD):</strong>
+    </td><td class="jml">${rp(sumA)}</td></tr>`;
+
+  renderPg(pages, tot);
+}
+
+function renderPg(pages, tot){
+  const el=document.getElementById('pg');
+  if(pages<=1){el.innerHTML='';return}
+  const s=(pg-1)*PS+1, e=Math.min(pg*PS,tot);
+  let h=`<span>Menampilkan ${s}–${e} dari ${tot}</span><div class="pbs">`;
+  h+=`<button class="pb" onclick="goPg(${pg-1})" ${pg===1?'disabled':''}>‹</button>`;
+  const range=[];
+  for(let i=1;i<=pages;i++){if(i===1||i===pages||Math.abs(i-pg)<=1)range.push(i);else if(range[range.length-1]!=='…')range.push('…')}
+  range.forEach(p=>{
+    if(p==='…')h+=`<span style="padding:0 4px;line-height:28px;color:var(--txt3)">…</span>`;
+    else h+=`<button class="pb ${p===pg?'on':''}" onclick="goPg(${p})">${p}</button>`;
+  });
+  h+=`<button class="pb" onclick="goPg(${pg+1})" ${pg===pages?'disabled':''}>›</button></div>`;
+  el.innerHTML=h;
+}
+
+function goPg(p){const pages=Math.ceil(fd.length/PS);if(p<1||p>pages)return;pg=p;renderTable();document.querySelector('.table-sec').scrollIntoView({behavior:'smooth',block:'start'})}
+
+// ── Download Excel ──
+function dlXLS(){
+  try{
+    const ws=XLSX.utils.json_to_sheet(fd.map(d=>({
+      'No':d.no,'Nomor Surat':d.surat,'Tahun':d.tahun,
+      'Tanggal':d.tgl,'Pemohon':d.pemohon,'Keterangan':d.ket,
+      'Kategori':d.kategori,'Jenis Utilitas':d.jenis,
+      'Status':d.status,'Retribusi (Rp)':Math.round(d.jumlah)
+    })));
+    // Format lebar kolom
+    ws['!cols']=[{wch:5},{wch:28},{wch:7},{wch:18},{wch:40},{wch:25},{wch:14},{wch:14},{wch:14},{wch:16}];
+    const wb=XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb,ws,'SKRD RMJ');
+    // Sheet ringkasan
+    const sum=[
+      ['REKAPITULASI RETRIBUSI PEMAKAIAN RUANG MILIK JALAN','',''],
+      ['Bidang Bina Marga – DPUPR Kabupaten Karanganyar','',''],
+      ['','',''],
+      ['Tahun','Target (Rp)','Realisasi (Rp)','Capaian (%)'],
+      ['2024','50.000.000','248.299.500','496,60%'],
+      ['2025','57.500.000','544.945.500','947,73%'],
+      ['2026','500.000.000',Math.round(DATA.filter(d=>d.tahun===2026).reduce((s,d)=>s+d.jumlah,0)).toString(),'Berjalan'],
+      ['','','',''],
+      ['Total SKRD 2025',DATA.filter(d=>d.tahun===2025).length,'',''],
+      ['Total SKRD 2026',DATA.filter(d=>d.tahun===2026).length,'',''],
+      ['Belum Lunas 2026',DATA.filter(d=>d.tahun===2026&&d.status==='Belum Lunas').length,'',''],
+      ['Tarif Pipa 0-15cm (Perda No.12/2025)','Rp 3.000/m','',''],
+      ['Tarif Pipa >15cm','Rp 4.500/m','',''],
+      ['Tarif Kabel Udara','Rp 500/m','',''],
+      ['Tarif Tiang','Rp 75.000/titik','',''],
+      ['Tarif Reklame','Rp 90.000/m²','',''],
+    ];
+    const ws2=XLSX.utils.aoa_to_sheet(sum);
+    ws2['!cols']=[{wch:40},{wch:18},{wch:18},{wch:12}];
+    XLSX.utils.book_append_sheet(wb,ws2,'Ringkasan');
+    XLSX.writeFile(wb,`SKRD_RMJ_BinaMarga_${AY}.xlsx`);
+    toast('File Excel berhasil diunduh');
+  }catch(e){toast('Gagal mengunduh: '+e.message)}
+}
+
+function dlCSV(){
+  const rows=[['No','Nomor Surat','Tahun','Tanggal','Pemohon','Keterangan','Kategori','Jenis','Status','Retribusi (Rp)']];
+  fd.forEach(d=>rows.push([d.no,d.surat,d.tahun,d.tgl,d.pemohon,d.ket,d.kategori,d.jenis,d.status,Math.round(d.jumlah)]));
+  const csv=rows.map(r=>r.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,\uFEFF'+encodeURIComponent(csv);
+  a.download=`SKRD_RMJ_${AY}.csv`;
+  a.click();
+  toast('CSV berhasil diunduh');
+}
+
+// ── Upload Excel ──
+function handleUpload(input){
+  const file=input.files[0];
+  if(!file)return;
+  document.getElementById('upload-info').textContent='Membaca file: '+file.name+'…';
+  const reader=new FileReader();
+  reader.onload=e=>{
+    try{
+      const wb=XLSX.read(e.target.result,{type:'array'});
+      const ws=wb.Sheets[wb.SheetNames[0]];
+      const raw=XLSX.utils.sheet_to_json(ws,{header:1,defval:''});
+      // Deteksi tahun dari nama file atau isi
+      const fname=file.name.toLowerCase();
+      const tahun=fname.includes('2026')?2026:fname.includes('2025')?2025:fname.includes('2024')?2024:0;
+      // Cari baris data (yang punya No berurutan di kolom 0)
+      const newRecs=[];
+      for(let i=0;i<raw.length;i++){
+        const r=raw[i];
+        const no=r[0];
+        if(!no||typeof no!=='number'||no<1||no>500)continue;
+        const surat=String(r[1]||'').trim();
+        if(!surat||!surat.includes('RMJ'))continue;
+        // Cari pemohon dan jumlah
+        let pemohon='',jumlah=0,ket='',tgl='';
+        // Coba berbagai format kolom
+        for(let c=2;c<Math.min(r.length,8);c++){
+          const v=r[c];
+          if(typeof v==='string'&&v.length>3&&!pemohon&&!/^\d/.test(v)&&!v.includes('/')){pemohon=v.trim()}
+          if(typeof v==='string'&&/bayar|perpanj|rekom|ke \d/i.test(v)){ket=v.trim()}
+        }
+        for(let c=3;c<Math.min(r.length,15);c++){
+          if(typeof r[c]==='number'&&r[c]>100000){jumlah=r[c];break}
+        }
+        if(!pemohon||jumlah<=0)continue;
+        const p=pemohon.toUpperCase();
+        const isPdam=/(PDAM|PUDAM|TIRTA|TOYA|PERSERODA)/.test(p);
+        const isReklame=jumlah%90000===0&&jumlah<5000000;
+        const jenis=isPdam?'Pipa/Air':isReklame?'Reklame':'Kabel/Tiang';
+        const isLanjutan=/ke [23]|thn ke|th ke/i.test(ket);
+        newRecs.push({
+          no:String(no),surat,tgl,bulan:0,pemohon,ket,jumlah,
+          kategori:isLanjutan?'Perpanjangan':'Rekom Baru',
+          jenis,status:'Lunas',tahun:tahun||2026
+        });
+      }
+      if(newRecs.length===0){
+        document.getElementById('upload-info').textContent='Format tidak dikenali. Pastikan file adalah buku SKRD RMJ.';
+        return;
+      }
+      // Hapus data tahun tersebut, ganti dengan yang baru
+      if(tahun){DATA=DATA.filter(d=>d.tahun!==tahun).concat(newRecs)}
+      else{DATA=[...DATA,...newRecs]}
+      document.getElementById('upload-info').textContent=`✓ Berhasil memuat ${newRecs.length} SKRD tahun ${tahun||'baru'} dari ${file.name}`;
+      toast(`${newRecs.length} SKRD berhasil dimuat`);
+      setY(tahun||AY);
+    }catch(err){
+      document.getElementById('upload-info').textContent='Gagal membaca file: '+err.message;
+      toast('Gagal membaca file');
+    }
+  };
+  reader.readAsArrayBuffer(file);
+  input.value='';
+}
+
+// ── Toast ──
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2800)}
+
+// ── Cek library tersedia ──
+function checkLibs(){
+  if(typeof Chart==='undefined'){
+    document.getElementById('no-internet-banner').style.display='block';
+    ['c1','c2'].forEach(id=>{
+      const el=document.getElementById(id);
+      if(el){el.parentElement.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100%;color:#9e9b94;font-size:12px">Grafik membutuhkan koneksi internet</div>'}
+    });
+  }
+  if(typeof XLSX==='undefined'){
+    document.querySelectorAll('.btn.p,.btn.b2').forEach(b=>b.disabled=true);
+  }
+}
+
+// ── Init ──
+renderTarget(); renderKPI();
+checkLibs();
+if(typeof Chart!=='undefined') renderCharts();
+doFilter();
+</script>
+</body>
+</html>
