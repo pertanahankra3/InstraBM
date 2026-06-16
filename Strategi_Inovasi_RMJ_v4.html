@@ -228,6 +228,64 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
   .innov-grid{grid-template-columns:1fr}
   .tb-name{display:none}
 }
+
+/* ── COVER SLIDE ── */
+.s-cover{
+  display:none;
+  position:absolute;top:0;left:0;right:0;bottom:0;
+  overflow-y:auto;overflow-x:hidden;
+  -webkit-overflow-scrolling:touch;
+  background:#fff;
+}
+.s-cover.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.cover-inner{
+  width:100%;min-height:100%;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  text-align:center;padding:40px 80px;
+  position:relative;
+}
+.cover-top-bar{position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#1A6B41,#2E8B57,#1A6B41)}
+.cover-bot-bar{position:absolute;bottom:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#1A6B41,#2E8B57,#1A6B41)}
+.cover-deco{position:absolute;border-radius:50%;background:#1A6B41;pointer-events:none;opacity:.04}
+.cover-logo-wrap{
+  width:120px;height:120px;border-radius:50%;
+  background:#F0F9F4;border:2px solid #E8F5EE;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 24px;
+  box-shadow:0 4px 20px rgba(26,107,65,.1);
+  overflow:hidden;flex-shrink:0;
+}
+.cover-logo-wrap img{width:90px;height:90px;object-fit:contain}
+.cover-eyebrow{
+  font-size:12px;font-weight:600;color:#2E8B57;
+  text-transform:uppercase;letter-spacing:.12em;
+  margin-bottom:18px;
+  display:flex;align-items:center;gap:12px;justify-content:center;
+}
+.cover-eyebrow::before,.cover-eyebrow::after{content:'';width:40px;height:1.5px;background:#2E8B57;opacity:.5}
+.cover-title{
+  font-size:clamp(22px,3.2vw,42px);font-weight:800;
+  color:#1E293B;line-height:1.2;margin-bottom:8px;max-width:800px;
+}
+.cover-title .hl{color:#1A6B41}
+.cover-divider{width:80px;height:3px;background:linear-gradient(90deg,transparent,#1A6B41,transparent);margin:20px auto;border-radius:2px}
+.cover-instansi{
+  font-size:clamp(13px,1.5vw,18px);font-weight:600;
+  color:#1A6B41;margin-bottom:32px;max-width:700px;line-height:1.6;
+}
+.cover-meta{
+  display:flex;border:1px solid #E2E8F0;border-radius:12px;
+  overflow:hidden;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.07);
+}
+.cover-meta-item{padding:14px 28px;text-align:center;flex:1}
+.cover-meta-item+.cover-meta-item{border-left:1px solid #E2E8F0}
+.cover-meta-lbl{font-size:10.5px;font-weight:500;color:#94A3B8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.cover-meta-val{font-size:14px;font-weight:700;color:#1E293B}
+.cover-footer{
+  position:absolute;bottom:18px;left:0;right:0;
+  text-align:center;font-size:11px;color:#CBD5E1;letter-spacing:.05em;
+}
 </style>
 </head>
 <body>
@@ -239,33 +297,67 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
   <span class="tb-name">DPUPR <span>Karanganyar</span></span>
   <div class="tb-sep"></div>
   <div class="nav-scroll" id="nav">
-    <div class="nav-item on"      onclick="jump(0)"><div class="nav-dot"></div>Data Potensi</div>
-    <div class="nav-item"         onclick="jump(1)"><div class="nav-dot"></div>Jenis Potensi</div>
-    <div class="tb-sep"></div>
-    <div class="nav-item"         onclick="jump(2)"><div class="nav-dot"></div>IPLT</div>
-    <div class="nav-item"         onclick="jump(3)"><div class="nav-dot"></div>MCK & Alun-alun</div>
-    <div class="nav-item"         onclick="jump(4)"><div class="nav-dot"></div>Alat Berat</div>
-    <div class="nav-item"         onclick="jump(5)"><div class="nav-dot"></div>PBG</div>
-    <div class="nav-item"         onclick="jump(6)"><div class="nav-dot"></div>PPN</div>
-    <div class="nav-item"         onclick="jump(7)"><div class="nav-dot"></div>RMJ</div>
-    <div class="tb-sep"></div>
-    <div class="nav-item app-nav" onclick="jump(8)">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>SIMRUJ
+    <div class="nav-item on" onclick="jump(0)">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Cover
     </div>
+    <div class="tb-sep" style="margin:0 2px"></div>
+    <div class="nav-item" onclick="jump(1)"><div class="nav-dot"></div>Data Potensi</div>
+    <div class="nav-item" onclick="jump(2)"><div class="nav-dot"></div>Jenis Potensi</div>
+    <div class="tb-sep"></div>
+    <div class="nav-item" onclick="jump(3)"><div class="nav-dot"></div>IPLT</div>
+    <div class="nav-item" onclick="jump(4)"><div class="nav-dot"></div>MCK & Alun-alun</div>
+    <div class="nav-item" onclick="jump(5)"><div class="nav-dot"></div>Alat Berat</div>
+    <div class="nav-item" onclick="jump(6)"><div class="nav-dot"></div>PBG</div>
+    <div class="nav-item" onclick="jump(7)"><div class="nav-dot"></div>PPN</div>
+    <div class="nav-item" onclick="jump(8)"><div class="nav-dot"></div>RMJ</div>
+    <div class="tb-sep"></div>
     <div class="nav-item app-nav" onclick="jump(9)">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M3 17l5-8 4 5 3-4 5 7"/><path d="M3 21h18"/></svg>SKRD
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>SIMRUJ
+    </div>
+    <div class="nav-item app-nav" onclick="jump(10)">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M3 17l5-8 4 5 3-4 5 7"/><path d="M3 21h18"/></svg>SKRD
     </div>
     <div class="tb-sep"></div>
-    <div class="nav-item"         onclick="jump(10)"><div class="nav-dot"></div>Tarif</div>
-    <div class="nav-item"         onclick="jump(11)"><div class="nav-dot"></div>Potensi</div>
+    <div class="nav-item" onclick="jump(11)"><div class="nav-dot"></div>Tarif</div>
+    <div class="nav-item" onclick="jump(12)"><div class="nav-dot"></div>Potensi</div>
   </div>
-</div>
-<div class="prog-bar"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+  </div>
+  <div class="prog-bar"><div class="prog-fill" id="prog" style="width:0%"></div></div>
 
 <div class="slides-wrap">
 
+<!-- ══ COVER ══ -->
+<div class="slide s-cover active" id="s0">
+  <div class="cover-inner">
+    <div class="cover-top-bar"></div>
+    <div class="cover-bot-bar"></div>
+    <div class="cover-deco" style="width:500px;height:500px;top:-150px;right:-100px"></div>
+    <div class="cover-deco" style="width:300px;height:300px;bottom:-80px;left:-60px"></div>
+    <div class="cover-logo-wrap">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Seal_of_Karanganyar_Regency.svg/200px-Seal_of_Karanganyar_Regency.svg.png" alt="Logo Kabupaten Karanganyar" onerror="this.src='https://opendata.karanganyarkab.go.id/dataset/54494760-6bab-4a5e-9a9e-82e21f40dc69/resource/c1b2a630-bb4b-4946-aee8-ae51280bf7f8/download/seal_of_karanganyar_regency.svg.png'"/>
+    </div>
+    <div class="cover-eyebrow">Kabupaten Karanganyar · Tahun 2026</div>
+    <div class="cover-title">
+      Strategi dan Inovasi<br>
+      <span class="hl">Potensi Pendapatan Asli Daerah</span>
+    </div>
+    <div class="cover-divider"></div>
+    <div class="cover-instansi">
+      Dinas Pekerjaan Umum dan Perumahan Rakyat<br>
+      Kabupaten Karanganyar
+    </div>
+    <div class="cover-meta">
+      <div class="cover-meta-item"><div class="cover-meta-lbl">Disampaikan oleh</div><div class="cover-meta-val">Ir. Asihno Purwadi, S.T.</div></div>
+      <div class="cover-meta-item"><div class="cover-meta-lbl">Dasar Hukum</div><div class="cover-meta-val">Perda No. 12 Tahun 2025</div></div>
+      <div class="cover-meta-item"><div class="cover-meta-lbl">Tahun Anggaran</div><div class="cover-meta-val">2026</div></div>
+      <div class="cover-meta-item"><div class="cover-meta-lbl">Link Paparan</div><div class="cover-meta-val">s.id/InstraBM</div></div>
+    </div>
+    <div class="cover-footer">DPUPR KABUPATEN KARANGANYAR &nbsp;·&nbsp; 2026</div>
+  </div>
+</div>
+
 <!-- ══ 0: DATA POTENSI ══ -->
-<div class="slide active" id="s0"><div class="si"><div class="page">
+<div class="slide" id="s1"><div class="si"><div class="page">
   <div class="ph-eyebrow">Rekapitulasi PAD · DPUPR Karanganyar</div>
   <div class="ph-title">Data Potensi Pendapatan Asli Daerah</div>
   <div class="ph-sub">Grafik capaian 2023–2026 dan kontribusi per sumber retribusi · Perda No. 12 Tahun 2025</div>
@@ -344,7 +436,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 </div></div></div>
 
 <!-- ══ 1: JENIS POTENSI ══ -->
-<div class="slide" id="s1"><div class="si"><div class="page">
+<div class="slide" id="s2"><div class="si"><div class="page">
   <div class="ph-eyebrow">DPUPR Karanganyar · Perda No. 12 Tahun 2025</div>
   <div class="ph-title">Jenis Potensi Pendapatan Asli Daerah</div>
   <div class="ph-sub">Seluruh sumber retribusi dan pajak DPUPR Kabupaten Karanganyar — klik kartu untuk detail</div>
@@ -408,7 +500,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
     <div class="jp-card" onclick="jump(11)">
       <div class="jp-card-top"><div class="jp-icon" style="background:var(--green-pale)"><svg viewBox="0 0 24 24" fill="none" stroke="#1A6B41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div class="jp-title">Potensi RMJ</div></div>
       <div class="jp-sub">Simulasi potensi maksimal berdasarkan panjang jalan & tarif Perda 12/2025</div>
-      <div class="jp-target">Potensi / tahun</div>
+      <div class="jp-target">Potensi simulasi: Rp 1,74 M / tahun</div>
       <div style="margin-top:6px"><span class="chip chip-green">Analisis Potensi</span></div>
       <div class="jp-cta">Lihat kalkulasi <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
@@ -416,7 +508,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 </div></div></div>
 
 <!-- ══ 2: IPLT ══ -->
-<div class="slide" id="s2"><div class="si"><div class="page">
+<div class="slide" id="s3"><div class="si"><div class="page">
   <div class="ph-eyebrow">Retribusi Jasa Umum · UPT PALD</div>
   <div class="ph-title">Penyedotan Kakus & Pengelolaan IPLT</div>
   <div class="ph-sub">Perda No. 12 Tahun 2025 · Layanan penyedotan tinja rumah tangga, usaha, dan titip buang di IPLT</div>
@@ -466,7 +558,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 </div></div></div>
 
 <!-- ══ 3: MCK & ALUN-ALUN ══ -->
-<div class="slide" id="s3"><div class="si"><div class="page">
+<div class="slide" id="s4"><div class="si"><div class="page">
   <div class="ph-eyebrow">Retribusi Jasa Umum & Jasa Usaha · Bidang PKP</div>
   <div class="ph-title">MCK & Sewa Alun-alun</div>
   <div class="ph-sub">Pengelolaan MCK Taman Pancasila dan GSI · Sewa Alun-alun Karanganyar</div>
@@ -480,7 +572,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
     <div class="card">
       <div class="card-title"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Pengelolaan MCK</div>
       <div class="strat-list" style="margin-bottom:14px">
-        <div class="strat-item"><div class="strat-num">📍</div><div><div class="si-title">Lokasi</div><div class="si-desc">MCK Taman Pancasila dan GSI (Gerakan Sayang Ibu) Karanganyar.</div></div></div>
+        <div class="strat-item"><div class="strat-num">📍</div><div><div class="si-title">Lokasi</div><div class="si-desc">MCK Taman Pancasila dan GSI (Gedung Serba Indah) Karanganyar.</div></div></div>
       </div>
       <div class="divider"><div class="dl"></div><div class="dt">Tarif MCK Perda 12/2025</div><div class="dl"></div></div>
       <table class="tbl">
@@ -510,7 +602,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 </div></div></div>
 
 <!-- ══ 4: ALAT BERAT ══ -->
-<div class="slide" id="s4"><div class="si"><div class="page">
+<div class="slide" id="s5"><div class="si"><div class="page">
   <div class="ph-eyebrow">Retribusi Jasa Usaha · UPT ALKAL</div>
   <div class="ph-title">Sewa Alat Berat & Pengujian Laboratorium</div>
   <div class="ph-sub">Pemakaian stom, excavator, dan layanan uji lab tanah/aspal/beton</div>
@@ -576,7 +668,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 </div></div></div>
 
 <!-- ══ 5: PBG ══ -->
-<div class="slide" id="s5"><div class="si"><div class="page">
+<div class="slide" id="s6"><div class="si"><div class="page">
   <div class="ph-eyebrow">Retribusi Perizinan Tertentu · Bidang Cipta Karya</div>
   <div class="ph-title">Retribusi Persetujuan Bangunan Gedung (PBG)</div>
   <div class="ph-sub">Sumber PAD terbesar DPUPR — ±Rp 5 miliar per tahun dari 788 permohonan masuk 2025</div>
@@ -619,7 +711,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 </div></div></div>
 
 <!-- ══ 6: PPN ══ -->
-<div class="slide" id="s6"><div class="si"><div class="page">
+<div class="slide" id="s7"><div class="si"><div class="page">
   <div class="ph-eyebrow" style="color:var(--teal)">Penerimaan Pajak · Bukan Retribusi</div>
   <div class="ph-title">Pajak Penghasilan / PPN Proyek Konstruksi</div>
   <div class="ph-sub">Penerimaan PPN dari proyek konstruksi jalan dan bangunan gedung di Kabupaten Karanganyar</div>
@@ -660,7 +752,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 </div></div></div>
 
 <!-- ══ 7: RMJ ══ -->
-<div class="slide" id="s7"><div class="si"><div class="page">
+<div class="slide" id="s8"><div class="si"><div class="page">
   <div class="ph-eyebrow">Retribusi Jasa Usaha · Bidang Bina Marga</div>
   <div class="ph-title">Pemakaian Ruang Milik Jalan (RMJ)</div>
   <div class="ph-sub">Perda No. 12 Tahun 2025 · Tiang, Kabel, Pipa, Reklame pada 871 km jalan kabupaten</div>
@@ -701,7 +793,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 </div></div></div>
 
 <!-- ══ 8: SIMRUJ ══ -->
-<div class="slide" id="s8">
+<div class="slide" id="s9">
   <div class="app-slide">
     <div class="app-bar">
       <div class="app-dot" style="background:#ef4444"></div>
@@ -716,7 +808,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 </div>
 
 <!-- ══ 9: SKRD ══ -->
-<div class="slide" id="s9">
+<div class="slide" id="s10">
   <div class="app-slide">
     <div class="app-bar">
       <div class="app-dot" style="background:#ef4444"></div>
@@ -731,7 +823,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 </div>
 
 <!-- ══ 10: TARIF ══ -->
-<div class="slide" id="s10"><div class="si"><div class="page">
+<div class="slide" id="s11"><div class="si"><div class="page">
   <div class="ph-eyebrow">Referensi Regulasi</div>
   <div class="ph-title">Daftar Tarif Retribusi</div>
   <div class="ph-sub">Perda Nomor 12 Tahun 2025 tentang Perubahan atas Perda No. 19 Tahun 2023 tentang Pajak dan Retribusi Daerah</div>
@@ -775,7 +867,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
 </div></div></div>
 
 <!-- ══ 11: POTENSI ══ -->
-<div class="slide" id="s11"><div class="si"><div class="page">
+<div class="slide" id="s12"><div class="si"><div class="page">
   <div class="ph-eyebrow">Analisis Potensi · Bidang Bina Marga</div>
   <div class="ph-title">Potensi Penuh Retribusi RMJ</div>
   <div class="ph-sub">Simulasi kalkulasi potensi maksimal berdasarkan asumsi panjang jalan dan tarif Perda No. 12 Tahun 2025</div>
@@ -856,9 +948,9 @@ new Chart(ctx, {
 });
 
 // Navigation
-const TOTAL=12;
+const TOTAL=13;
 const BASE='https://pertanahankra3.github.io/InstraBM/';
-const APP={8:BASE+'SIMRUJ_Karanganyar%20copy.html',9:BASE+'SKRD_Retribusi_RMJ_v2_1.html'};
+const APP={9:BASE+'SIMRUJ_Karanganyar%20copy.html',10:BASE+'SKRD_Retribusi_RMJ_v2_1.html'};
 const loaded={};
 let cur=0;
 
@@ -875,7 +967,7 @@ function jump(n){
   next.scrollTop=0;
   cur=n;
   if(APP[cur]&&!loaded[cur]){
-    const id=cur===8?'frame-simruj':'frame-skrd';
+    const id=cur===9?'frame-simruj':'frame-skrd';
     document.getElementById(id).src=APP[cur];loaded[cur]=true;
   }
   updateUI();
