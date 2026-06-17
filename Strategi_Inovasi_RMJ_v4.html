@@ -229,62 +229,171 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
   .tb-name{display:none}
 }
 
-/* ── COVER SLIDE ── */
-.s-cover{
-  display:none;
-  position:absolute;top:0;left:0;right:0;bottom:0;
-  overflow-y:auto;overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-  background:#fff;
+/* ══ MOBILE ══ */
+.ham-btn{
+  display:none;width:38px;height:38px;
+  background:none;border:none;cursor:pointer;
+  flex-direction:column;justify-content:center;
+  align-items:center;gap:5px;flex-shrink:0;
+  margin-left:auto;border-radius:7px;padding:4px;
 }
-.s-cover.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.ham-btn:active{background:var(--border-light)}
+.ham-line{
+  display:block;width:22px;height:2.5px;
+  background:var(--green);border-radius:2px;
+  transition:all .25s;
+}
+
+/* Overlay gelap */
+.mob-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.45);z-index:800;
+}
+.mob-overlay.show{display:block}
+
+/* Drawer */
+.mob-drawer{
+  position:fixed;top:0;left:0;bottom:0;
+  width:280px;background:var(--white);
+  z-index:900;box-shadow:4px 0 24px rgba(0,0,0,.15);
+  transform:translateX(-100%);
+  transition:transform .28s cubic-bezier(.4,0,.2,1);
+  overflow-y:auto;display:flex;flex-direction:column;
+}
+.mob-drawer.show{transform:translateX(0)}
+
+.mob-head{
+  background:var(--green);padding:20px 18px 16px;
+  flex-shrink:0;
+}
+.mob-head-title{font-size:14px;font-weight:700;color:#fff}
+.mob-head-sub{font-size:11.5px;color:rgba(255,255,255,.65);margin-top:3px}
+
+.mob-body{padding:8px 0;flex:1}
+.mob-sect-label{
+  font-size:10px;font-weight:700;color:var(--slate-light);
+  text-transform:uppercase;letter-spacing:.08em;
+  padding:10px 18px 4px;
+}
+.mob-item{
+  display:flex;align-items:center;gap:10px;
+  padding:11px 18px;font-size:13.5px;font-weight:500;
+  color:var(--slate-mid);cursor:pointer;
+  border-left:3px solid transparent;
+  transition:all .15s;
+}
+.mob-item:active{background:var(--border-light)}
+.mob-item.on{
+  background:var(--green-pale);color:var(--green);
+  font-weight:600;border-left-color:var(--green);
+}
+.mob-item.app{color:var(--blue)}
+.mob-item.app.on{background:var(--blue-pale);border-left-color:var(--blue)}
+.mob-item svg{flex-shrink:0;opacity:.7}
+.mob-item.on svg{opacity:1}
+.mob-sep{height:1px;background:var(--border);margin:4px 18px}
+
+@media(max-width:768px){
+  .ham-btn{display:flex}
+  .nav-scroll,.tb-sep,.tb-name{display:none}
+  .topbar{padding:0 12px 0 14px;gap:8px}
+
+  /* Page */
+  .page{padding:16px 14px 28px}
+  .ph-title{font-size:clamp(17px,5vw,24px)}
+  .ph-sub{font-size:12.5px}
+
+  /* Stats */
+  .stat-row.c4,.stat-row.c5{grid-template-columns:1fr 1fr}
+  .stat-row.c3{grid-template-columns:1fr 1fr}
+  .sb-val{font-size:20px}
+
+  /* Grids */
+  .grid.g2,.grid.g3{grid-template-columns:1fr}
+  .jp-grid{grid-template-columns:1fr 1fr}
+  .innov-grid{grid-template-columns:1fr}
+
+  /* Chart */
+  .chart-canvas-wrap{height:200px}
+  .chart-anno{grid-template-columns:1fr 1fr}
+
+  /* Tables scroll */
+  .kontrib-wrap,.card{overflow-x:auto}
+  .ktbl{min-width:650px}
+  .tbl{min-width:380px}
+
+  /* Target row */
+  .target-row{grid-template-columns:1fr 1fr 1fr}
+  .ti-val{font-size:15px}
+
+  /* Cover */
+  .cover-inner{padding:28px 20px 60px}
+  .cover-logo-wrap{width:90px;height:90px}
+  .cover-logo-wrap img{width:68px;height:68px}
+  .cover-title{font-size:clamp(19px,5.5vw,30px)}
+  .cover-instansi{font-size:13.5px}
+  .cover-meta{flex-direction:column}
+  .cover-meta-item+.cover-meta-item{border-left:none;border-top:1px solid #E2E8F0}
+
+  /* App bar */
+  .app-title{font-size:11px}
+}
+@media(max-width:440px){
+  .jp-grid{grid-template-columns:1fr}
+  .stat-row.c4,.stat-row.c5,.stat-row.c3{grid-template-columns:1fr 1fr}
+}
+
+/* ══ COVER ══ */
+.s-cover{background:#fff}
+.s-cover.active{display:flex;flex-direction:column}
 .cover-inner{
-  width:100%;min-height:100%;
-  display:flex;flex-direction:column;
+  flex:1;display:flex;flex-direction:column;
   align-items:center;justify-content:center;
   text-align:center;padding:40px 80px;
-  position:relative;
+  position:relative;overflow:hidden;
 }
-.cover-top-bar{position:absolute;top:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#1A6B41,#2E8B57,#1A6B41)}
-.cover-bot-bar{position:absolute;bottom:0;left:0;right:0;height:6px;background:linear-gradient(90deg,#1A6B41,#2E8B57,#1A6B41)}
-.cover-deco{position:absolute;border-radius:50%;background:#1A6B41;pointer-events:none;opacity:.04}
-.cover-logo-wrap{
-  width:120px;height:120px;border-radius:50%;
+.cover-bar{position:absolute;left:0;right:0;height:6px;
+  background:linear-gradient(90deg,#1A6B41,#2E8B57,#1A6B41)}
+.cover-bar.top{top:0}.cover-bar.bot{bottom:0}
+.cover-deco{position:absolute;border-radius:50%;
+  background:#1A6B41;opacity:.04;pointer-events:none}
+.cover-logo{width:115px;height:115px;border-radius:50%;
   background:#F0F9F4;border:2px solid #E8F5EE;
   display:flex;align-items:center;justify-content:center;
-  margin:0 auto 24px;
-  box-shadow:0 4px 20px rgba(26,107,65,.1);
-  overflow:hidden;flex-shrink:0;
-}
-.cover-logo-wrap img{width:90px;height:90px;object-fit:contain}
-.cover-eyebrow{
-  font-size:12px;font-weight:600;color:#2E8B57;
+  margin:0 auto 22px;box-shadow:0 4px 20px rgba(26,107,65,.1);
+  overflow:hidden;flex-shrink:0}
+.cover-logo img{width:88px;height:88px;object-fit:contain}
+.cover-eyebrow{font-size:12px;font-weight:600;color:#2E8B57;
   text-transform:uppercase;letter-spacing:.12em;
-  margin-bottom:18px;
-  display:flex;align-items:center;gap:12px;justify-content:center;
-}
-.cover-eyebrow::before,.cover-eyebrow::after{content:'';width:40px;height:1.5px;background:#2E8B57;opacity:.5}
-.cover-title{
-  font-size:clamp(22px,3.2vw,42px);font-weight:800;
-  color:#1E293B;line-height:1.2;margin-bottom:8px;max-width:800px;
-}
+  margin-bottom:16px;display:flex;align-items:center;
+  gap:12px;justify-content:center}
+.cover-eyebrow::before,.cover-eyebrow::after{
+  content:'';width:36px;height:1.5px;background:#2E8B57;opacity:.5}
+.cover-title{font-size:clamp(20px,3vw,40px);font-weight:800;
+  color:#1E293B;line-height:1.2;margin-bottom:8px;max-width:800px}
 .cover-title .hl{color:#1A6B41}
-.cover-divider{width:80px;height:3px;background:linear-gradient(90deg,transparent,#1A6B41,transparent);margin:20px auto;border-radius:2px}
-.cover-instansi{
-  font-size:clamp(13px,1.5vw,18px);font-weight:600;
-  color:#1A6B41;margin-bottom:32px;max-width:700px;line-height:1.6;
-}
-.cover-meta{
-  display:flex;border:1px solid #E2E8F0;border-radius:12px;
-  overflow:hidden;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.07);
-}
-.cover-meta-item{padding:14px 28px;text-align:center;flex:1}
-.cover-meta-item+.cover-meta-item{border-left:1px solid #E2E8F0}
-.cover-meta-lbl{font-size:10.5px;font-weight:500;color:#94A3B8;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
-.cover-meta-val{font-size:14px;font-weight:700;color:#1E293B}
-.cover-footer{
-  position:absolute;bottom:18px;left:0;right:0;
-  text-align:center;font-size:11px;color:#CBD5E1;letter-spacing:.05em;
+.cover-div{width:80px;height:3px;border-radius:2px;
+  background:linear-gradient(90deg,transparent,#1A6B41,transparent);
+  margin:18px auto}
+.cover-inst{font-size:clamp(13px,1.5vw,18px);font-weight:600;
+  color:#1A6B41;margin-bottom:30px;line-height:1.6}
+.cover-meta{display:flex;border:1px solid #E2E8F0;border-radius:12px;
+  overflow:hidden;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.cmi{padding:13px 24px;text-align:center;flex:1}
+.cmi+.cmi{border-left:1px solid #E2E8F0}
+.cmi-l{font-size:10px;font-weight:500;color:#94A3B8;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.cmi-v{font-size:13.5px;font-weight:700;color:#1E293B}
+.cover-foot{position:absolute;bottom:14px;left:0;right:0;
+  text-align:center;font-size:11px;color:#CBD5E1;letter-spacing:.05em}
+
+@media(max-width:768px){
+  .cover-inner{padding:28px 20px 56px}
+  .cover-logo{width:90px;height:90px}
+  .cover-logo img{width:68px;height:68px}
+  .cover-meta{flex-direction:column}
+  .cmi+.cmi{border-left:none;border-top:1px solid #E2E8F0}
+  .cmi{padding:10px 18px}
 }
 </style>
 </head>
@@ -295,6 +404,11 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
     <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
   </div>
   <span class="tb-name">DPUPR <span>Karanganyar</span></span>
+  <button class="ham-btn" id="hamBtn" onclick="mobileOpen()" aria-label="Buka Menu">
+    <span class="ham-line"></span>
+    <span class="ham-line"></span>
+    <span class="ham-line"></span>
+  </button>
   <div class="tb-sep"></div>
   <div class="nav-scroll" id="nav">
     <div class="nav-item on" onclick="jump(0)">
@@ -305,7 +419,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
     <div class="nav-item" onclick="jump(2)"><div class="nav-dot"></div>Jenis Potensi</div>
     <div class="tb-sep"></div>
     <div class="nav-item" onclick="jump(3)"><div class="nav-dot"></div>IPLT</div>
-    <div class="nav-item" onclick="jump(4)"><div class="nav-dot"></div>MCK & Alun-alun</div>
+    <div class="nav-item" onclick="jump(4)"><div class="nav-dot"></div>MCK &amp; Alun-alun</div>
     <div class="nav-item" onclick="jump(5)"><div class="nav-dot"></div>Alat Berat</div>
     <div class="nav-item" onclick="jump(6)"><div class="nav-dot"></div>PBG</div>
     <div class="nav-item" onclick="jump(7)"><div class="nav-dot"></div>PPN</div>
@@ -322,37 +436,97 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
     <div class="nav-item" onclick="jump(12)"><div class="nav-dot"></div>Potensi</div>
   </div>
   </div>
-  <div class="prog-bar"><div class="prog-fill" id="prog" style="width:0%"></div></div>
+  </div>
+
+<!-- ── MOBILE OVERLAY & DRAWER ── -->
+<div class="mob-overlay" id="mobOverlay" onclick="mobileClose()"></div>
+<div class="mob-drawer" id="mobDrawer">
+  <div class="mob-head">
+    <div class="mob-head-title">DPUPR Karanganyar</div>
+    <div class="mob-head-sub">Strategi &amp; Inovasi Potensi PAD 2026</div>
+  </div>
+  <div class="mob-body">
+    <div class="mob-item on" onclick="mobileJump(0)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Cover
+    </div>
+    <div class="mob-sep"></div>
+    <div class="mob-sect-label">Data &amp; Ringkasan</div>
+    <div class="mob-item" onclick="mobileJump(1)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Data Potensi
+    </div>
+    <div class="mob-item" onclick="mobileJump(2)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Jenis Potensi
+    </div>
+    <div class="mob-sep"></div>
+    <div class="mob-sect-label">Sumber Retribusi</div>
+    <div class="mob-item" onclick="mobileJump(3)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>IPLT
+    </div>
+    <div class="mob-item" onclick="mobileJump(4)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>MCK &amp; Alun-alun
+    </div>
+    <div class="mob-item" onclick="mobileJump(5)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Alat Berat
+    </div>
+    <div class="mob-item" onclick="mobileJump(6)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>PBG
+    </div>
+    <div class="mob-item" onclick="mobileJump(7)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>PPN (Pajak)
+    </div>
+    <div class="mob-item" onclick="mobileJump(8)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>RMJ
+    </div>
+    <div class="mob-sep"></div>
+    <div class="mob-sect-label">Aplikasi Live</div>
+    <div class="mob-item app" onclick="mobileJump(9)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>SIMRUJ
+    </div>
+    <div class="mob-item app" onclick="mobileJump(10)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l5-8 4 5 3-4 5 7"/><path d="M3 21h18"/></svg>SKRD Dashboard
+    </div>
+    <div class="mob-sep"></div>
+    <div class="mob-sect-label">Referensi</div>
+    <div class="mob-item" onclick="mobileJump(11)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>Tarif Retribusi
+    </div>
+    <div class="mob-item" onclick="mobileJump(12)">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Potensi RMJ
+    </div>
+  </div>
+</div>
+
+<div class="prog-bar"><div class="prog-fill" id="prog" style="width:0%"></div></div>
 
 <div class="slides-wrap">
 
 <!-- ══ COVER ══ -->
 <div class="slide s-cover active" id="s0">
   <div class="cover-inner">
-    <div class="cover-top-bar"></div>
-    <div class="cover-bot-bar"></div>
-    <div class="cover-deco" style="width:500px;height:500px;top:-150px;right:-100px"></div>
-    <div class="cover-deco" style="width:300px;height:300px;bottom:-80px;left:-60px"></div>
-    <div class="cover-logo-wrap">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Seal_of_Karanganyar_Regency.svg/200px-Seal_of_Karanganyar_Regency.svg.png" alt="Logo Kabupaten Karanganyar" onerror="this.src='https://opendata.karanganyarkab.go.id/dataset/54494760-6bab-4a5e-9a9e-82e21f40dc69/resource/c1b2a630-bb4b-4946-aee8-ae51280bf7f8/download/seal_of_karanganyar_regency.svg.png'"/>
+    <div class="cover-bar top"></div>
+    <div class="cover-bar bot"></div>
+    <div class="cover-deco" style="width:480px;height:480px;top:-160px;right:-120px"></div>
+    <div class="cover-deco" style="width:280px;height:280px;bottom:-80px;left:-70px"></div>
+    <div class="cover-logo">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Seal_of_Karanganyar_Regency.svg/200px-Seal_of_Karanganyar_Regency.svg.png" alt="Logo Karanganyar" onerror="this.src='https://opendata.karanganyarkab.go.id/dataset/54494760-6bab-4a5e-9a9e-82e21f40dc69/resource/c1b2a630-bb4b-4946-aee8-ae51280bf7f8/download/seal_of_karanganyar_regency.svg.png'"/>
     </div>
-    <div class="cover-eyebrow">· Kabupaten Karanganyar ·</div>
+    <div class="cover-eyebrow">Kabupaten Karanganyar</div>
     <div class="cover-title">
       Strategi dan Inovasi<br>
       <span class="hl">Potensi Pendapatan Asli Daerah</span>
     </div>
-    <div class="cover-divider"></div>
-    <div class="cover-instansi">
+    <div class="cover-div"></div>
+    <div class="cover-inst">
       Dinas Pekerjaan Umum dan Perumahan Rakyat<br>
       Kabupaten Karanganyar
     </div>
     <div class="cover-meta">
-      <div class="cover-meta-item"><div class="cover-meta-lbl">Disampaikan oleh</div><div class="cover-meta-val">Ir. Asihno Purwadi, S.T.</div></div>
-      <div class="cover-meta-item"><div class="cover-meta-lbl">Dasar Hukum</div><div class="cover-meta-val">Perda No. 12 Tahun 2025</div></div>
-      <div class="cover-meta-item"><div class="cover-meta-lbl">Tahun Anggaran</div><div class="cover-meta-val">2026</div></div>
-      <div class="cover-meta-item"><div class="cover-meta-lbl">Link Paparan</div><div class="cover-meta-val">s.id/InstraBM</div></div>
+      <div class="cmi"><div class="cmi-l">Disampaikan oleh</div><div class="cmi-v">Ir. Asihno Purwadi, S.T.</div></div>
+      <div class="cmi"><div class="cmi-l">Dasar Hukum</div><div class="cmi-v">Perda No. 12 Tahun 2025</div></div>
+      <div class="cmi"><div class="cmi-l">Tahun Anggaran</div><div class="cmi-v">2026</div></div>
+      <div class="cmi"><div class="cmi-l">Link Paparan</div><div class="cmi-v">s.id/InstraBM</div></div>
     </div>
-    <div class="cover-footer">DPUPR KABUPATEN KARANGANYAR &nbsp;·&nbsp; 2026</div>
+    <div class="cover-foot">DPUPR KABUPATEN KARANGANYAR &nbsp;·&nbsp; 2026</div>
   </div>
 </div>
 
@@ -441,66 +615,66 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
   <div class="ph-title">Jenis Potensi Pendapatan Asli Daerah</div>
   <div class="ph-sub">Seluruh sumber retribusi dan pajak DPUPR Kabupaten Karanganyar — klik kartu untuk detail</div>
   <div class="jp-grid">
-    <!-- RMJ -->
-    <div class="jp-card" onclick="jump(7)">
+    <!-- RMJ → s8 -->
+    <div class="jp-card" onclick="jump(8)">
       <div class="jp-card-top"><div class="jp-icon" style="background:#E8F5EE"><svg viewBox="0 0 24 24" fill="none" stroke="#1A6B41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="jp-title">Pemakaian Ruang Milik Jalan</div></div>
       <div class="jp-sub">Tiang, kabel, pipa, reklame di 871 km jalan kabupaten</div>
       <div class="jp-target">Target 2026: Rp 500.000.000</div>
       <div class="prog-wrap"><div class="prog-label"><span>Realisasi Mei 2026</span><span style="color:var(--green);font-weight:700">94,6%</span></div><div class="prog-track"><div class="pbf" style="width:94.6%"></div></div></div>
       <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-    <!-- IPLT -->
-    <div class="jp-card" onclick="jump(2)">
+    <!-- IPLT → s3 -->
+    <div class="jp-card" onclick="jump(3)">
       <div class="jp-card-top"><div class="jp-icon" style="background:#EFF6FF"><svg viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M12 8v4l3 3"/></svg></div><div class="jp-title">Penyedotan Kakus / IPLT</div></div>
       <div class="jp-sub">Layanan penyedotan tinja rumah tangga dan pengelolaan IPLT</div>
       <div class="jp-target">Target 2026: Rp 80.000.000</div>
       <div class="prog-wrap"><div class="prog-label"><span>Realisasi Mei 2026</span><span style="color:#F59E0B;font-weight:700">53,4%</span></div><div class="prog-track"><div class="pbf amber" style="width:53.4%"></div></div></div>
       <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-    <!-- MCK -->
-    <div class="jp-card" onclick="jump(3)">
-      <div class="jp-card-top"><div class="jp-icon" style="background:#F5F3FF"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div class="jp-title">MCK & Sewa Alun-alun</div></div>
+    <!-- MCK → s4 -->
+    <div class="jp-card" onclick="jump(4)">
+      <div class="jp-card-top"><div class="jp-icon" style="background:#F5F3FF"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div class="jp-title">MCK &amp; Sewa Alun-alun</div></div>
       <div class="jp-sub">MCK Taman Pancasila, GSI, dan sewa Alun-alun Karanganyar</div>
       <div class="jp-target">Target 2026: Rp 33.000.000</div>
       <div class="prog-wrap"><div class="prog-label"><span>Realisasi Mei 2026</span><span style="color:#F59E0B;font-weight:700">47,7%</span></div><div class="prog-track"><div class="pbf amber" style="width:47.7%"></div></div></div>
       <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-    <!-- ALAT BERAT -->
-    <div class="jp-card" onclick="jump(4)">
-      <div class="jp-card-top"><div class="jp-icon" style="background:#FFFBEB"><svg viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div class="jp-title">Sewa Alat Berat & Lab</div></div>
+    <!-- Alat Berat → s5 -->
+    <div class="jp-card" onclick="jump(5)">
+      <div class="jp-card-top"><div class="jp-icon" style="background:#FFFBEB"><svg viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div class="jp-title">Sewa Alat Berat &amp; Lab</div></div>
       <div class="jp-sub">Stom, excavator, dan pengujian laboratorium UPT ALKAL</div>
       <div class="jp-target">Target 2026: Rp 21.000.000</div>
       <div class="prog-wrap"><div class="prog-label"><span>Realisasi Mei 2026</span><span style="color:#EF4444;font-weight:700">26,2%</span></div><div class="prog-track"><div class="pbf red" style="width:26.2%"></div></div></div>
       <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-    <!-- PBG -->
-    <div class="jp-card" onclick="jump(5)">
+    <!-- PBG → s6 -->
+    <div class="jp-card" onclick="jump(6)">
       <div class="jp-card-top"><div class="jp-icon" style="background:#FEF2F2"><svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg></div><div class="jp-title">Retribusi PBG</div></div>
       <div class="jp-sub">Persetujuan Bangunan Gedung — 788 permohonan, 371 terbit 2025</div>
       <div class="jp-target" style="color:var(--red)">Pendapatan 2025: ±Rp 5 miliar</div>
       <div style="margin-top:6px"><span class="chip chip-red">Retribusi Perizinan</span></div>
       <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-    <!-- PPN — PAJAK bukan retribusi -->
-    <div class="jp-card tax" onclick="jump(6)">
+    <!-- PPN → s7 -->
+    <div class="jp-card tax" onclick="jump(7)">
       <div class="jp-card-top"><div class="jp-icon" style="background:var(--teal-pale)"><svg viewBox="0 0 24 24" fill="none" stroke="#0F766E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="jp-title">Pajak Penghasilan (PPN)</div></div>
       <div class="jp-sub">Penerimaan PPN dari proyek konstruksi jalan dan bangunan gedung</div>
       <div class="jp-target" style="color:var(--teal)">Penerimaan 2025: Rp 13,07 miliar</div>
       <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><span class="chip chip-teal">Pajak — Bukan Retribusi</span></div>
       <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-    <!-- TARIF -->
-    <div class="jp-card" onclick="jump(10)">
+    <!-- Tarif → s11 -->
+    <div class="jp-card" onclick="jump(11)">
       <div class="jp-card-top"><div class="jp-icon" style="background:var(--bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--slate-mid)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="12" y2="16"/></svg></div><div class="jp-title">Daftar Tarif Retribusi</div></div>
       <div class="jp-sub">23 jenis tarif sesuai Perda No. 12 Tahun 2025</div>
       <div style="margin-top:6px"><span class="chip chip-green">Perda 12/2025</span></div>
       <div class="jp-cta">Lihat tabel tarif <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
-    <!-- POTENSI RMJ -->
-    <div class="jp-card" onclick="jump(11)">
+    <!-- Potensi RMJ → s12 -->
+    <div class="jp-card" onclick="jump(12)">
       <div class="jp-card-top"><div class="jp-icon" style="background:var(--green-pale)"><svg viewBox="0 0 24 24" fill="none" stroke="#1A6B41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div class="jp-title">Potensi RMJ</div></div>
-      <div class="jp-sub">Simulasi potensi maksimal berdasarkan panjang jalan & tarif Perda 12/2025</div>
-      <div class="jp-target">Potensi / tahun</div>
+      <div class="jp-sub">Simulasi potensi maksimal berdasarkan panjang jalan &amp; tarif Perda 12/2025</div>
+      <div class="jp-target">Potensi simulasi: Rp 1,74 M / tahun</div>
       <div style="margin-top:6px"><span class="chip chip-green">Analisis Potensi</span></div>
       <div class="jp-cta">Lihat kalkulasi <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
     </div>
@@ -572,7 +746,7 @@ html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;b
     <div class="card">
       <div class="card-title"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Pengelolaan MCK</div>
       <div class="strat-list" style="margin-bottom:14px">
-        <div class="strat-item"><div class="strat-num">📍</div><div><div class="si-title">Lokasi</div><div class="si-desc">MCK Taman Pancasila dan GSI (Gerakan Sayang Ibu) Karanganyar.</div></div></div>
+        <div class="strat-item"><div class="strat-num">📍</div><div><div class="si-title">Lokasi</div><div class="si-desc">MCK Taman Pancasila dan GSI (Gedung Serba Indah) Karanganyar.</div></div></div>
       </div>
       <div class="divider"><div class="dl"></div><div class="dt">Tarif MCK Perda 12/2025</div><div class="dl"></div></div>
       <table class="tbl">
@@ -982,6 +1156,32 @@ let tx=0;
 document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
 document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)jump(dx<0?cur+1:cur-1);},{passive:true});
 updateUI();
+</script>
+<script>
+function mobileOpen(){
+  document.getElementById('mobOverlay').classList.add('show');
+  document.getElementById('mobDrawer').classList.add('show');
+}
+function mobileClose(){
+  document.getElementById('mobOverlay').classList.remove('show');
+  document.getElementById('mobDrawer').classList.remove('show');
+}
+function mobileJump(n){
+  mobileClose();
+  jump(n);
+  // Update active item
+  document.querySelectorAll('.mob-item').forEach((el,i)=>{
+    el.classList.toggle('on', i===n);
+  });
+}
+// Update drawer active saat navigasi dari desktop
+const _origUpdateUI = updateUI;
+function updateUI(){
+  _origUpdateUI();
+  document.querySelectorAll('.mob-item').forEach((el,i)=>{
+    el.classList.toggle('on', i===cur);
+  });
+}
 </script>
 </body>
 </html>
