@@ -3,1185 +3,499 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Potensi PAD DPUPR Karanganyar 2026</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<title>Strategi Optimalisasi RMJ — DPUPR Kabupaten Karanganyar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
 :root{
   --green:#1A6B41;--green-light:#2E8B57;--green-pale:#E8F5EE;--green-mid:#F0F9F4;
   --blue:#1D4ED8;--blue-pale:#EFF6FF;
   --amber:#B45309;--amber-pale:#FFFBEB;
   --red:#DC2626;--red-pale:#FEF2F2;
-  --purple:#7C3AED;--purple-pale:#F5F3FF;
-  --teal:#0F766E;--teal-pale:#F0FDFA;
+  --teal:#0F766E;--teal-pale:#E0F2F2;
   --slate:#1E293B;--slate-mid:#475569;--slate-light:#94A3B8;
-  --border:#E2E8F0;--border-light:#F1F5F9;
-  --bg:#F8FAFC;--white:#FFFFFF;
-  --shadow:0 1px 3px rgba(0,0,0,0.08),0 1px 2px rgba(0,0,0,0.04);
-  --shadow-md:0 4px 12px rgba(0,0,0,0.08);
+  --bg:#F8FAFC;--surf:#fff;--border:#E2E8F0;--border-light:#F1F5F9;
+  --r:10px;--rl:14px;
 }
-html,body{height:100%;overflow:hidden;font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--slate);display:flex;flex-direction:column}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--slate);font-size:15px;line-height:1.6}
 
-/* ── TOPBAR ── */
-.topbar{height:56px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:12px;flex-shrink:0;z-index:100}
-.tb-logo{width:34px;height:34px;border-radius:8px;background:var(--green);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.tb-logo svg{width:18px;height:18px;stroke:#fff;stroke-width:2;fill:none;stroke-linecap:round;stroke-linejoin:round}
-.tb-name{font-size:13px;font-weight:700;color:var(--slate);white-space:nowrap;flex-shrink:0}
-.tb-name span{color:var(--green)}
-.tb-sep{width:1px;height:24px;background:var(--border);flex-shrink:0;margin:0 2px}
-.nav-scroll{display:flex;gap:2px;align-items:center;flex:1;overflow-x:auto;scrollbar-width:none}
-.nav-scroll::-webkit-scrollbar{display:none}
-.nav-item{display:flex;align-items:center;gap:5px;padding:5px 11px;border-radius:7px;font-size:12.5px;font-weight:500;color:var(--slate-mid);cursor:pointer;white-space:nowrap;transition:all .15s;user-select:none;flex-shrink:0}
-.nav-item:hover{background:var(--border-light);color:var(--slate)}
-.nav-item.on{background:var(--green-pale);color:var(--green);font-weight:600}
-.nav-item.app-nav{color:var(--blue)}
-.nav-item.app-nav:hover{background:var(--blue-pale)}
-.nav-item.app-nav.on{background:var(--blue-pale);color:var(--blue)}
-.nav-dot{width:6px;height:6px;border-radius:50%;background:currentColor;opacity:.4;flex-shrink:0}
-.nav-item.on .nav-dot{opacity:1}
+header{background:linear-gradient(120deg,var(--green),#15532f);color:#fff;padding:30px 32px}
+.hdr-eyebrow{font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;opacity:.85;margin-bottom:8px}
+.hdr-title{font-size:28px;font-weight:800;letter-spacing:-.01em;margin-bottom:6px}
+.hdr-sub{font-size:14px;opacity:.9}
 
-.prog-bar{height:3px;background:var(--border-light);flex-shrink:0}
-.prog-fill{height:100%;background:var(--green);transition:width .35s ease}
+nav.tabs{display:flex;gap:2px;background:var(--surf);border-bottom:2px solid var(--border);padding:0 24px;position:sticky;top:0;z-index:500;overflow-x:auto;box-shadow:0 2px 6px rgba(0,0,0,.05)}
+.tab-btn{padding:14px 18px;font-size:13.5px;font-weight:600;color:var(--slate-mid);background:transparent;border:none;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:7px;transition:all .15s}
+.tab-btn:hover{color:var(--slate);background:var(--border-light)}
+.tab-btn.on{color:var(--green);border-bottom-color:var(--green)}
+.tab-btn .num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--border-light);color:var(--slate-light);font-size:11px;font-weight:700}
+.tab-btn.on .num{background:var(--green);color:#fff}
 
-/* ── SLIDE SYSTEM ── */
-.slides-wrap{position:relative;flex:1;overflow:hidden}
-.slide{
-  display:none;
-  position:absolute;top:0;left:0;right:0;bottom:0;
-  overflow-y:auto;overflow-x:hidden;
-  -webkit-overflow-scrolling:touch;
-}
-.slide.active{display:block}
-.si{display:block}
+main{max-width:1180px;margin:0 auto;padding:32px 24px 64px}
+.page{display:none}
+.page.on{display:block;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
 
+.ph-eyebrow{font-size:11.5px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
+.ph-title{font-size:clamp(22px,2.8vw,30px);font-weight:800;color:var(--slate);margin-bottom:6px;line-height:1.15}
+.ph-sub{font-size:14px;color:var(--slate-light);margin-bottom:24px}
 
-/* ── PAGE ── */
-.page{padding:28px 52px 36px;max-width:1300px;margin:0 auto;width:100%}
-
-/* ── PAGE HEADER ── */
-.ph-eyebrow{font-size:11.5px;font-weight:600;color:var(--green);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px}
-.ph-title{font-size:clamp(22px,2.8vw,34px);font-weight:800;color:var(--slate);margin-bottom:5px;line-height:1.1}
-.ph-sub{font-size:14px;color:var(--slate-light);margin-bottom:22px}
-
-/* ── STAT ROW ── */
-.stat-row{display:grid;gap:12px;margin-bottom:20px}
-.c2{grid-template-columns:repeat(2,1fr)}
-.c3{grid-template-columns:repeat(3,1fr)}
-.c4{grid-template-columns:repeat(4,1fr)}
-.c5{grid-template-columns:repeat(5,1fr)}
-.stat-box{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:18px 20px;box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:space-between}
-.sb-label{font-size:11px;font-weight:500;color:var(--slate-light);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
-.sb-val{font-size:26px;font-weight:800;color:var(--slate);line-height:1;margin-bottom:5px}
+.stat-row{display:grid;gap:14px;margin-bottom:22px}
+.stat-row.c3{grid-template-columns:repeat(3,1fr)}
+.stat-row.c4{grid-template-columns:repeat(4,1fr)}
+.stat-box{background:var(--surf);border:1px solid var(--border);border-radius:var(--rl);padding:18px 20px}
+.sb-label{font-size:11px;font-weight:600;color:var(--slate-light);text-transform:uppercase;letter-spacing:.05em;margin-bottom:7px}
+.sb-val{font-size:27px;font-weight:800;color:var(--slate);line-height:1;margin-bottom:6px}
 .sb-val.green{color:var(--green)}.sb-val.amber{color:var(--amber)}.sb-val.blue{color:var(--blue)}.sb-val.red{color:var(--red)}
 .sb-sub{font-size:12px;color:var(--slate-light)}
-.sb-badge{display:inline-flex;font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:20px;margin-top:5px;align-self:flex-start}
-.badge-up{background:#DCFCE7;color:#166534}
+.sb-badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:7px;margin-top:2px}
+.badge-up{background:var(--green-pale);color:var(--green)}
 .badge-warn{background:var(--amber-pale);color:var(--amber)}
-.badge-red{background:var(--red-pale);color:var(--red)}
-.badge-blue{background:var(--blue-pale);color:var(--blue)}
+.badge-down{background:var(--red-pale);color:var(--red)}
 
-/* ── GRID ── */
-.grid{display:grid;gap:14px}
+.grid{display:grid;gap:16px}
 .g2{grid-template-columns:1fr 1fr}
-.g3{grid-template-columns:1fr 1fr 1fr}
-.g1{grid-template-columns:1fr}
+@media(max-width:760px){.stat-row.c3,.stat-row.c4,.g2{grid-template-columns:1fr}}
 
-/* ── CARD ── */
-.card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);display:flex;flex-direction:column}
-.card-title{font-size:14px;font-weight:700;color:var(--slate);margin-bottom:14px;display:flex;align-items:center;gap:8px}
-.card-title svg{width:16px;height:16px;stroke:var(--green);stroke-width:2;fill:none;flex-shrink:0}
+.card{background:var(--surf);border:1px solid var(--border);border-radius:var(--rl);padding:20px 22px}
+.card-title{font-size:14.5px;font-weight:700;color:var(--slate);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.card-title svg{width:17px;height:17px;stroke:var(--green);stroke-width:2;fill:none;flex-shrink:0}
 
-/* ── STRAT LIST ── */
-.strat-list{display:flex;flex-direction:column;gap:11px}
-.strat-item{display:flex;gap:10px;align-items:flex-start}
-.strat-num{width:22px;height:22px;border-radius:6px;background:var(--green-pale);color:var(--green);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
-.si-title{font-size:13px;font-weight:600;color:var(--slate);margin-bottom:2px}
-.si-desc{font-size:12.5px;color:var(--slate-mid);line-height:1.55}
+.strat-list{display:flex;flex-direction:column;gap:14px}
+.strat-item{display:flex;gap:12px;align-items:flex-start}
+.strat-num{width:24px;height:24px;border-radius:7px;background:var(--green-pale);color:var(--green);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.si-title{font-size:13.5px;font-weight:700;color:var(--slate);margin-bottom:3px}
+.si-desc{font-size:13px;color:var(--slate-mid);line-height:1.6}
+.si-tag{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:6px;margin-top:6px}
 
-/* ── TABLE ── */
-.tbl{width:100%;border-collapse:collapse;font-size:13px}
-.tbl th{text-align:left;padding:8px 11px;font-size:11px;font-weight:600;color:var(--slate-light);text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid var(--border);background:var(--bg)}
-.tbl td{padding:9px 11px;border-bottom:1px solid var(--border-light);color:var(--slate-mid)}
-.tbl tr:last-child td{border:none}
-.tbl tr:hover td{background:var(--border-light)}
-.tbl .td-n{font-weight:600;color:var(--slate)}
-.tbl .td-v{font-weight:700;color:var(--green);white-space:nowrap}
-.tbl .td-h{background:var(--green-pale);color:var(--green);font-weight:700;font-size:12px;padding:7px 11px}
-
-/* ── CHIP ── */
-.chip{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:600;padding:3px 9px;border-radius:20px}
+.chart-wrap{background:var(--surf);border:1px solid var(--border);border-radius:var(--rl);padding:20px 22px;margin-bottom:18px}
+.chart-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.chart-title{font-size:14.5px;font-weight:700;color:var(--slate)}
+.chart-sub{font-size:12.5px;color:var(--slate-light);margin-top:2px}
+.chart-legend{display:flex;gap:14px;font-size:12px;color:var(--slate-mid)}
+.leg-item{display:flex;align-items:center;gap:5px}
+.leg-dot{width:9px;height:9px;border-radius:2px}
+.chart-canvas-wrap{position:relative;height:240px}
+.chart-anno{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}
+.ca-item{background:var(--bg);border-radius:var(--r);padding:12px 14px;text-align:center}
+.ca-year{font-size:11px;font-weight:600;color:var(--slate-light);text-transform:uppercase;letter-spacing:.04em}
+.ca-val{font-size:18px;font-weight:800;color:var(--slate);margin:4px 0 2px}
+.ca-sub{font-size:11px;color:var(--slate-light)}
+.chip{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:7px;margin-top:5px}
 .chip-green{background:var(--green-pale);color:var(--green)}
 .chip-amber{background:var(--amber-pale);color:var(--amber)}
 .chip-red{background:var(--red-pale);color:var(--red)}
 .chip-blue{background:var(--blue-pale);color:var(--blue)}
-.chip-purple{background:var(--purple-pale);color:var(--purple)}
-.chip-teal{background:var(--teal-pale);color:var(--teal)}
 
-/* ── PROGRESS ── */
-.prog-wrap{margin-top:8px}
-.prog-label{display:flex;justify-content:space-between;font-size:12px;color:var(--slate-light);margin-bottom:4px}
-.prog-track{background:var(--border-light);border-radius:5px;height:8px;overflow:hidden}
-.pbf{height:100%;border-radius:5px;background:var(--green)}
-.pbf.amber{background:#F59E0B}
-.pbf.red{background:#EF4444}
+.kalk{background:var(--surf);border:1px solid var(--border);border-radius:var(--rl);padding:20px 22px}
+.kalk-title{font-size:13.5px;font-weight:700;color:var(--slate);margin-bottom:14px}
+.kk-row{display:flex;justify-content:space-between;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--border-light);font-size:13px}
+.kk-row .kl{color:var(--slate-mid)}
+.kk-row .kv{font-weight:700;color:var(--slate);font-variant-numeric:tabular-nums}
+.kk-row.tot{border-bottom:none;border-top:2px solid var(--slate);margin-top:4px;padding-top:13px}
+.kk-row.tot .kl{font-weight:700;color:var(--slate)}
+.kk-row.tot .kv{font-size:16px;color:var(--green)}
 
-/* ── KALKULASI ── */
-.kalk{background:var(--green);border-radius:12px;padding:20px 24px;color:#fff}
-.kalk-title{font-size:11px;font-weight:600;opacity:.7;text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px}
-.kk-row{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.12);font-size:14px}
-.kk-row:last-child{border:none;margin-top:6px;padding-top:10px}
-.kk-row .kl{opacity:.85}
-.kk-row .kv{font-weight:700}
-.kk-row.tot .kl{font-weight:700;opacity:1;font-size:15px}
-.kk-row.tot .kv{font-size:20px;font-weight:800;color:#FDE68A}
+.info-box{border-radius:var(--r);padding:14px 16px;font-size:13px;line-height:1.65;margin-top:14px}
+.info-box.amber{background:var(--amber-pale);color:#7a4309;border:1px solid #f4d9a8}
+.info-box.green{background:var(--green-pale);color:#0f4a2a;border:1px solid #b8ddc8}
+.info-box.red{background:var(--red-pale);color:#8b1e1e;border:1px solid #f0baba}
 
-/* ── TARGET ROW ── */
-.target-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
-.ti{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:14px 16px;text-align:center}
-.ti.hl{background:var(--green);border-color:var(--green)}
-.ti-year{font-size:11px;font-weight:500;color:var(--slate-light);text-transform:uppercase;letter-spacing:.04em;margin-bottom:4px}
-.ti.hl .ti-year{color:rgba(255,255,255,.65)}
-.ti-val{font-size:18px;font-weight:800;color:var(--slate)}
-.ti.hl .ti-val{color:#fff}
-.ti-val.green{color:var(--green)}
-.ti-val.blue{color:var(--blue)}
+.target-row{display:flex;gap:10px;margin-top:4px}
+.ti{flex:1;background:var(--bg);border-radius:var(--r);padding:14px 10px;text-align:center}
+.ti.hl{background:var(--green-pale)}
+.ti-year{font-size:11px;font-weight:600;color:var(--slate-light);margin-bottom:5px}
+.ti-val{font-size:17px;font-weight:800;color:var(--slate)}
+.ti-val.green{color:var(--green)}.ti-val.blue{color:var(--blue)}.ti-val.amber{color:var(--amber)}
 
-/* ── DIVIDER ── */
-.divider{display:flex;align-items:center;gap:10px;margin:14px 0 11px}
-.divider .dl{flex:1;height:1px;background:var(--border)}
-.divider .dt{font-size:11px;font-weight:600;color:var(--slate-light);text-transform:uppercase;letter-spacing:.06em;white-space:nowrap}
+table.dt{width:100%;border-collapse:collapse;margin:10px 0;font-size:13.5px}
+table.dt thead th{background:var(--bg);color:var(--slate-mid);font-weight:700;text-transform:uppercase;font-size:10.5px;letter-spacing:.04em;padding:9px 11px;text-align:left;border-bottom:2px solid var(--border)}
+table.dt td{padding:9px 11px;border-bottom:1px solid var(--border-light);color:var(--slate)}
+table.dt tbody tr:hover{background:var(--bg)}
+.num-cell{text-align:right;font-variant-numeric:tabular-nums}
+.center-cell{text-align:center}
 
-/* ── INNOV GRID ── */
-.innov-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.innov-item{display:flex;gap:10px;align-items:flex-start;background:var(--bg);border-radius:9px;padding:12px 14px}
-.innov-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.innov-icon svg{width:16px;height:16px;stroke:currentColor;stroke-width:2;fill:none}
-.innov-title{font-size:13px;font-weight:600;color:var(--slate);margin-bottom:2px}
-.innov-desc{font-size:12px;color:var(--slate-mid);line-height:1.45}
-
-/* ── JENIS POTENSI GRID 4×2 ── */
-.jp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-.jp-card{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px 22px;box-shadow:var(--shadow);cursor:pointer;transition:all .18s;display:flex;flex-direction:column;gap:8px;min-height:180px}
-.jp-card:hover{border-color:var(--green);box-shadow:var(--shadow-md);transform:translateY(-2px)}
-.jp-card.tax{border-top:3px solid var(--teal)}
-.jp-card-top{display:flex;align-items:center;gap:12px}
-.jp-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.jp-icon svg{width:22px;height:22px}
-.jp-title{font-size:14px;font-weight:700;color:var(--slate);line-height:1.3}
-.jp-sub{font-size:12px;color:var(--slate-light);line-height:1.45;flex:1}
-.jp-target{font-size:13px;font-weight:700;color:var(--green)}
-.jp-cta{font-size:11.5px;color:var(--slate-light);display:flex;align-items:center;gap:3px;margin-top:auto}
-.jp-cta svg{width:12px;height:12px;stroke:currentColor;stroke-width:2;fill:none}
-
-/* ── CHART ── */
-.chart-wrap{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px 24px;box-shadow:var(--shadow);margin-bottom:16px}
-.chart-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:18px;gap:16px}
-.chart-title{font-size:15px;font-weight:700;color:var(--slate)}
-.chart-sub{font-size:12.5px;color:var(--slate-light);margin-top:3px}
-.chart-legend{display:flex;gap:16px;flex-shrink:0;align-items:center}
-.leg-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--slate-mid);font-weight:500}
-.leg-dot{width:11px;height:11px;border-radius:3px;flex-shrink:0}
-.chart-canvas-wrap{position:relative;height:260px;width:100%}
-.chart-anno{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:16px;border-top:1px solid var(--border);padding-top:14px}
-.ca-item{text-align:center;padding:0 10px}
-.ca-item+.ca-item{border-left:1px solid var(--border)}
-.ca-year{font-size:11px;font-weight:500;color:var(--slate-light);margin-bottom:5px}
-.ca-val{font-size:13px;font-weight:700;color:var(--slate)}
-.ca-sub{font-size:11.5px;color:var(--slate-light);margin-bottom:5px}
-
-/* kontrib tabel */
-.kontrib-wrap{background:var(--white);border:1px solid var(--border);border-radius:12px;box-shadow:var(--shadow);overflow:hidden}
-.kontrib-head{padding:16px 22px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
-.kontrib-head-title{font-size:14px;font-weight:700;color:var(--slate)}
-.kontrib-head-sub{font-size:12px;color:var(--slate-light);margin-top:2px}
-.ktbl{width:100%;border-collapse:collapse;font-size:13px}
-.ktbl th{text-align:right;padding:10px 14px;font-size:11px;font-weight:600;color:var(--slate-light);text-transform:uppercase;letter-spacing:.04em;border-bottom:2px solid var(--border);background:var(--bg)}
-.ktbl th:nth-child(1),.ktbl th:nth-child(2){text-align:left}
-.ktbl td{padding:10px 14px;border-bottom:1px solid var(--border-light);text-align:right;color:var(--slate-mid);vertical-align:middle}
-.ktbl td:nth-child(1),.ktbl td:nth-child(2){text-align:left}
-.ktbl .group-row td{background:var(--green-pale);color:var(--green);font-weight:700;font-size:12px;padding:8px 14px}
-.ktbl .knaik{color:var(--green);font-weight:700}
-.ktbl tr:last-child td{background:var(--border-light);font-weight:800;color:var(--slate);border:none}
-.ktbl tr:hover:not(.group-row):not(:last-child) td{background:var(--border-light)}
-.pct-badge{display:inline-flex;padding:2px 8px;border-radius:20px;font-size:11.5px;font-weight:700}
-
-/* ── APP ── */
-.app-slide{display:flex;flex-direction:column;height:100%}
-.app-bar{height:40px;background:var(--white);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:8px;flex-shrink:0}
-.app-dot{width:9px;height:9px;border-radius:50%}
-.app-title{font-size:13px;font-weight:600;color:var(--slate);flex:1}
-.app-iframe{flex:1;border:none;width:100%;display:block}
-
-/* ── INFO BOX ── */
-.info-box{padding:12px 16px;border-radius:9px;font-size:13px;line-height:1.6}
-.info-box.green{background:var(--green-mid);color:var(--green)}
-.info-box.amber{background:var(--amber-pale);color:var(--amber)}
-.info-box.red{background:var(--red-pale);color:var(--red)}
-.info-box.blue{background:var(--blue-pale);color:var(--blue)}
-
-@media(max-width:1100px){
-  .page{padding:20px 20px 28px}
-  .c4,.c5{grid-template-columns:1fr 1fr}
-  .jp-grid{grid-template-columns:1fr 1fr}
-  .g2,.g3{grid-template-columns:1fr}
-  .innov-grid{grid-template-columns:1fr}
-  .tb-name{display:none}
-}
-
-/* ══ MOBILE ══ */
-.ham-btn{
-  display:none;width:38px;height:38px;
-  background:none;border:none;cursor:pointer;
-  flex-direction:column;justify-content:center;
-  align-items:center;gap:5px;flex-shrink:0;
-  margin-left:auto;border-radius:7px;padding:4px;
-}
-.ham-btn:active{background:var(--border-light)}
-.ham-line{
-  display:block;width:22px;height:2.5px;
-  background:var(--green);border-radius:2px;
-  transition:all .25s;
-}
-
-/* Overlay gelap */
-.mob-overlay{
-  display:none;position:fixed;inset:0;
-  background:rgba(0,0,0,.45);z-index:800;
-}
-.mob-overlay.show{display:block}
-
-/* Drawer */
-.mob-drawer{
-  position:fixed;top:0;left:0;bottom:0;
-  width:280px;background:var(--white);
-  z-index:900;box-shadow:4px 0 24px rgba(0,0,0,.15);
-  transform:translateX(-100%);
-  transition:transform .28s cubic-bezier(.4,0,.2,1);
-  overflow-y:auto;display:flex;flex-direction:column;
-}
-.mob-drawer.show{transform:translateX(0)}
-
-.mob-head{
-  background:var(--green);padding:20px 18px 16px;
-  flex-shrink:0;
-}
-.mob-head-title{font-size:14px;font-weight:700;color:#fff}
-.mob-head-sub{font-size:11.5px;color:rgba(255,255,255,.65);margin-top:3px}
-
-.mob-body{padding:8px 0;flex:1}
-.mob-sect-label{
-  font-size:10px;font-weight:700;color:var(--slate-light);
-  text-transform:uppercase;letter-spacing:.08em;
-  padding:10px 18px 4px;
-}
-.mob-item{
-  display:flex;align-items:center;gap:10px;
-  padding:11px 18px;font-size:13.5px;font-weight:500;
-  color:var(--slate-mid);cursor:pointer;
-  border-left:3px solid transparent;
-  transition:all .15s;
-}
-.mob-item:active{background:var(--border-light)}
-.mob-item.on{
-  background:var(--green-pale);color:var(--green);
-  font-weight:600;border-left-color:var(--green);
-}
-.mob-item.app{color:var(--blue)}
-.mob-item.app.on{background:var(--blue-pale);border-left-color:var(--blue)}
-.mob-item svg{flex-shrink:0;opacity:.7}
-.mob-item.on svg{opacity:1}
-.mob-sep{height:1px;background:var(--border);margin:4px 18px}
-
-@media(max-width:768px){
-  .ham-btn{display:flex}
-  .nav-scroll,.tb-sep,.tb-name{display:none}
-  .topbar{padding:0 12px 0 14px;gap:8px}
-
-  /* Page */
-  .page{padding:16px 14px 28px}
-  .ph-title{font-size:clamp(17px,5vw,24px)}
-  .ph-sub{font-size:12.5px}
-
-  /* Stats */
-  .stat-row.c4,.stat-row.c5{grid-template-columns:1fr 1fr}
-  .stat-row.c3{grid-template-columns:1fr 1fr}
-  .sb-val{font-size:20px}
-
-  /* Grids */
-  .grid.g2,.grid.g3{grid-template-columns:1fr}
-  .jp-grid{grid-template-columns:1fr 1fr}
-  .innov-grid{grid-template-columns:1fr}
-
-  /* Chart */
-  .chart-canvas-wrap{height:200px}
-  .chart-anno{grid-template-columns:1fr 1fr}
-
-  /* Tables scroll */
-  .kontrib-wrap,.card{overflow-x:auto}
-  .ktbl{min-width:650px}
-  .tbl{min-width:380px}
-
-  /* Target row */
-  .target-row{grid-template-columns:1fr 1fr 1fr}
-  .ti-val{font-size:15px}
-
-  /* Cover */
-  .cover-inner{padding:28px 20px 60px}
-  .cover-logo-wrap{width:90px;height:90px}
-  .cover-logo-wrap img{width:68px;height:68px}
-  .cover-title{font-size:clamp(19px,5.5vw,30px)}
-  .cover-instansi{font-size:13.5px}
-  .cover-meta{flex-direction:column}
-  .cover-meta-item+.cover-meta-item{border-left:none;border-top:1px solid #E2E8F0}
-
-  /* App bar */
-  .app-title{font-size:11px}
-}
-@media(max-width:440px){
-  .jp-grid{grid-template-columns:1fr}
-  .stat-row.c4,.stat-row.c5,.stat-row.c3{grid-template-columns:1fr 1fr}
-}
-
-/* ══ COVER ══ */
-.s-cover{background:#fff}
-.s-cover.active{display:flex;flex-direction:column}
-.cover-inner{
-  flex:1;display:flex;flex-direction:column;
-  align-items:center;justify-content:center;
-  text-align:center;padding:40px 80px;
-  position:relative;overflow:hidden;
-}
-.cover-bar{position:absolute;left:0;right:0;height:6px;
-  background:linear-gradient(90deg,#1A6B41,#2E8B57,#1A6B41)}
-.cover-bar.top{top:0}.cover-bar.bot{bottom:0}
-.cover-deco{position:absolute;border-radius:50%;
-  background:#1A6B41;opacity:.04;pointer-events:none}
-.cover-logo{width:115px;height:115px;border-radius:50%;
-  background:#F0F9F4;border:2px solid #E8F5EE;
-  display:flex;align-items:center;justify-content:center;
-  margin:0 auto 22px;box-shadow:0 4px 20px rgba(26,107,65,.1);
-  overflow:hidden;flex-shrink:0}
-.cover-logo img{width:88px;height:88px;object-fit:contain}
-.cover-eyebrow{font-size:12px;font-weight:600;color:#2E8B57;
-  text-transform:uppercase;letter-spacing:.12em;
-  margin-bottom:16px;display:flex;align-items:center;
-  gap:12px;justify-content:center}
-.cover-eyebrow::before,.cover-eyebrow::after{
-  content:'';width:36px;height:1.5px;background:#2E8B57;opacity:.5}
-.cover-title{font-size:clamp(20px,3vw,40px);font-weight:800;
-  color:#1E293B;line-height:1.2;margin-bottom:8px;max-width:800px}
-.cover-title .hl{color:#1A6B41}
-.cover-div{width:80px;height:3px;border-radius:2px;
-  background:linear-gradient(90deg,transparent,#1A6B41,transparent);
-  margin:18px auto}
-.cover-inst{font-size:clamp(13px,1.5vw,18px);font-weight:600;
-  color:#1A6B41;margin-bottom:30px;line-height:1.6}
-.cover-meta{display:flex;border:1px solid #E2E8F0;border-radius:12px;
-  overflow:hidden;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.07)}
-.cmi{padding:13px 24px;text-align:center;flex:1}
-.cmi+.cmi{border-left:1px solid #E2E8F0}
-.cmi-l{font-size:10px;font-weight:500;color:#94A3B8;
-  text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
-.cmi-v{font-size:13.5px;font-weight:700;color:#1E293B}
-.cover-foot{position:absolute;bottom:14px;left:0;right:0;
-  text-align:center;font-size:11px;color:#CBD5E1;letter-spacing:.05em}
-
-@media(max-width:768px){
-  .cover-inner{padding:28px 20px 56px}
-  .cover-logo{width:90px;height:90px}
-  .cover-logo img{width:68px;height:68px}
-  .cover-meta{flex-direction:column}
-  .cmi+.cmi{border-left:none;border-top:1px solid #E2E8F0}
-  .cmi{padding:10px 18px}
-}
+@media(max-width:720px){header{padding:20px 18px}.hdr-title{font-size:21px}main{padding:20px 14px 48px}.chart-anno{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 
-<div class="topbar">
-  <div class="tb-logo">
-    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-  </div>
-  <span class="tb-name">DPUPR <span>Karanganyar</span></span>
-  <button class="ham-btn" id="hamBtn" onclick="mobileOpen()" aria-label="Buka Menu">
-    <span class="ham-line"></span>
-    <span class="ham-line"></span>
-    <span class="ham-line"></span>
-  </button>
-  <div class="tb-sep"></div>
-  <div class="nav-scroll" id="nav">
-    <div class="nav-item on" onclick="jump(0)">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Cover
+<header>
+  <div class="hdr-eyebrow">Bidang Bina Marga — DPUPR Kabupaten Karanganyar</div>
+  <div class="hdr-title">Strategi Optimalisasi Retribusi Pemakaian Ruang Milik Jalan</div>
+  <div class="hdr-sub">Perda No. 12 Tahun 2025 · Tiang, kabel, pipa, reklame pada 871,33 km jalan kabupaten</div>
+</header>
+
+<nav class="tabs">
+  <button class="tab-btn on" onclick="showTab('capaian')"><span class="num">1</span>Capaian RMJ</button>
+  <button class="tab-btn" onclick="showTab('snapshot')"><span class="num">2</span>Snapshot RMJ</button>
+  <button class="tab-btn" onclick="showTab('strategi')"><span class="num">3</span>Strategi Pengelolaan</button>
+  <button class="tab-btn" onclick="showTab('potensi')"><span class="num">4</span>Potensi Maksimal</button>
+  <button class="tab-btn" onclick="showTab('proyeksi')"><span class="num">5</span>Proyeksi Target</button>
+</nav>
+
+<main>
+<!-- ============ TAB 1: CAPAIAN RMJ ============ -->
+<div class="page on" id="page-capaian">
+  <div class="ph-eyebrow">Realisasi vs Target</div>
+  <div class="ph-title">Capaian Retribusi RMJ 2024–2026</div>
+  <div class="ph-sub">Retribusi pemakaian ruang milik jalan konsisten melampaui target sejak tahun pertama diterapkan</div>
+
+  <div class="stat-row c3">
+    <div class="stat-box">
+      <div class="sb-label">Tahun 2024</div>
+      <div class="sb-val green">Rp 247,6 Jt</div>
+      <div class="sb-sub">Target Rp 50 Jt</div>
+      <span class="sb-badge badge-up">496,6% tercapai</span>
     </div>
-    <div class="tb-sep" style="margin:0 2px"></div>
-    <div class="nav-item" onclick="jump(1)"><div class="nav-dot"></div>Data Potensi</div>
-    <div class="nav-item" onclick="jump(2)"><div class="nav-dot"></div>Jenis Potensi</div>
-    <div class="tb-sep"></div>
-    <div class="nav-item" onclick="jump(3)"><div class="nav-dot"></div>IPLT</div>
-    <div class="nav-item" onclick="jump(4)"><div class="nav-dot"></div>MCK &amp; Alun-alun</div>
-    <div class="nav-item" onclick="jump(5)"><div class="nav-dot"></div>Alat Berat</div>
-    <div class="nav-item" onclick="jump(6)"><div class="nav-dot"></div>PBG</div>
-    <div class="nav-item" onclick="jump(7)"><div class="nav-dot"></div>PPN</div>
-    <div class="nav-item" onclick="jump(8)"><div class="nav-dot"></div>RMJ</div>
-    <div class="tb-sep"></div>
-    <div class="nav-item app-nav" onclick="jump(9)">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>SIMRUJ
+    <div class="stat-box">
+      <div class="sb-label">Tahun 2025</div>
+      <div class="sb-val green">Rp 549,0 Jt</div>
+      <div class="sb-sub">Target Rp 57,5 Jt</div>
+      <span class="sb-badge badge-up">947,7% tercapai</span>
     </div>
-    <div class="nav-item app-nav" onclick="jump(10)">
-      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="flex-shrink:0"><path d="M3 17l5-8 4 5 3-4 5 7"/><path d="M3 21h18"/></svg>SKRD
+    <div class="stat-box">
+      <div class="sb-label">Tahun 2026 (Jan–Jun)</div>
+      <div class="sb-val blue">Rp 595,6 Jt</div>
+      <div class="sb-sub">Target tahunan Rp 500 Jt</div>
+      <span class="sb-badge badge-up">119,1% tercapai</span>
     </div>
-    <div class="tb-sep"></div>
-    <div class="nav-item" onclick="jump(11)"><div class="nav-dot"></div>Tarif</div>
-    <div class="nav-item" onclick="jump(12)"><div class="nav-dot"></div>Potensi</div>
-  </div>
-  </div>
   </div>
 
-<!-- ── MOBILE OVERLAY & DRAWER ── -->
-<div class="mob-overlay" id="mobOverlay" onclick="mobileClose()"></div>
-<div class="mob-drawer" id="mobDrawer">
-  <div class="mob-head">
-    <div class="mob-head-title">DPUPR Karanganyar</div>
-    <div class="mob-head-sub">Strategi &amp; Inovasi Potensi PAD 2026</div>
-  </div>
-  <div class="mob-body">
-    <div class="mob-item on" onclick="mobileJump(0)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Cover
-    </div>
-    <div class="mob-sep"></div>
-    <div class="mob-sect-label">Data &amp; Ringkasan</div>
-    <div class="mob-item" onclick="mobileJump(1)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Data Potensi
-    </div>
-    <div class="mob-item" onclick="mobileJump(2)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Jenis Potensi
-    </div>
-    <div class="mob-sep"></div>
-    <div class="mob-sect-label">Sumber Retribusi</div>
-    <div class="mob-item" onclick="mobileJump(3)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>IPLT
-    </div>
-    <div class="mob-item" onclick="mobileJump(4)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>MCK &amp; Alun-alun
-    </div>
-    <div class="mob-item" onclick="mobileJump(5)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Alat Berat
-    </div>
-    <div class="mob-item" onclick="mobileJump(6)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/></svg>PBG
-    </div>
-    <div class="mob-item" onclick="mobileJump(7)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>PPN (Pajak)
-    </div>
-    <div class="mob-item" onclick="mobileJump(8)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>RMJ
-    </div>
-    <div class="mob-sep"></div>
-    <div class="mob-sect-label">Aplikasi Live</div>
-    <div class="mob-item app" onclick="mobileJump(9)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>SIMRUJ
-    </div>
-    <div class="mob-item app" onclick="mobileJump(10)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l5-8 4 5 3-4 5 7"/><path d="M3 21h18"/></svg>SKRD Dashboard
-    </div>
-    <div class="mob-sep"></div>
-    <div class="mob-sect-label">Referensi</div>
-    <div class="mob-item" onclick="mobileJump(11)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>Tarif Retribusi
-    </div>
-    <div class="mob-item" onclick="mobileJump(12)">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>Potensi RMJ
-    </div>
-  </div>
-</div>
-
-<div class="prog-bar"><div class="prog-fill" id="prog" style="width:0%"></div></div>
-
-<div class="slides-wrap">
-
-<!-- ══ COVER ══ -->
-<div class="slide s-cover active" id="s0">
-  <div class="cover-inner">
-    <div class="cover-bar top"></div>
-    <div class="cover-bar bot"></div>
-    <div class="cover-deco" style="width:480px;height:480px;top:-160px;right:-120px"></div>
-    <div class="cover-deco" style="width:280px;height:280px;bottom:-80px;left:-70px"></div>
-    <div class="cover-logo">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8c/Seal_of_Karanganyar_Regency.svg/200px-Seal_of_Karanganyar_Regency.svg.png" alt="Logo Karanganyar" onerror="this.src='https://opendata.karanganyarkab.go.id/dataset/54494760-6bab-4a5e-9a9e-82e21f40dc69/resource/c1b2a630-bb4b-4946-aee8-ae51280bf7f8/download/seal_of_karanganyar_regency.svg.png'"/>
-    </div>
-    <div class="cover-eyebrow">Kabupaten Karanganyar</div>
-    <div class="cover-title">
-      Strategi dan Inovasi<br>
-      <span class="hl">Potensi Pendapatan Asli Daerah</span>
-    </div>
-    <div class="cover-div"></div>
-    <div class="cover-inst">
-      Dinas Pekerjaan Umum dan Perumahan Rakyat<br>
-      Kabupaten Karanganyar
-    </div>
-    <div class="cover-meta">
-      <div class="cmi"><div class="cmi-l">Disampaikan oleh</div><div class="cmi-v">Ir. Asihno Purwadi, S.T.</div></div>
-      <div class="cmi"><div class="cmi-l">Dasar Hukum</div><div class="cmi-v">Perda No. 12 Tahun 2025</div></div>
-      <div class="cmi"><div class="cmi-l">Tahun Anggaran</div><div class="cmi-v">2026</div></div>
-      <div class="cmi"><div class="cmi-l">Link Paparan</div><div class="cmi-v">s.id/InstraBM</div></div>
-    </div>
-    <div class="cover-foot">DPUPR KABUPATEN KARANGANYAR &nbsp;·&nbsp; 2026</div>
-  </div>
-</div>
-
-<!-- ══ 0: DATA POTENSI ══ -->
-<div class="slide" id="s1"><div class="si"><div class="page">
-  <div class="ph-eyebrow">Rekapitulasi PAD · DPUPR Karanganyar</div>
-  <div class="ph-title">Data Potensi Pendapatan Asli Daerah</div>
-  <div class="ph-sub">Grafik capaian 2023–2026 dan kontribusi per sumber retribusi · Perda No. 12 Tahun 2025</div>
   <div class="chart-wrap">
     <div class="chart-header">
       <div>
-        <div class="chart-title">Grafik Capaian Pendapatan Retribusi DPUPR Karanganyar 2023–2026</div>
-        <div class="chart-sub">Perbandingan Target vs Realisasi per Tahun Anggaran</div>
+        <div class="chart-title">Target vs Realisasi per Tahun</div>
+        <div class="chart-sub">Realisasi 2026 sudah melampaui target tahunan penuh hanya dalam 6 bulan pertama</div>
       </div>
       <div class="chart-legend">
-        <div class="leg-item"><div class="leg-dot" style="background:#1A6B41"></div>Target</div>
-        <div class="leg-item"><div class="leg-dot" style="background:#F59E0B"></div>Realisasi</div>
+        <span class="leg-item"><span class="leg-dot" style="background:#94A3B8"></span>Target</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#1A6B41"></span>Realisasi</span>
       </div>
     </div>
-    <div class="chart-canvas-wrap"><canvas id="chartCapaian"></canvas></div>
-    <div class="chart-anno">
-      <div class="ca-item">
-        <div class="ca-year">2023</div>
-        <div class="ca-val">Rp 119,2 jt</div>
-        <div class="ca-sub">Target Rp 81,5 jt</div>
-        <span class="chip chip-green">146,3%</span>
-      </div>
-      <div class="ca-item">
-        <div class="ca-year">2024</div>
-        <div class="ca-val">Rp 421,2 jt</div>
-        <div class="ca-sub">Target Rp 157,1 jt</div>
-        <span class="chip chip-green">268,1%</span>
-      </div>
-      <div class="ca-item">
-        <div class="ca-year">2025</div>
-        <div class="ca-val">Rp 731,7 jt</div>
-        <div class="ca-sub">Target Rp 169,5 jt</div>
-        <span class="chip chip-green">431,5%</span>
-      </div>
-      <div class="ca-item">
-        <div class="ca-year">2026 Sem 1</div>
-        <div class="ca-val">Rp 539,8 jt</div>
-        <div class="ca-sub">Target Rp 270 jt</div>
-        <span class="chip chip-green">199,9%</span>
-      </div>
+    <div class="chart-canvas-wrap">
+      <canvas id="chartCapaian" role="img" aria-label="Bar chart perbandingan target dan realisasi retribusi RMJ 2024-2026">2024: target 50 juta, realisasi 247,6 juta. 2025: target 57,5 juta, realisasi 549 juta. 2026: target 500 juta, realisasi 595,6 juta pada paruh pertama tahun.</canvas>
     </div>
   </div>
-  <div class="kontrib-wrap">
-    <div class="kontrib-head">
-      <div>
-        <div class="kontrib-head-title">Kontribusi Pendapatan per Sumber Retribusi — TA 2026</div>
-        <div class="kontrib-head-sub">Perda No. 12 Tahun 2025 · Data s.d. Mei 2026</div>
-      </div>
-      <span class="chip chip-green">6 Sumber Retribusi</span>
-    </div>
-    <table class="ktbl">
-      <thead>
-        <tr>
-          <th style="width:32px">No.</th>
-          <th>Uraian</th>
-          <th>Target Penetapan</th>
-          <th>Realisasi Mei 2026</th>
-          <th>Target Perubahan</th>
-          <th>Naik / Turun</th>
-          <th>% Kenaikan</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr class="group-row"><td colspan="7">Retribusi Jasa Umum</td></tr>
-        <tr><td style="color:var(--slate-light)">1</td><td>Penyediaan dan/atau penyedotan kakus (IPLT)</td><td>Rp 75.000.000</td><td style="color:var(--amber);font-weight:600">Rp 42.740.000</td><td>Rp 80.000.000</td><td class="knaik">+ Rp 5.000.000</td><td><span class="pct-badge badge-up">6,67%</span></td></tr>
-        <tr><td style="color:var(--slate-light)">2</td><td>Penyedotan kakus / Pengelolaan MCK</td><td>Rp 24.000.000</td><td style="color:var(--amber);font-weight:600">Rp 15.000.000</td><td>Rp 30.000.000</td><td class="knaik">+ Rp 6.000.000</td><td><span class="pct-badge badge-up">25%</span></td></tr>
-        <tr class="group-row"><td colspan="7">Retribusi Jasa Usaha</td></tr>
-        <tr><td style="color:var(--slate-light)">3</td><td>Penyewaan tanah / sewa alun-alun</td><td>Rp 1.500.000</td><td style="color:var(--red);font-weight:600">Rp 750.000</td><td>Rp 3.000.000</td><td class="knaik">+ Rp 1.500.000</td><td><span class="pct-badge badge-up">100%</span></td></tr>
-        <tr><td style="color:var(--slate-light)">4</td><td style="font-weight:600;color:var(--slate)">Penyewaan tanah / Pemakaian Ruang Milik Jalan</td><td>Rp 150.000.000</td><td style="color:var(--green);font-weight:700">Rp 473.219.000</td><td>Rp 500.000.000</td><td class="knaik">+ Rp 350.000.000</td><td><span class="pct-badge badge-up">233,33%</span></td></tr>
-        <tr><td style="color:var(--slate-light)">5</td><td>Pemakaian laboratorium</td><td>Rp 4.000.000</td><td style="color:var(--red);font-weight:600">Rp 560.000</td><td>Rp 5.000.000</td><td class="knaik">+ Rp 1.000.000</td><td><span class="pct-badge badge-up">25%</span></td></tr>
-        <tr><td style="color:var(--slate-light)">6</td><td>Pemakaian alat / sewa stom</td><td>Rp 14.000.000</td><td style="color:var(--red);font-weight:600">Rp 4.840.000</td><td>Rp 16.000.000</td><td class="knaik">+ Rp 2.000.000</td><td><span class="pct-badge badge-up">14,29%</span></td></tr>
-        <tr><td colspan="2" style="font-weight:800;color:var(--slate)">JUMLAH</td><td style="font-weight:800;color:var(--slate)">Rp 268.500.000</td><td style="font-weight:800;color:var(--green)">Rp 537.369.000</td><td style="font-weight:800;color:var(--slate)">Rp 634.000.000</td><td style="font-weight:800;color:var(--green)">+ Rp 365.500.000</td><td><span class="pct-badge badge-up" style="font-size:12.5px">136,13%</span></td></tr>
-      </tbody>
-    </table>
-  </div>
-</div></div></div>
 
-<!-- ══ 1: JENIS POTENSI ══ -->
-<div class="slide" id="s2"><div class="si"><div class="page">
-  <div class="ph-eyebrow">DPUPR Karanganyar · Perda No. 12 Tahun 2025</div>
-  <div class="ph-title">Jenis Potensi Pendapatan Asli Daerah</div>
-  <div class="ph-sub">Seluruh sumber retribusi dan pajak DPUPR Kabupaten Karanganyar — klik kartu untuk detail</div>
-  <div class="jp-grid">
-    <!-- RMJ → s8 -->
-    <div class="jp-card" onclick="jump(8)">
-      <div class="jp-card-top"><div class="jp-icon" style="background:#E8F5EE"><svg viewBox="0 0 24 24" fill="none" stroke="#1A6B41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div class="jp-title">Pemakaian Ruang Milik Jalan</div></div>
-      <div class="jp-sub">Tiang, kabel, pipa, reklame di 871 km jalan kabupaten</div>
-      <div class="jp-target">Target 2026: Rp 500.000.000</div>
-      <div class="prog-wrap"><div class="prog-label"><span>Realisasi Mei 2026</span><span style="color:var(--green);font-weight:700">94,6%</span></div><div class="prog-track"><div class="pbf" style="width:94.6%"></div></div></div>
-      <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </div>
-    <!-- IPLT → s3 -->
-    <div class="jp-card" onclick="jump(3)">
-      <div class="jp-card-top"><div class="jp-icon" style="background:#EFF6FF"><svg viewBox="0 0 24 24" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22C6.477 22 2 17.523 2 12S6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/><path d="M12 8v4l3 3"/></svg></div><div class="jp-title">Penyedotan Kakus / IPLT</div></div>
-      <div class="jp-sub">Layanan penyedotan tinja rumah tangga dan pengelolaan IPLT</div>
-      <div class="jp-target">Target 2026: Rp 80.000.000</div>
-      <div class="prog-wrap"><div class="prog-label"><span>Realisasi Mei 2026</span><span style="color:#F59E0B;font-weight:700">53,4%</span></div><div class="prog-track"><div class="pbf amber" style="width:53.4%"></div></div></div>
-      <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </div>
-    <!-- MCK → s4 -->
-    <div class="jp-card" onclick="jump(4)">
-      <div class="jp-card-top"><div class="jp-icon" style="background:#F5F3FF"><svg viewBox="0 0 24 24" fill="none" stroke="#7C3AED" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><div class="jp-title">MCK &amp; Sewa Alun-alun</div></div>
-      <div class="jp-sub">MCK Taman Pancasila, GSI, dan sewa Alun-alun Karanganyar</div>
-      <div class="jp-target">Target 2026: Rp 33.000.000</div>
-      <div class="prog-wrap"><div class="prog-label"><span>Realisasi Mei 2026</span><span style="color:#F59E0B;font-weight:700">47,7%</span></div><div class="prog-track"><div class="pbf amber" style="width:47.7%"></div></div></div>
-      <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </div>
-    <!-- Alat Berat → s5 -->
-    <div class="jp-card" onclick="jump(5)">
-      <div class="jp-card-top"><div class="jp-icon" style="background:#FFFBEB"><svg viewBox="0 0 24 24" fill="none" stroke="#B45309" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg></div><div class="jp-title">Sewa Alat Berat &amp; Lab</div></div>
-      <div class="jp-sub">Stom, excavator, dan pengujian laboratorium UPT ALKAL</div>
-      <div class="jp-target">Target 2026: Rp 21.000.000</div>
-      <div class="prog-wrap"><div class="prog-label"><span>Realisasi Mei 2026</span><span style="color:#EF4444;font-weight:700">26,2%</span></div><div class="prog-track"><div class="pbf red" style="width:26.2%"></div></div></div>
-      <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </div>
-    <!-- PBG → s6 -->
-    <div class="jp-card" onclick="jump(6)">
-      <div class="jp-card-top"><div class="jp-icon" style="background:#FEF2F2"><svg viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/></svg></div><div class="jp-title">Retribusi PBG</div></div>
-      <div class="jp-sub">Persetujuan Bangunan Gedung — 788 permohonan, 371 terbit 2025</div>
-      <div class="jp-target" style="color:var(--red)">Pendapatan 2025: ±Rp 5 miliar</div>
-      <div style="margin-top:6px"><span class="chip chip-red">Retribusi Perizinan</span></div>
-      <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </div>
-    <!-- PPN → s7 -->
-    <div class="jp-card tax" onclick="jump(7)">
-      <div class="jp-card-top"><div class="jp-icon" style="background:var(--teal-pale)"><svg viewBox="0 0 24 24" fill="none" stroke="#0F766E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg></div><div class="jp-title">Pajak Penghasilan (PPN)</div></div>
-      <div class="jp-sub">Penerimaan PPN dari proyek konstruksi jalan dan bangunan gedung</div>
-      <div class="jp-target" style="color:var(--teal)">Penerimaan 2025: Rp 13,07 miliar</div>
-      <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><span class="chip chip-teal">Pajak — Bukan Retribusi</span></div>
-      <div class="jp-cta">Lihat detail <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </div>
-    <!-- Tarif → s11 -->
-    <div class="jp-card" onclick="jump(11)">
-      <div class="jp-card-top"><div class="jp-icon" style="background:var(--bg)"><svg viewBox="0 0 24 24" fill="none" stroke="var(--slate-mid)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/><line x1="9" y1="12" x2="15" y2="12"/><line x1="9" y1="16" x2="12" y2="16"/></svg></div><div class="jp-title">Daftar Tarif Retribusi</div></div>
-      <div class="jp-sub">23 jenis tarif sesuai Perda No. 12 Tahun 2025</div>
-      <div style="margin-top:6px"><span class="chip chip-green">Perda 12/2025</span></div>
-      <div class="jp-cta">Lihat tabel tarif <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </div>
-    <!-- Potensi RMJ → s12 -->
-    <div class="jp-card" onclick="jump(12)">
-      <div class="jp-card-top"><div class="jp-icon" style="background:var(--green-pale)"><svg viewBox="0 0 24 24" fill="none" stroke="#1A6B41" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div class="jp-title">Potensi RMJ</div></div>
-      <div class="jp-sub">Simulasi potensi maksimal berdasarkan panjang jalan &amp; tarif Perda 12/2025</div>
-      <div class="jp-target">Potensi / tahun</div>
-      <div style="margin-top:6px"><span class="chip chip-green">Analisis Potensi</span></div>
-      <div class="jp-cta">Lihat kalkulasi <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg></div>
-    </div>
-  </div>
-</div></div></div>
-
-<!-- ══ 2: IPLT ══ -->
-<div class="slide" id="s3"><div class="si"><div class="page">
-  <div class="ph-eyebrow">Retribusi Jasa Umum · UPT PALD</div>
-  <div class="ph-title">Penyedotan Kakus & Pengelolaan IPLT</div>
-  <div class="ph-sub">Perda No. 12 Tahun 2025 · Layanan penyedotan tinja rumah tangga, usaha, dan titip buang di IPLT</div>
-  <div class="stat-row c4">
-    <div class="stat-box"><div class="sb-label">Target Awal 2026</div><div class="sb-val">Rp 75 jt</div></div>
-    <div class="stat-box"><div class="sb-label">Target Perubahan 2026</div><div class="sb-val green">Rp 80 jt</div><div class="sb-badge badge-up">Naik Rp 5 jt (+6,67%)</div></div>
-    <div class="stat-box"><div class="sb-label">Realisasi s.d. Mei 2026</div><div class="sb-val amber">Rp 42,74 jt</div><div class="sb-badge badge-warn">53,4% dari target</div></div>
-    <div class="stat-box"><div class="sb-label">Target 2027 / 2028</div><div class="sb-val blue">Rp 80 jt</div><div class="sb-sub">2028: Rp 100 jt</div></div>
-  </div>
-  <div class="grid g2">
-    <div class="card">
-      <div class="card-title"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Strategi Peningkatan</div>
-      <div class="strat-list">
-        <div class="strat-item"><div class="strat-num">1</div><div><div class="si-title">Sosialisasi Bersama OPD</div><div class="si-desc">Kerja sama dengan Dinas Kesehatan (Kesling), Bidang Cipta Karya, Pokja Sanitasi, dan Pokja Air Minum.</div></div></div>
-        <div class="strat-item"><div class="strat-num">2</div><div><div class="si-title">Promosi Media Sosial</div><div class="si-desc">Cetak pamflet dan iklan media sosial untuk meningkatkan kesadaran masyarakat tentang layanan penyedotan.</div></div></div>
-        <div class="strat-item"><div class="strat-num">3</div><div><div class="si-title">Layanan Per Kubikasi Fleksibel</div><div class="si-desc">Melayani penyedotan minimal 1,5–2 m³ di dua lokasi berbeda — masyarakat cukup bayar 2 m³ (Rp 170.000).</div></div></div>
-      </div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 12h8M12 8v8"/></svg>Sasaran Layanan</div>
-        <div style="display:flex;flex-wrap:wrap;gap:7px">
-          <span class="chip chip-blue">Masyarakat umum</span><span class="chip chip-blue">Perusahaan swasta</span><span class="chip chip-blue">Tempat ibadah</span><span class="chip chip-blue">Fasum</span><span class="chip chip-blue">Instansi pemerintah</span><span class="chip chip-blue">SPPG</span>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Target Proyeksi</div>
-        <div class="target-row">
-          <div class="ti"><div class="ti-year">2026</div><div class="ti-val green">Rp 80 jt</div></div>
-          <div class="ti hl"><div class="ti-year">2027</div><div class="ti-val">Rp 80 jt</div></div>
-          <div class="ti"><div class="ti-year">2028</div><div class="ti-val blue">Rp 100 jt</div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>Tarif Retribusi Perda 12/2025</div>
-        <table class="tbl">
-          <thead><tr><th>#</th><th>Jenis Layanan</th><th>Tarif</th><th>Satuan</th></tr></thead>
-          <tbody>
-            <tr><td>1</td><td>Penyedotan kakus rumah tangga</td><td class="td-v">Rp 85.000</td><td>per m³</td></tr>
-            <tr><td>2</td><td>Penyedotan kakus usaha</td><td class="td-v">Rp 100.000</td><td>per m³</td></tr>
-            <tr><td>3</td><td>Titip buang tinja di IPLT</td><td class="td-v">Rp 15.000</td><td>per m³</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div></div></div>
-
-<!-- ══ 3: MCK & ALUN-ALUN ══ -->
-<div class="slide" id="s4"><div class="si"><div class="page">
-  <div class="ph-eyebrow">Retribusi Jasa Umum & Jasa Usaha · Bidang PKP</div>
-  <div class="ph-title">MCK & Sewa Alun-alun</div>
-  <div class="ph-sub">Pengelolaan MCK Taman Pancasila dan GSI · Sewa Alun-alun Karanganyar</div>
-  <div class="stat-row c4">
-    <div class="stat-box"><div class="sb-label">Target MCK 2026</div><div class="sb-val green">Rp 30 jt</div><div class="sb-badge badge-up">Naik 25% dari target awal</div></div>
-    <div class="stat-box"><div class="sb-label">Realisasi MCK Mei 2026</div><div class="sb-val amber">Rp 15 jt</div><div class="sb-badge badge-warn">50% dari target</div></div>
-    <div class="stat-box"><div class="sb-label">Target Alun-alun 2026</div><div class="sb-val green">Rp 3 jt</div><div class="sb-badge badge-up">Naik 100% dari target awal</div></div>
-    <div class="stat-box"><div class="sb-label">Realisasi Alun-alun Mei 2026</div><div class="sb-val amber">Rp 750 rb</div><div class="sb-badge badge-warn">25% dari target</div></div>
-  </div>
-  <div class="grid g2">
-    <div class="card">
-      <div class="card-title"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Pengelolaan MCK</div>
-      <div class="strat-list" style="margin-bottom:14px">
-        <div class="strat-item"><div class="strat-num">📍</div><div><div class="si-title">Lokasi</div><div class="si-desc">MCK Taman Pancasila dan GSI (Gedung Serba Indah) Karanganyar.</div></div></div>
-      </div>
-      <div class="divider"><div class="dl"></div><div class="dt">Tarif MCK Perda 12/2025</div><div class="dl"></div></div>
-      <table class="tbl">
-        <thead><tr><th>Kelas</th><th>Tarif</th><th>Satuan</th></tr></thead>
-        <tbody>
-          <tr><td>Kelas 1</td><td class="td-v">Rp 1.200.000</td><td>per bulan</td></tr>
-          <tr><td>Kelas 2</td><td class="td-v">Rp 400.000</td><td>per bulan</td></tr>
-          <tr><td>Kelas 3</td><td class="td-v">Rp 125.000</td><td>per bulan</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="card">
-      <div class="card-title"><svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>Sewa Alun-alun</div>
-      <div class="strat-list" style="margin-bottom:14px">
-        <div class="strat-item"><div class="strat-num">📍</div><div><div class="si-title">Lokasi</div><div class="si-desc">Alun-alun Karanganyar — pusat kota, strategis untuk event dan kegiatan komersial.</div></div></div>
-        <div class="strat-item"><div class="strat-num" style="background:var(--red-pale);color:var(--red)">⚠</div><div><div class="si-title">Catatan Penting</div><div class="si-desc">Biaya perawatan alun-alun lebih besar dari pendapatan sewa — perlu evaluasi efisiensi operasional dan subsidi silang dari sumber PAD lain.</div></div></div>
-      </div>
-      <div class="divider"><div class="dl"></div><div class="dt">Tarif Alun-alun Perda 12/2025</div><div class="dl"></div></div>
-      <table class="tbl">
-        <thead><tr><th>Jenis Pemakaian</th><th>Tarif</th><th>Satuan</th></tr></thead>
-        <tbody>
-          <tr><td>Pemakaian Alun-alun</td><td class="td-v">Rp 750.000</td><td>per hari</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div></div></div>
-
-<!-- ══ 4: ALAT BERAT ══ -->
-<div class="slide" id="s5"><div class="si"><div class="page">
-  <div class="ph-eyebrow">Retribusi Jasa Usaha · UPT ALKAL</div>
-  <div class="ph-title">Sewa Alat Berat & Pengujian Laboratorium</div>
-  <div class="ph-sub">Pemakaian stom, excavator, dan layanan uji lab tanah/aspal/beton</div>
-  <div class="stat-row c5">
-    <div class="stat-box"><div class="sb-label">Target Alat Berat 2026</div><div class="sb-val green">Rp 16 jt</div><div class="sb-badge badge-up">Naik 14,3%</div></div>
-    <div class="stat-box"><div class="sb-label">Realisasi Alat Berat Mei 2026</div><div class="sb-val red">Rp 4,84 jt</div><div class="sb-badge badge-red">30,3% dari target</div></div>
-    <div class="stat-box"><div class="sb-label">Target Lab 2026</div><div class="sb-val green">Rp 5 jt</div><div class="sb-badge badge-up">Naik 25%</div></div>
-    <div class="stat-box"><div class="sb-label">Realisasi Lab Mei 2026</div><div class="sb-val red">Rp 560 rb</div><div class="sb-badge badge-red">11,2% dari target</div></div>
-    <div class="stat-box">
-      <div class="sb-label">Target 2027 / 2028</div>
-      <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
-        <div>
-          <div style="font-size:11px;font-weight:500;color:var(--slate-light);margin-bottom:2px">Alat Berat</div>
-          <div style="font-size:20px;font-weight:800;color:var(--blue)">Rp 18 jt <span style="font-size:13px;color:var(--slate-light);font-weight:500">→ Rp 20 jt</span></div>
-        </div>
-        <div style="height:1px;background:var(--border-light)"></div>
-        <div>
-          <div style="font-size:11px;font-weight:500;color:var(--slate-light);margin-bottom:2px">Laboratorium</div>
-          <div style="font-size:20px;font-weight:800;color:var(--blue)">Rp 5 jt <span style="font-size:13px;color:var(--slate-light);font-weight:500">→ Rp 5 jt</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="grid g2">
-    <div class="card">
-      <div class="card-title"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>Inventaris Alat Berat DPUPR</div>
-      <table class="tbl">
-        <thead><tr><th>Jenis Alat</th><th>Jml</th><th>Tahun</th><th>Kondisi</th></tr></thead>
-        <tbody>
-          <tr><td>Stom Walls MV6P 6 ton</td><td class="td-n">6 unit</td><td>1968–2007</td><td><span class="chip chip-amber">Tua</span></td></tr>
-          <tr><td>Stom Walls MGB 3 ton</td><td class="td-n">3 unit</td><td>1980–1985</td><td><span class="chip chip-amber">Tua</span></td></tr>
-          <tr><td>Babyroller 1 ton</td><td class="td-n">2 unit</td><td>2023</td><td><span class="chip chip-green">Baik</span></td></tr>
-          <tr><td>Waker Roller 600 kg</td><td class="td-n">1 unit</td><td>1985</td><td><span class="chip chip-amber">Tua</span></td></tr>
-          <tr><td>Excavator PC.45</td><td class="td-n">1 unit</td><td>2021</td><td><span class="chip chip-red">Rusak Berat</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Strategi & Inovasi</div>
-        <div class="strat-list">
-          <div class="strat-item"><div class="strat-num">1</div><div><div class="si-title">Pengadaan Alat Berat Modern</div><div class="si-desc">Stom BOMAG dan excavator baru agar mampu bersaing dengan penyedia swasta.</div></div></div>
-          <div class="strat-item"><div class="strat-num">2</div><div><div class="si-title">Intensifikasi Koordinasi</div><div class="si-desc">Koordinasi dengan rekanan kontraktor dan kepala desa yang rutin menyewa alat berat DPUPR.</div></div></div>
-          <div class="strat-item"><div class="strat-num">3</div><div><div class="si-title">Wajib Uji Lab Core Drill</div><div class="si-desc">Mendorong PPKom memerintahkan rekanan menggunakan uji lab ALKAL untuk aspal dan beton jalan.</div></div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/><rect x="9" y="3" width="6" height="4" rx="1"/></svg>Tarif Alat Berat & Lab</div>
-        <table class="tbl">
-          <thead><tr><th>Jenis</th><th>Tarif</th><th>Satuan</th></tr></thead>
-          <tbody>
-            <tr><td>Road Roller 6 ton</td><td class="td-v">Rp 25.000</td><td>per jam</td></tr>
-            <tr><td>Vibration Roller (MGB)</td><td class="td-v">Rp 17.500</td><td>per jam</td></tr>
-            <tr><td>Babyroller 1 ton</td><td class="td-v">Rp 15.000</td><td>per jam</td></tr>
-            <tr><td>Core Drill Beton</td><td class="td-v">Rp 50.000</td><td>per titik</td></tr>
-            <tr><td>Core Drill Aspal</td><td class="td-v">Rp 25.000</td><td>per titik</td></tr>
-            <tr><td>Hammer Test</td><td class="td-v">Rp 40.000</td><td>per titik</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div></div></div>
-
-<!-- ══ 5: PBG ══ -->
-<div class="slide" id="s6"><div class="si"><div class="page">
-  <div class="ph-eyebrow">Retribusi Perizinan Tertentu · Bidang Cipta Karya</div>
-  <div class="ph-title">Retribusi Persetujuan Bangunan Gedung (PBG)</div>
-  <div class="ph-sub">Sumber PAD terbesar DPUPR — ±Rp 5 miliar per tahun dari 788 permohonan masuk 2025</div>
-  <div class="stat-row c4">
-    <div class="stat-box"><div class="sb-label">Permohonan Masuk 2025</div><div class="sb-val">788</div><div class="sb-sub">Rata-rata 65,6/bulan</div></div>
-    <div class="stat-box"><div class="sb-label">PBG Terbit 2025</div><div class="sb-val amber">371</div><div class="sb-badge badge-warn">47,08% dari permohonan</div></div>
-    <div class="stat-box"><div class="sb-label">Pendapatan PBG 2025</div><div class="sb-val green">±Rp 5 M</div><div class="sb-sub">Target per semester Rp 1,5 M</div></div>
-    <div class="stat-box"><div class="sb-label">Status</div><div class="sb-val" style="font-size:18px;margin-top:4px"><span class="chip chip-red" style="font-size:13px">Retribusi Perizinan</span></div><div class="sb-sub" style="margin-top:6px">Dikelola Bidang Cipta Karya</div></div>
-  </div>
-  <div class="grid g2">
-    <div class="card">
-      <div class="card-title"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Strategi Peningkatan PAD PBG</div>
-      <div class="strat-list">
-        <div class="strat-item"><div class="strat-num">1</div><div><div class="si-title">Percepatan Proses Dinas Teknis</div><div class="si-desc">Mendekati SLA — verifikasi, konsultasi teknis, perhitungan retribusi, dan penerbitan SPPST lebih cepat.</div></div></div>
-        <div class="strat-item"><div class="strat-num">2</div><div><div class="si-title">Penyuluhan & Pendampingan SIMBG</div><div class="si-desc">Layanan pendampingan bagi pemohon yang belum memahami teknis penggunaan SIMBG.</div></div></div>
-        <div class="strat-item"><div class="strat-num">3</div><div><div class="si-title">Inspeksi & Pengawasan Lapangan</div><div class="si-desc">Tim Pengawas Bangunan menyisir potensi bangunan baru/renovasi tanpa PBG. [DPUPR, Satpol PP, DPMPTSP]</div></div></div>
-        <div class="strat-item"><div class="strat-num">4</div><div><div class="si-title">Penegakan Sanksi Administratif</div><div class="si-desc">Sanksi tegas bagi pemilik bangunan tanpa PBG termasuk potensi pembekuan/pembongkaran.</div></div></div>
-        <div class="strat-item"><div class="strat-num">5</div><div><div class="si-title">Kemudahan Pembayaran</div><div class="si-desc">Virtual Account, QRIS, pembayaran di bank mitra daerah untuk mencegah tunggakan.</div></div></div>
-      </div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Kendala</div>
-        <div class="strat-list">
-          <div class="strat-item"><div class="strat-num" style="background:var(--red-pale);color:var(--red)">!</div><div><div class="si-title">Regulasi RDTR Memberatkan</div><div class="si-desc">Penerapan GSB, KDB, KLB, KDH, KTB dirasakan memberatkan pemilik/pemohon di lapangan.</div></div></div>
-          <div class="strat-item"><div class="strat-num" style="background:var(--red-pale);color:var(--red)">!</div><div><div class="si-title">Retribusi Rp 0 untuk MBR</div><div class="si-desc">Perumahan Masyarakat Berpenghasilan Rendah tidak dikenai retribusi PBG.</div></div></div>
-          <div class="strat-item"><div class="strat-num" style="background:var(--red-pale);color:var(--red)">!</div><div><div class="si-title">Dokumen Teknis Belum Terintegrasi</div><div class="si-desc">Dokumen teknis dari berbagai OPD belum saling terhubung — memperlambat verifikasi.</div></div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>OPD Terkait</div>
-        <div style="display:flex;flex-wrap:wrap;gap:7px">
-          <span class="chip chip-purple">Bidang Cipta Karya</span>
-          <span class="chip chip-blue">DPMPTSP</span>
-          <span class="chip chip-red">Satpol PP</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div></div></div>
-
-<!-- ══ 6: PPN ══ -->
-<div class="slide" id="s7"><div class="si"><div class="page">
-  <div class="ph-eyebrow" style="color:var(--teal)">Penerimaan Pajak · Bukan Retribusi</div>
-  <div class="ph-title">Pajak Penghasilan / PPN Proyek Konstruksi</div>
-  <div class="ph-sub">Penerimaan PPN dari proyek konstruksi jalan dan bangunan gedung di Kabupaten Karanganyar</div>
-  <div class="info-box blue" style="margin-bottom:20px">
-    <strong>Catatan Penting:</strong> PPN adalah <strong>pajak</strong> yang dipungut negara dari transaksi proyek konstruksi — bukan retribusi daerah. Nilainya jauh lebih besar dari semua retribusi DPUPR digabungkan, namun mekanisme penerimaannya berbeda dan tidak masuk langsung ke kas retribusi DPUPR.
-  </div>
-  <div class="stat-row c3">
-    <div class="stat-box"><div class="sb-label">Penerimaan PPN 2025</div><div class="sb-val" style="color:var(--teal)">Rp 13,07 M</div><div class="sb-sub">Dari proyek konstruksi jalan & gedung</div></div>
-    <div class="stat-box"><div class="sb-label">Dibanding Total Retribusi 2025</div><div class="sb-val" style="color:var(--teal)">17,8×</div><div class="sb-sub">PPN Rp 13,07 M vs Retribusi Rp 731 jt</div></div>
-    <div class="stat-box"><div class="sb-label">Jenis Penerimaan</div><div class="sb-val" style="font-size:16px;margin-top:6px"><span class="chip chip-teal" style="font-size:13px">Pajak Negara</span></div><div class="sb-sub" style="margin-top:6px">Dipungut dari rekanan/kontraktor</div></div>
-  </div>
-  <div class="grid g2">
-    <div class="card">
-      <div class="card-title"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>Mekanisme Penerimaan PPN</div>
-      <div class="strat-list">
-        <div class="strat-item"><div class="strat-num" style="background:var(--teal-pale);color:var(--teal)">1</div><div><div class="si-title">Sumber PPN Konstruksi Jalan</div><div class="si-desc">PPN 11% dari nilai kontrak proyek jalan kabupaten yang dilaksanakan rekanan/kontraktor.</div></div></div>
-        <div class="strat-item"><div class="strat-num" style="background:var(--teal-pale);color:var(--teal)">2</div><div><div class="si-title">Sumber PPN Bangunan Gedung</div><div class="si-desc">PPN dari proyek konstruksi gedung pemerintah dan swasta yang ber-PBG di Karanganyar.</div></div></div>
-        <div class="strat-item"><div class="strat-num" style="background:var(--teal-pale);color:var(--teal)">3</div><div><div class="si-title">Mekanisme Setor</div><div class="si-desc">Dipotong dan disetor langsung oleh rekanan ke kas negara — tidak melalui kas daerah DPUPR.</div></div></div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-title"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>Perbandingan Nilai</div>
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span style="color:var(--slate-mid)">PPN Konstruksi 2025</span><span style="font-weight:700;color:var(--teal)">Rp 13,07 M</span></div>
-          <div class="prog-track" style="height:10px"><div class="pbf" style="width:100%;background:var(--teal)"></div></div>
-        </div>
-        <div>
-          <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px"><span style="color:var(--slate-mid)">Total Retribusi DPUPR 2025</span><span style="font-weight:700;color:var(--green)">Rp 731 jt</span></div>
-          <div class="prog-track" style="height:10px"><div class="pbf" style="width:5.6%"></div></div>
-        </div>
-        <div class="info-box green" style="margin-top:4px;font-size:12.5px">
-          PPN konstruksi senilai <strong>17,8× lebih besar</strong> dari total retribusi — menunjukkan besarnya aktivitas konstruksi di Karanganyar yang berdampak pada PAD secara tidak langsung.
-        </div>
-      </div>
-    </div>
-  </div>
-</div></div></div>
-
-<!-- ══ 7: RMJ ══ -->
-<div class="slide" id="s8"><div class="si"><div class="page">
-  <div class="ph-eyebrow">Retribusi Jasa Usaha · Bidang Bina Marga</div>
-  <div class="ph-title">Pemakaian Ruang Milik Jalan (RMJ)</div>
-  <div class="ph-sub">Perda No. 12 Tahun 2025 · Tiang, Kabel, Pipa, Reklame pada 871 km jalan kabupaten</div>
-  <div class="stat-row c4">
-    <div class="stat-box"><div class="sb-label">Target Awal 2026</div><div class="sb-val">Rp 150 jt</div></div>
-    <div class="stat-box"><div class="sb-label">Target Perubahan 2026</div><div class="sb-val green">Rp 500 jt</div><div class="sb-badge badge-up">Naik +233%</div></div>
-    <div class="stat-box"><div class="sb-label">Realisasi s.d. Mei 2026</div><div class="sb-val green">Rp 473,2 jt</div><div class="sb-badge badge-up">94,6% dari target</div></div>
-    <div class="stat-box"><div class="sb-label">Data Perizinan Aktif</div><div class="sb-val">542</div><div class="sb-sub">surat izin aktif · 48 provider</div></div>
-  </div>
-  <div class="grid g2">
-    <div class="card">
-      <div class="card-title"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Strategi Pengelolaan</div>
-      <div class="strat-list">
-        <div class="strat-item"><div class="strat-num">1</div><div><div class="si-title">Identifikasi Utilitas Ilegal</div><div class="si-desc">Inventarisasi dan penertiban utilitas tanpa izin sebagai dasar penegakan regulasi dan optimalisasi retribusi.</div></div></div>
-        <div class="strat-item"><div class="strat-num">2</div><div><div class="si-title">Penerapan Tiang Bersama</div><div class="si-desc">Konsep shared pole pada ruas dengan >5 tiang eksisting — efisiensi ruang, estetika, keselamatan jalan.</div></div></div>
-        <div class="strat-item"><div class="strat-num">3</div><div><div class="si-title">Kerja Sama KPBU</div><div class="si-desc">Skema KPBU untuk pembangunan ducting bawah tanah pada ruas strategis wajah kota, dengan bagi hasil.</div></div></div>
-        <div class="strat-item"><div class="strat-num">4</div><div><div class="si-title">Penetapan Ruas Premium</div><div class="si-desc">Ruas tertentu dikenakan tarif tambahan mempertimbangkan nilai strategis lokasi dan kepadatan utilitas.</div></div></div>
-        <div class="strat-item"><div class="strat-num">5</div><div><div class="si-title">Insentif & Disinsentif</div><div class="si-desc">Diskon tarif untuk pembayaran tepat waktu; denda keterlambatan untuk meningkatkan kepatuhan.</div></div></div>
-      </div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="innov-grid">
-        <div class="innov-item"><div class="innov-icon" style="background:var(--blue-pale);color:var(--blue)"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><div class="innov-title">SIMRUJ — Live</div><div class="innov-desc">Aplikasi data utilitas ruang milik jalan</div></div></div>
-        <div class="innov-item"><div class="innov-icon" style="background:var(--green-pale);color:var(--green)"><svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg></div><div><div class="innov-title">SKRD Dashboard — Live</div><div class="innov-desc">Monitoring target vs realisasi real-time.</div></div></div>
-        <div class="innov-item"><div class="innov-icon" style="background:#E0F2F2;color:#0D6B6B"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="7" y="7" width="3" height="3"/><rect x="14" y="7" width="3" height="3"/><rect x="14" y="14" width="3" height="3"/><rect x="7" y="14" width="3" height="3"/></svg></div><div><div class="innov-title">QR Code Utilitas</div><div class="innov-desc">Identitas digital tiap utilitas — pilot 2026.</div></div></div>
-        <div class="innov-item"><div class="innov-icon" style="background:var(--amber-pale);color:var(--amber)"><svg viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><div><div class="innov-title">E-Retribusi</div><div class="innov-desc">QRIS, billing elektronik — target 2026.</div></div></div>
-      </div>
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Target Proyeksi</div>
-        <div class="target-row">
-          <div class="ti"><div class="ti-year">2026</div><div class="ti-val green">Rp 500 jt</div></div>
-          <div class="ti hl"><div class="ti-year">2027</div><div class="ti-val">Rp 750 jt</div></div>
-          <div class="ti"><div class="ti-year">2028</div><div class="ti-val blue">Rp 1 M</div></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div></div></div>
-
-<!-- ══ 8: SIMRUJ ══ -->
-<div class="slide" id="s9">
-  <div class="app-slide">
-    <div class="app-bar">
-      <div class="app-dot" style="background:#ef4444"></div>
-      <div class="app-dot" style="background:#f59e0b;margin-left:5px"></div>
-      <div class="app-dot" style="background:#22c55e;margin-left:5px"></div>
-      <span style="margin-left:12px"></span>
-      <span class="app-title">SIMRUJ — Aplikasi Data Utilitas Ruang Milik Jalan · Kabupaten Karanganyar</span>
-      <span class="chip chip-green">GIS · Live</span>
-    </div>
-    <iframe id="frame-simruj" class="app-iframe" src="" title="SIMRUJ" allowfullscreen></iframe>
-  </div>
-</div>
-
-<!-- ══ 9: SKRD ══ -->
-<div class="slide" id="s10">
-  <div class="app-slide">
-    <div class="app-bar">
-      <div class="app-dot" style="background:#ef4444"></div>
-      <div class="app-dot" style="background:#f59e0b;margin-left:5px"></div>
-      <div class="app-dot" style="background:#22c55e;margin-left:5px"></div>
-      <span style="margin-left:12px"></span>
-      <span class="app-title">SKRD — Dashboard Retribusi Pemakaian RMJ · Bidang Bina Marga DPUPR Karanganyar</span>
-      <span class="chip chip-green">Retribusi · Live</span>
-    </div>
-    <iframe id="frame-skrd" class="app-iframe" src="" title="SKRD" allowfullscreen></iframe>
-  </div>
-</div>
-
-<!-- ══ 10: TARIF ══ -->
-<div class="slide" id="s11"><div class="si"><div class="page">
-  <div class="ph-eyebrow">Referensi Regulasi</div>
-  <div class="ph-title">Daftar Tarif Retribusi</div>
-  <div class="ph-sub">Perda Nomor 12 Tahun 2025 tentang Perubahan atas Perda No. 19 Tahun 2023 tentang Pajak dan Retribusi Daerah</div>
   <div class="card">
-    <table class="tbl">
-      <thead><tr><th style="width:32px">#</th><th>Jenis Layanan</th><th>Tarif (Rp)</th><th>Satuan</th></tr></thead>
-      <tbody>
-        <tr><td colspan="4" class="td-h">IPLT / Penyedotan Kakus</td></tr>
-        <tr><td>1</td><td>Penyedotan kakus rumah tangga</td><td class="td-v">85.000</td><td>per m³</td></tr>
-        <tr><td>2</td><td>Penyedotan kakus usaha</td><td class="td-v">100.000</td><td>per m³</td></tr>
-        <tr><td>3</td><td>Titip buang tinja di IPLT</td><td class="td-v">15.000</td><td>per m³</td></tr>
-        <tr><td colspan="4" class="td-h">MCK (Bidang PKP)</td></tr>
-        <tr><td>4</td><td>MCK Kelas 1</td><td class="td-v">1.200.000</td><td>per bulan</td></tr>
-        <tr><td>5</td><td>MCK Kelas 2</td><td class="td-v">400.000</td><td>per bulan</td></tr>
-        <tr><td>6</td><td>MCK Kelas 3</td><td class="td-v">125.000</td><td>per bulan</td></tr>
-        <tr><td colspan="4" class="td-h">Alat Berat (UPT ALKAL)</td></tr>
-        <tr><td>7</td><td>Road Roller 3 Wheel 6 ton</td><td class="td-v">25.000</td><td>per jam</td></tr>
-        <tr><td>8</td><td>Vibration Roller MGB</td><td class="td-v">17.500</td><td>per jam</td></tr>
-        <tr><td>9</td><td>Babyroller 1 ton</td><td class="td-v">15.000</td><td>per jam</td></tr>
-        <tr><td>10</td><td>Waker Roller 250 kg</td><td class="td-v">12.500</td><td>per jam</td></tr>
-        <tr><td colspan="4" class="td-h">Pemakaian Ruang Publik / Tanah (Bidang PKP)</td></tr>
-        <tr><td>11</td><td>Pemakaian Alun-alun</td><td class="td-v">750.000</td><td>per hari</td></tr>
-        <tr><td colspan="4" class="td-h">Pemakaian RMJ (Bidang Bina Marga)</td></tr>
-        <tr><td>12</td><td>Tiang</td><td class="td-v">75.000</td><td>per meter / tahun</td></tr>
-        <tr><td>13</td><td>Kabel udara</td><td class="td-v">500</td><td>per meter / tahun</td></tr>
-        <tr><td>14</td><td>Pipa/FO diameter 0–15 cm (bahu jalan)</td><td class="td-v">3.000</td><td>per meter / tahun</td></tr>
-        <tr><td>15</td><td>Pipa/FO diameter >15 cm (bahu jalan)</td><td class="td-v">4.500</td><td>per meter / tahun</td></tr>
-        <tr><td>16</td><td>Reklame / baliho / media promosi</td><td class="td-v">90.000</td><td>m² / tahun</td></tr>
-        <tr><td colspan="4" class="td-h">Saluran Air (Bidang SDA)</td></tr>
-        <tr><td>17</td><td>Jembatan masuk ke pertokoan/komersial</td><td class="td-v">5.000</td><td>m² / tahun</td></tr>
-        <tr><td>18</td><td>Jembatan masuk ke halaman/pekarangan</td><td class="td-v">2.000</td><td>m² / tahun</td></tr>
-        <tr><td>19</td><td>Tanah bantaran saluran irigasi/sungai</td><td class="td-v">1.000</td><td>m² / tahun</td></tr>
-        <tr><td colspan="4" class="td-h">Pengujian Laboratorium (UPT ALKAL)</td></tr>
-        <tr><td>20</td><td>Core Drill Beton</td><td class="td-v">50.000</td><td>per titik</td></tr>
-        <tr><td>21</td><td>Hammer Test</td><td class="td-v">40.000</td><td>per titik</td></tr>
-        <tr><td>22</td><td>Sewa cetakan silinder/kubus</td><td class="td-v">20.000</td><td>per hari</td></tr>
-        <tr><td>23</td><td>Core Drill Aspal</td><td class="td-v">25.000</td><td>per titik</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div></div></div>
-
-<!-- ══ 11: POTENSI ══ -->
-<div class="slide" id="s12"><div class="si"><div class="page">
-  <div class="ph-eyebrow">Analisis Potensi · Bidang Bina Marga</div>
-  <div class="ph-title">Potensi Penuh Retribusi RMJ</div>
-  <div class="ph-sub">Simulasi kalkulasi potensi maksimal berdasarkan asumsi panjang jalan dan tarif Perda No. 12 Tahun 2025</div>
-  <div class="stat-row c3">
-    <div class="stat-box"><div class="sb-label">Total Panjang Jalan Kabupaten</div><div class="sb-val">871 km</div><div class="sb-sub">318 ruas jalan inventaris resmi</div></div>
-    <div class="stat-box"><div class="sb-label">Realisasi Aktual 2026 s.d. Mei</div><div class="sb-val green">Rp 473,2 jt</div><div class="sb-badge badge-up">Dari berbagai provider & panjang variatif</div></div>
-    <div class="stat-box"><div class="sb-label">Potensi Simulasi Maksimal</div><div class="sb-val amber">Rp 1,74 M</div><div class="sb-sub">Asumsi 1 tiang/50m + 1 kabel/871 km</div></div>
-  </div>
-  <div class="grid g2">
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="kalk">
-        <div class="kalk-title">Simulasi Kalkulasi Potensi RMJ per Tahun</div>
-        <div class="kk-row"><span class="kl">Total panjang jalan kabupaten</span><span class="kv">871 km</span></div>
-        <div class="kk-row"><span class="kl">Asumsi 1 tiang per 50 m sepanjang 871 km</span><span class="kv">17.420 titik</span></div>
-        <div class="kk-row"><span class="kl">Tarif 1 tiang @ Rp 75.000/titik/tahun</span><span class="kv">Rp 1.305.000.000</span></div>
-        <div class="kk-row"><span class="kl">Asumsi 1 jalur kabel @ Rp 500/m/th × 871 km</span><span class="kv">Rp 435.500.000</span></div>
-        <div class="kk-row tot"><span class="kl">Total Potensi Simulasi / Tahun</span><span class="kv">Rp 1.740.500.000</span></div>
-      </div>
-      <div class="info-box amber">
-        <strong>Catatan Penting:</strong> Angka Rp 1,74 M adalah <em>simulasi teoritis</em> berdasarkan asumsi 1 provider dengan 1 tiang setiap 50 meter dan 1 jalur kabel sepanjang 871 km. Realisasi aktual Rp 473 jt berasal dari data perizinan nyata berbagai provider dengan panjang kabel dan jumlah tiang yang variatif — kedua angka ini tidak dapat dibandingkan langsung.
-      </div>
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+      Catatan Penting
     </div>
-    <div style="display:flex;flex-direction:column;gap:14px">
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Proyeksi Target Bertahap</div>
-        <div class="target-row">
-          <div class="ti"><div class="ti-year">2026</div><div class="ti-val green">Rp 500 jt</div></div>
-          <div class="ti hl"><div class="ti-year">2027</div><div class="ti-val">Rp 750 jt</div></div>
-          <div class="ti"><div class="ti-year">2028</div><div class="ti-val blue">Rp 1 M</div></div>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-title"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Kunci Pencapaian Target</div>
-        <div class="strat-list">
-          <div class="strat-item"><div class="strat-num">1</div><div><div class="si-title">Penertiban Utilitas Ilegal</div><div class="si-desc">Seluruh utilitas tanpa izin ditertibkan dan diwajibkan mengurus perizinan berbayar.</div></div></div>
-          <div class="strat-item"><div class="strat-num">2</div><div><div class="si-title">Tarif Premium Ruas Strategis</div><div class="si-desc">Ruas wajah kota dikenakan tarif 1,5–2× tarif standar berdasarkan nilai lokasi.</div></div></div>
-          <div class="strat-item"><div class="strat-num">3</div><div><div class="si-title">Perluasan Cakupan Perizinan</div><div class="si-desc">Optimalisasi perizinan kabel serat optik, pipa, dan reklame yang belum seluruhnya terdata.</div></div></div>
-        </div>
-      </div>
-    </div>
+    <p style="font-size:13.5px;color:var(--slate-mid);line-height:1.7">Lonjakan capaian 2024→2025 (+121,8%) sebagian besar berasal dari pembenahan basis data — pembayaran temuan BPK (LHP) dan formalisasi pencatatan SKRD yang sebelumnya belum tertib — bukan murni pertumbuhan jumlah pemasangan baru. Capaian tinggi ini menunjukkan sistem pendataan sudah jauh lebih baik, dan menjadi fondasi penting untuk strategi tahun-tahun berikutnya.</p>
   </div>
-</div></div></div>
-
-</div><!-- /slides-wrap -->
+</div>
 
 <script>
-// Chart
-const ctx = document.getElementById('chartCapaian').getContext('2d');
-new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['2023', '2024', '2025', '2026 (Sem 1)'],
-    datasets: [
-      {label:'Target',data:[81500000,157100000,169500000,270000000],backgroundColor:'#1A6B41',borderRadius:6,borderSkipped:false,barPercentage:.55,categoryPercentage:.75},
-      {label:'Realisasi',data:[119228000,421204500,731755500,539859000],backgroundColor:'#F59E0B',borderRadius:6,borderSkipped:false,barPercentage:.55,categoryPercentage:.75}
-    ]
-  },
-  options:{
-    responsive:true,maintainAspectRatio:false,
-    interaction:{mode:'index',intersect:false},
-    plugins:{
-      legend:{display:false},
-      tooltip:{
-        backgroundColor:'#1E293B',padding:14,cornerRadius:9,
-        callbacks:{
-          label:c=>{const v=c.raw;return ` ${c.dataset.label}: Rp ${(v/1000000).toFixed(2)} jt`},
-          afterBody:items=>{
-            if(items.length===2){const pct=((items[1].raw/items[0].raw)*100).toFixed(1);return['',`Capaian: ${pct}%`]}
-          }
-        }
-      }
+function renderCapaianChart(){
+  new Chart(document.getElementById('chartCapaian'), {
+    type: 'bar',
+    data: {
+      labels: ['2024', '2025', '2026 (Jan–Jun)'],
+      datasets: [
+        {label:'Target', data:[50000000, 57500000, 500000000], backgroundColor:'#CBD5E1', borderRadius:5},
+        {label:'Realisasi', data:[247561500, 548995550, 595649500], backgroundColor:'#1A6B41', borderRadius:5}
+      ]
     },
-    scales:{
-      x:{grid:{display:false},ticks:{font:{family:'Inter',size:13,weight:'600'},color:'#475569'}},
-      y:{grid:{color:'#F1F5F9'},border:{dash:[4,4],display:false},ticks:{font:{family:'Inter',size:12},color:'#94A3B8',callback:v=>{if(v>=1000000000)return'Rp '+(v/1000000000).toFixed(1)+' M';if(v>=1000000)return'Rp '+(v/1000000).toFixed(0)+' jt';return v}}}
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': Rp '+(c.raw/1e6).toFixed(1)+' jt'}} },
+      scales:{ x:{grid:{display:false}, ticks:{color:'#475569', font:{size:12}}},
+        y:{grid:{color:'#F1F5F9'}, ticks:{color:'#94A3B8', font:{size:11}, callback:v=>(v/1e6).toFixed(0)+'jt'}} }
     }
-  }
-});
-
-// Navigation
-const TOTAL=13;
-const BASE='https://pertanahankra3.github.io/InstraBM/';
-const APP={9:BASE+'SIMRUJ_Karanganyar%20copy.html',10:BASE+'SKRD_Retribusi_RMJ_v2_1.html'};
-const loaded={};
-let cur=0;
-
-function updateUI(){
-  document.getElementById('prog').style.width=(cur/(TOTAL-1)*100)+'%';
-  document.querySelectorAll('.nav-item').forEach((n,i)=>n.classList.toggle('on',i===cur));
+  });
 }
-
-function jump(n){
-  if(n===cur||n<0||n>=TOTAL)return;
-  document.getElementById('s'+cur).classList.remove('active');
-  const next=document.getElementById('s'+n);
-  next.classList.add('active');
-  next.scrollTop=0;
-  cur=n;
-  if(APP[cur]&&!loaded[cur]){
-    const id=cur===9?'frame-simruj':'frame-skrd';
-    document.getElementById(id).src=APP[cur];loaded[cur]=true;
-  }
-  updateUI();
-}
-
-document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowRight'||e.key==='ArrowDown')jump(cur+1);
-  else if(e.key==='ArrowLeft'||e.key==='ArrowUp')jump(cur-1);
-  else if(e.key==='Escape')jump(0);
-});
-let tx=0;
-document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX},{passive:true});
-document.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-tx;if(Math.abs(dx)>50)jump(dx<0?cur+1:cur-1);},{passive:true});
-updateUI();
 </script>
+
+
+<!-- ============ TAB 2: SNAPSHOT RMJ ============ -->
+<div class="page" id="page-snapshot">
+  <div class="ph-eyebrow">Gambaran Saat Ini</div>
+  <div class="ph-title">Snapshot Pengelolaan RMJ</div>
+  <div class="ph-sub">Posisi data per Juni 2026, mencakup data retribusi (SKRD) dan data lapangan (survei utilitas)</div>
+
+  <div class="stat-row c4">
+    <div class="stat-box">
+      <div class="sb-label">SKRD Terbit</div>
+      <div class="sb-val green">164</div>
+      <div class="sb-sub">2024–2026, terverifikasi 100%</div>
+    </div>
+    <div class="stat-box">
+      <div class="sb-label">Titik Data Lapangan</div>
+      <div class="sb-val blue">542</div>
+      <div class="sb-sub">Survei tiang &amp; kabel by name by address</div>
+    </div>
+    <div class="stat-box">
+      <div class="sb-label">Provider Terdata</div>
+      <div class="sb-val teal" style="color:var(--teal)">48</div>
+      <div class="sb-sub">Operator besar hingga ISP lokal</div>
+    </div>
+    <div class="stat-box">
+      <div class="sb-label">Ruas Jalan Termanfaatkan</div>
+      <div class="sb-val amber">196 / 318</div>
+      <div class="sb-sub">61,6% dari total ruas kabupaten</div>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Infrastruktur Terpasang (Data Lapangan)
+      </div>
+      <div class="kk-row"><span class="kl">Total titik tiang</span><span class="kv">13.325 unit</span></div>
+      <div class="kk-row"><span class="kl">Total panjang kabel fiber optik</span><span class="kv">829,8 km</span></div>
+      <div class="kk-row"><span class="kl">Nilai potensi jika tertagih 100%</span><span class="kv" style="color:var(--green)">Rp 1,41 Miliar</span></div>
+      <div class="kk-row tot"><span class="kl">Realisasi tertagih saat ini</span><span class="kv">~80%</span></div>
+    </div>
+    <div class="card">
+      <div class="card-title">
+        <svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
+        Komposisi SKRD per Tahun
+      </div>
+      <div class="kk-row"><span class="kl">2024 — Rekom Baru</span><span class="kv">40 SKRD</span></div>
+      <div class="kk-row"><span class="kl">2025 — Rekom Baru / Perpanjangan</span><span class="kv">37 / 40 SKRD</span></div>
+      <div class="kk-row"><span class="kl">2026 — Rekom Baru / Perpanjangan</span><span class="kv">14 / 30 SKRD</span></div>
+      <div class="kk-row tot"><span class="kl">Belum lunas (aktif)</span><span class="kv" style="color:var(--red)">8 SKRD · Rp 54,7 jt</span></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px">
+    <div class="card-title">
+      <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      Sistem Digital yang Sudah Berjalan
+    </div>
+    <p style="font-size:13.5px;color:var(--slate-mid);line-height:1.7">Seluruh data retribusi dan data lapangan RMJ telah terintegrasi dalam satu sistem (SIJAKA RMJ) dengan peta interaktif per ruas jalan, pencocokan otomatis nama provider, dan pelacakan riwayat pembayaran lintas tahun. Sistem ini menjadi dasar seluruh analisis pada paparan ini.</p>
+  </div>
+</div>
+
+
+<!-- ============ TAB 3: STRATEGI PENGELOLAAN ============ -->
+<div class="page" id="page-strategi">
+  <div class="ph-eyebrow">Rencana Tindak Lanjut</div>
+  <div class="ph-title">Lima Strategi Optimalisasi RMJ</div>
+  <div class="ph-sub">Disusun dari temuan data riil — bukan asumsi, melainkan hasil pencocokan data lapangan dengan data retribusi</div>
+
+  <div class="card">
+    <div class="strat-list">
+
+      <div class="strat-item">
+        <div class="strat-num">1</div>
+        <div>
+          <div class="si-title">Klarifikasi &amp; Penagihan Gap Provider Eksisting</div>
+          <div class="si-desc">Sejumlah provider yang sudah memiliki SKRD aktif ternyata memasang infrastruktur lebih banyak di lapangan dibanding yang tercatat. Kirim surat rekonsiliasi data berbasis temuan survei — bukan tuduhan, melainkan permintaan konfirmasi kesesuaian data.</div>
+          <span class="si-tag chip-amber">Potensi: Rp 468 juta/tahun</span>
+        </div>
+      </div>
+
+      <div class="strat-item">
+        <div class="strat-num">2</div>
+        <div>
+          <div class="si-title">Penertiban Utilitas Tanpa Izin (SKRD)</div>
+          <div class="si-desc">Delapan perusahaan terdeteksi aktif memasang tiang dan kabel di lapangan, lengkap dengan tanggal pemasangan, namun belum pernah mengajukan permohonan SKRD sama sekali. Data lapangan yang lengkap menjadi dasar kuat untuk surat penagihan langsung.</div>
+          <span class="si-tag chip-red">Potensi: Rp 107 juta/tahun</span>
+        </div>
+      </div>
+
+      <div class="strat-item">
+        <div class="strat-num">3</div>
+        <div>
+          <div class="si-title">Perluasan ke Ruas Jalan Belum Tergarap</div>
+          <div class="si-desc">122 dari 318 ruas jalan kabupaten (220 km) belum memiliki satu izin pemanfaatan pun. Survei lapangan terarah ke kecamatan dengan kepadatan tinggi sekaligus ruas kosong terbanyak akan memberi hasil ganda dalam satu kali turun lapangan.</div>
+          <span class="si-tag chip-blue">Prioritas: Kecamatan Karanganyar</span>
+        </div>
+      </div>
+
+      <div class="strat-item">
+        <div class="strat-num">4</div>
+        <div>
+          <div class="si-title">Dorong Pemakaian Tiang Bersama (Shared Pole)</div>
+          <div class="si-desc">Mendorong provider berbagi satu tiang untuk beberapa jalur kabel mengurangi kepadatan visual di ruang milik jalan dan memudahkan pengawasan, sembari tetap menjaga nilai retribusi per titik pemakaian.</div>
+          <span class="si-tag chip-green">Efisiensi tata ruang jalan</span>
+        </div>
+      </div>
+
+      <div class="strat-item">
+        <div class="strat-num">5</div>
+        <div>
+          <div class="si-title">Insentif Ketepatan Waktu &amp; Disinsentif Keterlambatan</div>
+          <div class="si-desc">Tunggakan aktif saat ini didominasi pembayaran perpanjangan tahun ke-2/ke-3, bukan permohonan baru. Pengingat otomatis jatuh tempo berbasis data lapangan dan sanksi administratif konsisten dapat menekan pola keterlambatan ini.</div>
+          <span class="si-tag chip-amber">Target: 8 SKRD tertunggak, Rp 54,7 jt</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="info-box green">
+    <strong>Kekuatan utama strategi ini:</strong> seluruh rekomendasi di atas berbasis data lapangan riil (survei 542 titik, 48 provider) yang sudah dicocokkan dengan data retribusi — bukan estimasi kasar. Ini memberi dasar yang kuat dan terukur saat ditindaklanjuti ke provider maupun dilaporkan ke pimpinan.
+  </div>
+</div>
+
+
+<!-- ============ TAB 4: POTENSI MAKSIMAL ============ -->
+<div class="page" id="page-potensi">
+  <div class="ph-eyebrow">Simulasi Skenario Penuh</div>
+  <div class="ph-title">Potensi Maksimal RMJ Kabupaten Karanganyar</div>
+  <div class="ph-sub">Simulasi jika seluruh 871,33 km ruas jalan kabupaten termanfaatkan penuh oleh provider besar</div>
+
+  <div class="grid g2">
+    <div class="kalk">
+      <div class="kalk-title">Simulasi Per Provider (Skenario Penuh)</div>
+      <div class="kk-row"><span class="kl">Panjang ruas jalan kabupaten</span><span class="kv">871,33 km</span></div>
+      <div class="kk-row"><span class="kl">Kabel: 871.330 m × Rp 500/m</span><span class="kv">Rp 435.665.000</span></div>
+      <div class="kk-row"><span class="kl">Tiang: 17.427 titik × Rp 75.000</span><span class="kv">Rp 1.306.995.000</span></div>
+      <div class="kk-row tot"><span class="kl">Total per 1 provider (skenario penuh)</span><span class="kv">Rp 1,74 Miliar</span></div>
+    </div>
+    <div class="kalk">
+      <div class="kalk-title">Simulasi 5 Provider Besar</div>
+      <div class="kk-row"><span class="kl">Asumsi jumlah provider besar</span><span class="kv">5 provider</span></div>
+      <div class="kk-row"><span class="kl">Rp 1.742.660.000 × 5</span><span class="kv">Rp 8.713.300.000</span></div>
+      <div class="kk-row"><span class="kl">Tiang setiap 50 meter (basis hitung)</span><span class="kv">1 tiang/50m</span></div>
+      <div class="kk-row tot"><span class="kl">Ceiling teoretis maksimum</span><span class="kv">Rp 8,71 Miliar</span></div>
+    </div>
+  </div>
+
+  <div class="stat-row c3" style="margin-top:18px">
+    <div class="stat-box">
+      <div class="sb-label">Ceiling Riil Saat Ini</div>
+      <div class="sb-val green">Rp 1,41 M</div>
+      <div class="sb-sub">48 provider nyata, data lapangan terverifikasi</div>
+      <span class="sb-badge badge-up">16,2% dari skenario penuh</span>
+    </div>
+    <div class="stat-box">
+      <div class="sb-label">Realisasi Tertagih</div>
+      <div class="sb-val blue">~Rp 1,13 M</div>
+      <div class="sb-sub">80% dari ceiling riil</div>
+      <span class="sb-badge badge-warn">Gap Rp 468 jt belum tertagih</span>
+    </div>
+    <div class="stat-box">
+      <div class="sb-label">Ceiling Teoretis Maksimum</div>
+      <div class="sb-val amber">Rp 8,71 M</div>
+      <div class="sb-sub">Skenario 5 provider, jangkauan penuh</div>
+      <span class="sb-badge badge-warn">Visi jangka panjang</span>
+    </div>
+  </div>
+
+  <div class="info-box amber">
+    <strong>Mengapa Rp 8,71 Miliar adalah visi jangka panjang, bukan target tahunan:</strong> skenario ini mengasumsikan 5 provider besar masing-masing memasang kabel di sepanjang <em>seluruh</em> jaringan jalan kabupaten — kondisi yang secara praktik tidak terjadi di kabupaten manapun, karena provider memasang berdasarkan kebutuhan pelanggan (area padat penduduk, jalur utama), bukan menjangkau 100% jaringan jalan. Realisasi saat ini dari 48 provider yang benar-benar ada baru mencapai Rp 1,41 Miliar — sekitar seperenam dari skenario penuh ini.
+  </div>
+</div>
+
+
+<!-- ============ TAB 5: PROYEKSI TARGET ============ -->
+<div class="page" id="page-proyeksi">
+  <div class="ph-eyebrow">Roadmap 2027–2030</div>
+  <div class="ph-title">Proyeksi Target Bertahap</div>
+  <div class="ph-sub">Jalur capaian realistis menuju potensi maksimal, dibangun dari data riil — bukan asumsi pertumbuhan sembarangan</div>
+
+  <div class="chart-wrap">
+    <div class="chart-header">
+      <div>
+        <div class="chart-title">Dua Jalur Strategi 2027–2030</div>
+        <div class="chart-sub">Membandingkan pendekatan persuasif/administratif dengan penegakan tegas</div>
+      </div>
+      <div class="chart-legend">
+        <span class="leg-item"><span class="leg-dot" style="background:#94A3B8"></span>Historis</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#1D4ED8"></span>Jalur A</span>
+        <span class="leg-item"><span class="leg-dot" style="background:#B45309"></span>Jalur B</span>
+      </div>
+    </div>
+    <div class="chart-canvas-wrap" style="height:280px">
+      <canvas id="chartProyeksi" role="img" aria-label="Line chart proyeksi retribusi RMJ 2024-2030 dua jalur strategi">Realisasi historis 2024 248 juta, 2025 549 juta, 2026 1191 juta proyeksi tahun penuh. Jalur A persuasif: 2027 1382 juta, 2028 1585 juta, 2029 1800 juta, 2030 2004 juta. Jalur B penegakan tegas: 2027 1591 juta, 2028 1869 juta, 2029 2100 juta, 2030 2324 juta.</canvas>
+    </div>
+  </div>
+
+  <div class="grid g2">
+    <div class="card">
+      <div class="card-title" style="color:var(--blue)">
+        <svg viewBox="0 0 24 24" style="stroke:var(--blue)"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+        Jalur A — Persuasif / Administratif
+      </div>
+      <p style="font-size:13px;color:var(--slate-mid);margin-bottom:12px">Surat klarifikasi dan sosialisasi ke provider. Risiko sengketa rendah, hubungan kelembagaan tetap baik, hasil bertahap.</p>
+      <div class="target-row">
+        <div class="ti"><div class="ti-year">2027</div><div class="ti-val blue">1,38M</div></div>
+        <div class="ti"><div class="ti-year">2028</div><div class="ti-val blue">1,58M</div></div>
+        <div class="ti"><div class="ti-year">2029</div><div class="ti-val blue">1,80M</div></div>
+        <div class="ti hl"><div class="ti-year">2030</div><div class="ti-val blue">2,00M</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title" style="color:var(--amber)">
+        <svg viewBox="0 0 24 24" style="stroke:var(--amber)"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
+        Jalur B — Penegakan Tegas
+      </div>
+      <p style="font-size:13px;color:var(--slate-mid);margin-bottom:12px">Penerapan sanksi/denda sesuai Perda secara konsisten. Penutupan gap lebih cepat, efek psikologis mendorong kepatuhan lebih luas.</p>
+      <div class="target-row">
+        <div class="ti"><div class="ti-year">2027</div><div class="ti-val amber">1,59M</div></div>
+        <div class="ti"><div class="ti-year">2028</div><div class="ti-val amber">1,87M</div></div>
+        <div class="ti"><div class="ti-year">2029</div><div class="ti-val amber">2,10M</div></div>
+        <div class="ti hl"><div class="ti-year">2030</div><div class="ti-val amber">2,32M</div></div>
+      </div>
+    </div>
+  </div>
+
+  <table class="dt" style="margin-top:18px">
+    <thead><tr><th>Tahun</th><th class="num-cell">Jalur A</th><th class="num-cell">Jalur B</th><th>Fokus Utama</th></tr></thead>
+    <tbody>
+      <tr><td>2027</td><td class="num-cell">Rp 1,38 M</td><td class="num-cell">Rp 1,59 M</td><td>Klarifikasi gap, survei ruas kosong</td></tr>
+      <tr><td>2028</td><td class="num-cell">Rp 1,58 M</td><td class="num-cell">Rp 1,87 M</td><td>Penegakan, ekspansi proaktif</td></tr>
+      <tr><td>2029</td><td class="num-cell">Rp 1,80 M</td><td class="num-cell">Rp 2,10 M</td><td>Stabilisasi gap, evaluasi tarif</td></tr>
+      <tr><td>2030</td><td class="num-cell">Rp 2,00 M</td><td class="num-cell">Rp 2,32 M</td><td>Pertumbuhan organik murni</td></tr>
+    </tbody>
+  </table>
+
+  <div class="info-box green" style="margin-top:18px">
+    Roadmap ini adalah <strong>milestone realistis menuju visi jangka panjang Rp 8,71 Miliar</strong> yang dibahas pada tab sebelumnya — bukan target final, melainkan langkah bertahap yang terukur dan dapat dipertanggungjawabkan berdasarkan data lapangan yang sudah terverifikasi.
+  </div>
+</div>
+
 <script>
-function mobileOpen(){
-  document.getElementById('mobOverlay').classList.add('show');
-  document.getElementById('mobDrawer').classList.add('show');
-}
-function mobileClose(){
-  document.getElementById('mobOverlay').classList.remove('show');
-  document.getElementById('mobDrawer').classList.remove('show');
-}
-function mobileJump(n){
-  mobileClose();
-  jump(n);
-  // Update active item
-  document.querySelectorAll('.mob-item').forEach((el,i)=>{
-    el.classList.toggle('on', i===n);
+function renderProyeksiChart(){
+  const labels = ['2024','2025','2026','2027','2028','2029','2030'];
+  const historis = [247561500, 548995550, 1191299000, null, null, null, null];
+  const jalurA = [null, null, 1191299000, 1381955794, 1584990663, 1800403607, 2003985677];
+  const jalurB = [null, null, 1191299000, 1590523532, 1869250515, 2100106797, 2324335810];
+
+  new Chart(document.getElementById('chartProyeksi'), {
+    type: 'line',
+    data: {
+      labels,
+      datasets: [
+        {label:'Historis', data: historis, borderColor:'#94A3B8', backgroundColor:'#94A3B8', borderWidth:2, pointRadius:4, spanGaps:false},
+        {label:'Jalur A', data: jalurA, borderColor:'#1D4ED8', backgroundColor:'#1D4ED8', borderWidth:2, borderDash:[6,3], pointRadius:4, pointStyle:'rect'},
+        {label:'Jalur B', data: jalurB, borderColor:'#B45309', backgroundColor:'#B45309', borderWidth:2, pointRadius:4, pointStyle:'triangle'}
+      ]
+    },
+    options: {
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false},
+        tooltip:{callbacks:{label:c=>c.dataset.label+': Rp '+(c.raw/1e6).toFixed(0)+' jt'}} },
+      scales:{ x:{grid:{display:false}, ticks:{color:'#475569', font:{size:11}}},
+        y:{grid:{color:'#F1F5F9'}, ticks:{color:'#94A3B8', font:{size:10}, callback:v=>(v/1e6).toFixed(0)+'jt'}} }
+    }
   });
 }
-// Update drawer active saat navigasi dari desktop
-const _origUpdateUI = updateUI;
-function updateUI(){
-  _origUpdateUI();
-  document.querySelectorAll('.mob-item').forEach((el,i)=>{
-    el.classList.toggle('on', i===cur);
-  });
+</script>
+
+
+
+</main>
+
+<script>
+function showTab(name){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.getElementById('page-'+name).classList.add('on');
+  document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('on'));
+  event.currentTarget.classList.add('on');
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(name==='proyeksi' && !window._chartProyeksi){ renderProyeksiChart(); window._chartProyeksi=true; }
 }
+window.addEventListener('load', ()=>{ renderCapaianChart(); window._chartCapaian=true; });
 </script>
 </body>
 </html>
